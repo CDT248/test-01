@@ -2,310 +2,333 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#07111f">
 
-<title>WiFi Analyzer</title>
+<title>WiFi Analyzer Pro</title>
 
 <style>
 :root{
-  --bg:#050912;
-  --card:#0d1726;
-  --card2:#111e30;
-  --border:#20334d;
-  --text:#fff;
-  --muted:#8ea3bb;
+  --bg:#07111f;
+  --card:#0d1b2d;
+  --card2:#12243a;
+  --border:#203b5c;
+  --text:#f5f9ff;
+  --muted:#8ea5bd;
   --blue:#1683ff;
+  --cyan:#00c8ff;
   --green:#00df8a;
   --red:#ff5263;
-  --yellow:#ffd54a;
+  --yellow:#ffd34d;
 }
 
 *{
   box-sizing:border-box;
-  margin:0;
-  padding:0;
 }
 
 body{
-  font-family:Inter,Arial,sans-serif;
-  background:
-    radial-gradient(circle at 10% 0%,#10376b 0,transparent 28%),
-    radial-gradient(circle at 90% 0%,#35106b 0,transparent 25%),
-    var(--bg);
+  margin:0;
   color:var(--text);
-  min-height:100vh;
-}
-
-body.light{
-  --bg:#eef4fa;
-  --card:#fff;
-  --card2:#f4f8fc;
-  --border:#d8e2ee;
-  --text:#111827;
-  --muted:#64748b;
+  background:
+  radial-gradient(circle at 10% 0%,#123c72,transparent 30%),
+  radial-gradient(circle at 90% 0%,#3b1769,transparent 25%),
+  var(--bg);
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 header{
   padding:30px 18px;
   text-align:center;
-  background:linear-gradient(135deg,#086cff,#7a24ff);
+  background:linear-gradient(135deg,#086cff,#6d28d9);
 }
 
 header h1{
-  font-size:34px;
-  margin-bottom:7px;
+  margin:0 0 7px;
+  font-size:32px;
 }
 
 header p{
-  opacity:.88;
+  margin:0;
+  opacity:.85;
 }
 
 .container{
   max-width:1250px;
   margin:auto;
-  padding:20px;
+  padding:18px;
 }
 
 .toolbar{
   display:flex;
   gap:9px;
   flex-wrap:wrap;
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
 
 button{
   border:0;
-  border-radius:11px;
-  padding:12px 16px;
-  color:#fff;
+  padding:12px 15px;
+  border-radius:10px;
   background:var(--blue);
-  font-weight:700;
+  color:white;
+  font-weight:bold;
   cursor:pointer;
 }
 
-button:hover{
-  filter:brightness(1.1);
-}
-
-button.dark{
-  background:#25364d;
+button.secondary{
+  background:#263b55;
 }
 
 button.danger{
-  background:#b4233c;
+  background:#a51d36;
 }
 
-.statusbar{
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.status{
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:15px;
+  border-radius:15px;
+  padding:14px;
   display:flex;
   justify-content:space-between;
-  gap:10px;
   flex-wrap:wrap;
-  margin-bottom:25px;
+  gap:10px;
+  margin-bottom:22px;
 }
 
-.live{
-  display:flex;
-  align-items:center;
-  gap:8px;
+.statusOnline{
+  color:var(--green);
 }
 
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 12px var(--green);
-}
-
-.offline .dot{
-  background:var(--red);
-  box-shadow:0 0 12px var(--red);
+.statusOffline{
+  color:var(--red);
 }
 
 .section{
-  margin-top:27px;
+  margin-top:25px;
 }
 
 .section h2{
-  color:#72b0ff;
-  font-size:20px;
-  margin-bottom:13px;
+  font-size:19px;
+  color:#68b0ff;
+  margin:0 0 12px;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-  gap:14px;
+  grid-template-columns:
+    repeat(auto-fit,minmax(210px,1fr));
+  gap:13px;
 }
 
 .card{
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:17px;
-  padding:17px;
-  min-height:118px;
-  box-shadow:0 10px 35px #0002;
+  border-radius:16px;
+  padding:16px;
+  min-height:105px;
 }
 
 .card:hover{
-  border-color:#247cff;
+  border-color:#2e8bff;
 }
 
 .icon{
-  font-size:25px;
-  margin-bottom:8px;
+  font-size:24px;
 }
 
 .label{
   color:var(--muted);
-  font-size:13px;
+  font-size:12px;
+  margin-top:7px;
 }
 
 .value{
   font-size:17px;
-  font-weight:800;
-  margin-top:7px;
+  font-weight:bold;
+  margin-top:6px;
   word-break:break-word;
 }
 
-.green{color:var(--green)}
-.red{color:var(--red)}
-.yellow{color:var(--yellow)}
+.green{
+  color:var(--green);
+}
 
-.speed{
+.red{
+  color:var(--red);
+}
+
+.yellow{
+  color:var(--yellow);
+}
+
+.blue{
+  color:#63aeff;
+}
+
+.speedCard{
   text-align:center;
   padding:25px;
 }
 
-.speedValue{
-  font-size:48px;
+.speedNumber{
+  font-size:50px;
   font-weight:900;
-  color:#62adff;
-  margin:10px 0;
+  color:#61aeff;
+  margin:10px;
 }
 
-.speedUnit{
-  color:var(--muted);
+.speedGrid{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;
+  margin-top:20px;
+}
+
+.speedItem{
+  background:var(--card2);
+  padding:15px;
+  border-radius:12px;
 }
 
 .progress{
   height:9px;
-  background:#1a2a40;
+  background:#1b2d43;
   border-radius:20px;
   overflow:hidden;
-  margin:18px 0;
+  margin:15px 0;
 }
 
-.progressBar{
-  width:0%;
+.progress div{
   height:100%;
-  background:linear-gradient(90deg,#1683ff,#00df8a);
+  width:0;
+  background:
+    linear-gradient(90deg,
+      var(--blue),
+      var(--cyan),
+      var(--green));
   transition:.2s;
 }
 
 .testBox{
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:17px;
-  padding:17px;
+  border-radius:16px;
+  padding:10px 16px;
 }
 
-.testRow{
+.test{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px;
-  padding:12px 4px;
+  padding:12px 0;
   border-bottom:1px solid var(--border);
+  gap:10px;
 }
 
-.testRow:last-child{
+.test:last-child{
   border-bottom:0;
 }
 
 .badge{
-  min-width:125px;
-  text-align:center;
-  padding:7px 10px;
+  padding:6px 10px;
   border-radius:20px;
-  font-size:12px;
-  font-weight:800;
-  background:#26364d;
+  font-size:11px;
+  font-weight:bold;
+  background:#26394f;
+  color:#b9c8d8;
 }
 
 .pass{
-  background:#063e2c;
-  color:#00df8a;
+  color:var(--green);
+  background:#063d2d;
 }
 
 .fail{
-  background:#4b1720;
-  color:#ff7180;
+  color:var(--red);
+  background:#461822;
 }
 
 .unsupported{
-  background:#493c0b;
-  color:#ffe071;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-th,td{
-  padding:11px;
-  border-bottom:1px solid var(--border);
-  text-align:left;
-  white-space:nowrap;
-}
-
-th{
-  color:#72b0ff;
+  color:var(--yellow);
+  background:#45380d;
 }
 
 .tableWrap{
   overflow:auto;
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:17px;
-  padding:15px;
+  border-radius:16px;
+  padding:12px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:800px;
+}
+
+th,td{
+  padding:10px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+}
+
+th{
+  color:#69afff;
 }
 
 .empty{
-  text-align:center;
   color:var(--muted);
+  text-align:center;
   padding:20px;
 }
 
 .map{
   display:none;
-  margin-top:8px;
-  color:#fff;
-  background:#087f5b;
+  color:white;
   text-decoration:none;
-  padding:8px 12px;
-  border-radius:8px;
+  background:#087f5b;
+  padding:10px 13px;
+  border-radius:9px;
+  margin-top:12px;
+  display:inline-block;
+}
+
+.note{
+  color:var(--muted);
   font-size:12px;
+  line-height:1.6;
+  margin-top:10px;
 }
 
 footer{
   text-align:center;
   color:var(--muted);
   padding:30px;
-  font-size:13px;
 }
 
 @media(max-width:600px){
-  header h1{font-size:27px}
-  .container{padding:12px}
-  button{width:100%}
-  .speedValue{font-size:38px}
+  .container{
+    padding:11px;
+  }
+
+  header h1{
+    font-size:27px;
+  }
+
+  button{
+    width:100%;
+  }
+
+  .speedNumber{
+    font-size:40px;
+  }
 }
 </style>
 </head>
@@ -313,261 +336,173 @@ footer{
 <body>
 
 <header>
-  <h1>📶 WiFi Analyzer</h1>
-  <p>Real Network Diagnostics • No Fake Data</p>
+  <h1>📡 WiFi Analyzer Pro</h1>
+  <p>Real Internet & Network Diagnostics</p>
 </header>
 
-<main class="container">
+<div class="container">
 
   <div class="toolbar">
-    <button onclick="runAllTests()">🧪 Test All</button>
-    <button onclick="analyze()">🔄 Analyze</button>
-    <button onclick="startLocation()">📍 Start Location</button>
-    <button onclick="stopLocation()">⛔ Stop Location</button>
-    <button onclick="startSpeedTest()">⚡ Speed Test</button>
-    <button class="dark" onclick="getIPInfo()">🌐 Refresh IP</button>
-    <button class="dark" onclick="toggleTheme()">🌓 Theme</button>
-    <button class="dark" onclick="exportJSON()">⬇ JSON</button>
-    <button class="dark" onclick="exportCSV()">⬇ CSV</button>
-    <button class="danger" onclick="clearHistory()">🗑 Clear</button>
+
+    <button onclick="runAll()">
+      🧪 Test All
+    </button>
+
+    <button onclick="refreshAll()">
+      🔄 Refresh
+    </button>
+
+    <button onclick="startLocation()">
+      📍 Location
+    </button>
+
+    <button onclick="speedTest()">
+      ⚡ Speed Test
+    </button>
+
+    <button class="secondary"
+            onclick="exportJSON()">
+      JSON
+    </button>
+
+    <button class="secondary"
+            onclick="exportCSV()">
+      CSV
+    </button>
+
+    <button class="secondary"
+            onclick="toggleTheme()">
+      🌓 Theme
+    </button>
+
+    <button class="danger"
+            onclick="clearHistory()">
+      Clear History
+    </button>
+
   </div>
 
-  <div class="statusbar" id="statusBar">
-    <div class="live">
-      <span class="dot"></span>
-      <b id="internetStatus">Checking...</b>
+
+  <div class="status">
+
+    <div>
+      Internet:
+      <b id="onlineStatus">Checking...</b>
     </div>
-    <div id="lastUpdate">Last update: --</div>
+
+    <div id="updated">
+      Updated: --
+    </div>
+
   </div>
 
 
-  <!-- NETWORK -->
+  <!-- PUBLIC INTERNET -->
 
   <section class="section">
-    <h2>📡 Network Information</h2>
 
-    <div class="grid">
-
-      <div class="card">
-        <div class="icon">📡</div>
-        <div class="label">SSID</div>
-        <div class="value" id="ssid">Not Supported</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">📶</div>
-        <div class="label">Signal Strength</div>
-        <div class="value" id="signal">Not Supported</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">📻</div>
-        <div class="label">Wi-Fi Channel</div>
-        <div class="value" id="channel">Not Supported</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">〰️</div>
-        <div class="label">Frequency / Band</div>
-        <div class="value" id="frequency">Not Supported</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🔐</div>
-        <div class="label">Security</div>
-        <div class="value" id="security">Not Supported</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">📡</div>
-        <div class="label">Network Type</div>
-        <div class="value" id="networkType">Not Available</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🚀</div>
-        <div class="label">Estimated Downlink</div>
-        <div class="value" id="downlink">Not Available</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">⏱️</div>
-        <div class="label">RTT</div>
-        <div class="value" id="rtt">Not Available</div>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- SPEED -->
-
-  <section class="section">
-    <h2>⚡ Internet Speed Test</h2>
-
-    <div class="card speed">
-
-      <div class="label" id="speedStatus">
-        Ready
-      </div>
-
-      <div class="speedValue" id="speedValue">
-        --
-      </div>
-
-      <div class="speedUnit" id="speedUnit">
-        Mbps
-      </div>
-
-      <div class="progress">
-        <div
-          class="progressBar"
-          id="speedProgress">
-        </div>
-      </div>
-
-      <div class="grid">
-
-        <div>
-          <div class="label">Download</div>
-          <div class="value" id="downloadSpeed">
-            Not Tested
-          </div>
-        </div>
-
-        <div>
-          <div class="label">Upload</div>
-          <div class="value" id="uploadSpeed">
-            Not Tested
-          </div>
-        </div>
-
-        <div>
-          <div class="label">Latency</div>
-          <div class="value" id="speedLatency">
-            Not Tested
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- IP -->
-
-  <section class="section">
-    <h2>🌐 Public Internet Information</h2>
+    <h2>🌐 Public Internet</h2>
 
     <div class="grid">
 
       <div class="card">
         <div class="icon">4️⃣</div>
-        <div class="label">IPv4</div>
-        <div class="value" id="ipv4">Checking...</div>
+        <div class="label">Public IPv4</div>
+        <div class="value" id="ipv4">
+          Checking...
+        </div>
       </div>
 
       <div class="card">
         <div class="icon">6️⃣</div>
-        <div class="label">IPv6</div>
-        <div class="value" id="ipv6">Checking...</div>
+        <div class="label">Public IPv6</div>
+        <div class="value" id="ipv6">
+          Checking...
+        </div>
       </div>
 
       <div class="card">
         <div class="icon">🏢</div>
-        <div class="label">ISP</div>
-        <div class="value" id="isp">Checking...</div>
+        <div class="label">ISP / Organization</div>
+        <div class="value" id="isp">
+          Checking...
+        </div>
       </div>
 
       <div class="card">
         <div class="icon">🌍</div>
-        <div class="label">IP Country</div>
-        <div class="value" id="ipCountry">Not Available</div>
+        <div class="label">Country</div>
+        <div class="value" id="country">
+          --
+        </div>
       </div>
 
       <div class="card">
         <div class="icon">🏙️</div>
-        <div class="label">IP City</div>
-        <div class="value" id="ipCity">Not Available</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🛜</div>
-        <div class="label">Router / Gateway</div>
-        <div class="value" id="routerIP">
-          Not Supported
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- LOCATION -->
-
-  <section class="section">
-    <h2>📍 Live Location</h2>
-
-    <div class="grid">
-
-      <div class="card">
-        <div class="icon">↕️</div>
-        <div class="label">Latitude</div>
-        <div class="value" id="latitude">
-          Not Requested
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">↔️</div>
-        <div class="label">Longitude</div>
-        <div class="value" id="longitude">
-          Not Requested
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🎯</div>
-        <div class="label">Accuracy</div>
-        <div class="value" id="accuracy">
-          Not Requested
+        <div class="label">City</div>
+        <div class="value" id="city">
+          --
         </div>
       </div>
 
       <div class="card">
         <div class="icon">🕒</div>
-        <div class="label">Location Updated</div>
-        <div class="value" id="locationTime">
+        <div class="label">Timezone</div>
+        <div class="value" id="ipTimezone">
           --
         </div>
       </div>
 
     </div>
 
-    <a
-      id="mapLink"
-      class="map"
-      target="_blank"
-      rel="noopener noreferrer">
-      🗺️ Open Current Location
-    </a>
-
   </section>
 
 
-  <!-- DEVICE -->
+  <!-- NETWORK -->
 
   <section class="section">
-    <h2>📱 Device Information</h2>
+
+    <h2>📡 Network Information</h2>
 
     <div class="grid">
+
+      <div class="card">
+        <div class="icon">📶</div>
+        <div class="label">Connection Type</div>
+        <div class="value" id="connectionType">
+          --
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🚀</div>
+        <div class="label">Estimated Downlink</div>
+        <div class="value" id="downlink">
+          --
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">⏱️</div>
+        <div class="label">Browser RTT</div>
+        <div class="value" id="rtt">
+          --
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">💰</div>
+        <div class="label">Metered Connection</div>
+        <div class="value" id="metered">
+          --
+        </div>
+      </div>
 
       <div class="card">
         <div class="icon">📱</div>
         <div class="label">Device</div>
         <div class="value" id="device">
-          Detecting...
+          --
         </div>
       </div>
 
@@ -575,86 +510,205 @@ footer{
         <div class="icon">🌐</div>
         <div class="label">Browser</div>
         <div class="value" id="browser">
-          Detecting...
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🖥️</div>
-        <div class="label">Screen</div>
-        <div class="value" id="screen">
-          Detecting...
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🌍</div>
-        <div class="label">Timezone</div>
-        <div class="value" id="timezone">
-          Detecting...
+          --
         </div>
       </div>
 
     </div>
+
+    <div class="note">
+      Browser security does not expose the actual Wi-Fi SSID,
+      Wi-Fi password, channel, signal dBm or router client list
+      to an ordinary GitHub webpage.
+    </div>
+
+  </section>
+
+
+  <!-- SPEED -->
+
+  <section class="section">
+
+    <h2>⚡ Internet Speed Test</h2>
+
+    <div class="card speedCard">
+
+      <div id="speedStatus">
+        Ready
+      </div>
+
+      <div class="speedNumber"
+           id="speedNumber">
+        --
+      </div>
+
+      <div>
+        Mbps
+      </div>
+
+      <div class="progress">
+        <div id="speedProgress"></div>
+      </div>
+
+      <div class="speedGrid">
+
+        <div class="speedItem">
+          <div class="label">
+            Download
+          </div>
+          <div class="value"
+               id="download">
+            Not Tested
+          </div>
+        </div>
+
+        <div class="speedItem">
+          <div class="label">
+            Upload
+          </div>
+          <div class="value"
+               id="upload">
+            Not Tested
+          </div>
+        </div>
+
+        <div class="speedItem">
+          <div class="label">
+            Latency
+          </div>
+          <div class="value"
+               id="latency">
+            Not Tested
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- LOCATION -->
+
+  <section class="section">
+
+    <h2>📍 Customer Location</h2>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="icon">↕️</div>
+        <div class="label">Latitude</div>
+        <div class="value" id="lat">
+          Permission required
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">↔️</div>
+        <div class="label">Longitude</div>
+        <div class="value" id="lon">
+          Permission required
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🎯</div>
+        <div class="label">Accuracy</div>
+        <div class="value" id="accuracy">
+          --
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🕒</div>
+        <div class="label">Last GPS Update</div>
+        <div class="value" id="locationTime">
+          --
+        </div>
+      </div>
+
+    </div>
+
+    <a id="map"
+       class="map"
+       target="_blank"
+       rel="noopener">
+       🗺️ Open Location
+    </a>
+
   </section>
 
 
   <!-- ROUTER -->
 
   <section class="section">
-    <h2>🛜 Router Information</h2>
+
+    <h2>🛜 Router / ISP Equipment</h2>
 
     <div class="grid">
 
       <div class="card">
-        <div class="icon">🟢</div>
-        <div class="label">Router Status</div>
-        <div class="value" id="routerStatus">
-          Not Supported
+        <div class="icon">🛜</div>
+        <div class="label">Router / Gateway</div>
+        <div class="value">
+          Browser Restricted
         </div>
       </div>
 
       <div class="card">
         <div class="icon">⏱️</div>
         <div class="label">Router Uptime</div>
-        <div class="value" id="routerUptime">
-          Not Supported
+        <div class="value">
+          Backend Required
         </div>
       </div>
 
       <div class="card">
-        <div class="icon">💻</div>
-        <div class="label">Connected Devices</div>
-        <div class="value" id="connectedDevices">
-          Not Supported
+        <div class="icon">👥</div>
+        <div class="label">Connected Clients</div>
+        <div class="value">
+          Router API Required
         </div>
       </div>
 
       <div class="card">
         <div class="icon">🔧</div>
         <div class="label">Router Model</div>
-        <div class="value" id="routerModel">
-          Not Supported
+        <div class="value">
+          Router API Required
         </div>
       </div>
 
     </div>
+
   </section>
 
 
-  <!-- TESTS -->
+  <!-- TEST -->
 
   <section class="section">
-    <h2>🧪 25+ Real Feature Tests</h2>
 
-    <div class="testBox" id="testResults"></div>
+    <h2>🧪 Real Feature Tests</h2>
+
+    <div class="testBox"
+         id="tests">
+
+      <div class="empty">
+        Press Test All
+      </div>
+
+    </div>
+
   </section>
 
 
   <!-- HISTORY -->
 
   <section class="section">
-    <h2>📜 Local History</h2>
+
+    <h2>📜 Local Test History</h2>
 
     <div class="tableWrap">
 
@@ -664,45 +718,45 @@ footer{
           <tr>
             <th>Time</th>
             <th>IPv4</th>
-            <th>IPv6</th>
             <th>ISP</th>
             <th>Download</th>
             <th>Upload</th>
+            <th>Latency</th>
             <th>Location</th>
-            <th>Status</th>
           </tr>
         </thead>
 
-        <tbody id="historyTable"></tbody>
+        <tbody id="history"></tbody>
 
       </table>
 
-      <div
-        id="emptyHistory"
-        class="empty">
-        No history yet
+      <div class="empty"
+           id="noHistory">
+        No tests saved.
       </div>
 
     </div>
+
   </section>
 
-</main>
+</div>
+
 
 <footer>
-  WiFi Analyzer • Real browser-detected information only
+  WiFi Analyzer Pro — Real browser data only
 </footer>
 
 
 <script>
 
 /* =====================================================
-   GLOBALS
+   STORAGE
 ===================================================== */
 
-let locationWatch = null;
 let historyData = [];
 
 try{
+
   historyData =
     JSON.parse(
       localStorage.getItem(
@@ -715,6 +769,7 @@ try{
   }
 
 }catch(e){
+
   historyData = [];
 }
 
@@ -728,9 +783,11 @@ function $(id){
 }
 
 
-function setText(id,value){
+function set(id,value){
+
   $(id).textContent =
-    value == null ||
+    value === undefined ||
+    value === null ||
     value === ""
       ? "Not Available"
       : value;
@@ -738,10 +795,53 @@ function setText(id,value){
 
 
 /* =====================================================
+   ONLINE
+===================================================== */
+
+function updateOnline(){
+
+  const el =
+    $("onlineStatus");
+
+  if(navigator.onLine){
+
+    el.textContent =
+      "ONLINE";
+
+    el.className =
+      "statusOnline";
+
+  }else{
+
+    el.textContent =
+      "OFFLINE";
+
+    el.className =
+      "statusOffline";
+  }
+
+  $("updated").textContent =
+    "Updated: " +
+    new Date().toLocaleTimeString();
+}
+
+
+window.addEventListener(
+  "online",
+  updateOnline
+);
+
+window.addEventListener(
+  "offline",
+  updateOnline
+);
+
+
+/* =====================================================
    DEVICE
 ===================================================== */
 
-function getDevice(){
+function detectDevice(){
 
   const ua =
     navigator.userAgent;
@@ -768,23 +868,19 @@ function getDevice(){
 }
 
 
-/* =====================================================
-   BROWSER
-===================================================== */
-
-function getBrowser(){
+function detectBrowser(){
 
   const ua =
     navigator.userAgent;
 
   if(/Edg\//i.test(ua))
-    return "Microsoft Edge";
+    return "Edge";
 
   if(/OPR\//i.test(ua))
     return "Opera";
 
   if(/Chrome\//i.test(ua))
-    return "Google Chrome";
+    return "Chrome";
 
   if(/Firefox\//i.test(ua))
     return "Firefox";
@@ -800,91 +896,86 @@ function getBrowser(){
    NETWORK API
 ===================================================== */
 
-function readNetworkAPI(){
+function networkInfo(){
 
   const c =
     navigator.connection ||
     navigator.mozConnection ||
     navigator.webkitConnection;
 
+
   if(!c){
 
-    setText(
-      "networkType",
+    set(
+      "connectionType",
       "Not Supported"
     );
 
-    setText(
+    set(
       "downlink",
       "Not Supported"
     );
 
-    setText(
+    set(
       "rtt",
       "Not Supported"
     );
 
-    return;
+    set(
+      "metered",
+      "Not Supported"
+    );
+
+    return false;
   }
 
 
-  setText(
-    "networkType",
+  set(
+    "connectionType",
     c.effectiveType ||
     c.type ||
     "Available"
   );
 
 
-  if(
-    typeof c.downlink ===
-    "number"
-  ){
-
-    setText(
-      "downlink",
-      c.downlink +
-      " Mbps"
-    );
-
-  }else{
-
-    setText(
-      "downlink",
-      "Not Available"
-    );
-  }
+  set(
+    "downlink",
+    typeof c.downlink === "number"
+      ? c.downlink + " Mbps"
+      : "Not Available"
+  );
 
 
-  if(
-    typeof c.rtt ===
-    "number"
-  ){
+  set(
+    "rtt",
+    typeof c.rtt === "number"
+      ? c.rtt + " ms"
+      : "Not Available"
+  );
 
-    setText(
-      "rtt",
-      c.rtt + " ms"
-    );
 
-  }else{
+  set(
+    "metered",
+    typeof c.saveData === "boolean"
+      ? (c.saveData ? "Yes" : "No")
+      : "Not Available"
+  );
 
-    setText(
-      "rtt",
-      "Not Available"
-    );
-  }
+
+  return true;
 }
 
 
 /* =====================================================
-   PUBLIC IP
+   IP INFORMATION
 ===================================================== */
 
-async function getIPInfo(){
+async function getIP(){
 
-  setText("ipv4","Checking...");
-  setText("ipv6","Checking...");
-  setText("isp","Checking...");
+  set("ipv4","Checking...");
+  set("ipv6","Checking...");
+  set("isp","Checking...");
+
 
   let ipv4 = null;
   let ipv6 = null;
@@ -894,7 +985,7 @@ async function getIPInfo(){
 
   try{
 
-    const r =
+    const response =
       await fetch(
         "https://api.ipify.org?format=json",
         {
@@ -902,13 +993,18 @@ async function getIPInfo(){
         }
       );
 
-    if(r.ok){
+    if(response.ok){
 
-      const d =
-        await r.json();
+      const data =
+        await response.json();
 
-      if(typeof d.ip === "string"){
-        ipv4 = d.ip;
+      if(
+        data &&
+        typeof data.ip === "string"
+      ){
+
+        ipv4 =
+          data.ip;
       }
     }
 
@@ -919,7 +1015,7 @@ async function getIPInfo(){
 
   try{
 
-    const r =
+    const response =
       await fetch(
         "https://api6.ipify.org?format=json",
         {
@@ -927,38 +1023,44 @@ async function getIPInfo(){
         }
       );
 
-    if(r.ok){
+    if(response.ok){
 
-      const d =
-        await r.json();
+      const data =
+        await response.json();
 
-      if(typeof d.ip === "string"){
-        ipv6 = d.ip;
+      if(
+        data &&
+        typeof data.ip === "string"
+      ){
+
+        ipv6 =
+          data.ip;
       }
     }
 
   }catch(e){}
 
 
-  setText(
+  set(
     "ipv4",
     ipv4 || "Not Available"
   );
 
-  setText(
+  set(
     "ipv6",
     ipv6 || "Not Available"
   );
 
 
-  /* IP information */
+  /* Geo/ISP */
 
-  const ip =
+  const selectedIP =
     ipv4 || ipv6;
 
-  if(!ip){
 
-    setText(
+  if(!selectedIP){
+
+    set(
       "isp",
       "Not Available"
     );
@@ -969,44 +1071,59 @@ async function getIPInfo(){
 
   try{
 
-    const r =
+    const response =
       await fetch(
         "https://ipwho.is/" +
-        encodeURIComponent(ip),
+        encodeURIComponent(
+          selectedIP
+        ),
         {
           cache:"no-store"
         }
       );
 
-    if(!r.ok)
+
+    if(!response.ok)
       throw new Error();
 
 
-    const d =
-      await r.json();
+    const data =
+      await response.json();
 
 
-    if(d && d.success){
+    if(
+      data &&
+      data.success
+    ){
 
-      setText(
+      set(
         "isp",
-        d.connection?.isp ||
-        d.connection?.org
+        data.connection?.isp ||
+        data.connection?.org ||
+        "Not Available"
       );
 
-      setText(
-        "ipCountry",
-        d.country
+
+      set(
+        "country",
+        data.country
       );
 
-      setText(
-        "ipCity",
-        d.city
+
+      set(
+        "city",
+        data.city
+      );
+
+
+      set(
+        "ipTimezone",
+        data.timezone?.id
       );
 
     }else{
 
-      setText(
+      set(
         "isp",
         "Not Available"
       );
@@ -1014,7 +1131,7 @@ async function getIPInfo(){
 
   }catch(e){
 
-    setText(
+    set(
       "isp",
       "Not Available"
     );
@@ -1023,55 +1140,71 @@ async function getIPInfo(){
 
 
 /* =====================================================
-   LATENCY
+   REAL LATENCY
 ===================================================== */
 
-async function latencyTest(){
+async function measureLatency(){
 
-  const start =
-    performance.now();
+  const samples = [];
 
-  try{
+  for(
+    let i=0;
+    i<5;
+    i++
+  ){
 
-    await fetch(
-      "https://www.google.com/generate_204",
-      {
-        mode:"no-cors",
-        cache:"no-store"
-      }
-    );
+    const start =
+      performance.now();
 
-    const result =
-      Math.round(
-        performance.now() -
-        start
+    try{
+
+      await fetch(
+        "https://www.google.com/generate_204?" +
+        Date.now(),
+        {
+          mode:"no-cors",
+          cache:"no-store"
+        }
       );
 
-    setText(
-      "speedLatency",
-      result + " ms"
-    );
 
-    return result;
+      const ms =
+        performance.now() -
+        start;
 
-  }catch(e){
 
-    setText(
-      "speedLatency",
-      "Not Available"
-    );
+      if(
+        Number.isFinite(ms)
+      ){
 
-    return null;
+        samples.push(ms);
+      }
+
+    }catch(e){}
+
   }
+
+
+  if(!samples.length)
+    return null;
+
+
+  const average =
+    samples.reduce(
+      (a,b)=>a+b,
+      0
+    ) / samples.length;
+
+
+  return average;
 }
 
 
 /* =====================================================
-   DOWNLOAD SPEED
-   Real transfer measurement.
+   CLOUDFLARE SPEED TEST
 ===================================================== */
 
-async function downloadSpeedTest(){
+async function cloudflareDownload(){
 
   const sizes = [
     1000000,
@@ -1079,7 +1212,7 @@ async function downloadSpeedTest(){
     10000000
   ];
 
-  let best = null;
+  const results = [];
 
 
   for(
@@ -1088,20 +1221,16 @@ async function downloadSpeedTest(){
 
     try{
 
-      const url =
-        "https://speed.cloudflare.com/__down?bytes=" +
-        bytes +
-        "&cacheBust=" +
-        Date.now();
-
-
       const start =
         performance.now();
 
 
       const response =
         await fetch(
-          url,
+          "https://speed.cloudflare.com/__down?bytes=" +
+          bytes +
+          "&cacheBust=" +
+          Date.now(),
           {
             cache:"no-store"
           }
@@ -1127,12 +1256,106 @@ async function downloadSpeedTest(){
         continue;
 
 
-      const bits =
-        buffer.byteLength * 8;
+      const mbps =
+        (
+          buffer.byteLength *
+          8 /
+          seconds /
+          1000000
+        );
+
+
+      if(
+        Number.isFinite(mbps) &&
+        mbps > 0
+      ){
+
+        results.push(
+          mbps
+        );
+      }
+
+
+    }catch(e){}
+
+  }
+
+
+  if(!results.length)
+    return null;
+
+
+  /*
+    Use the best completed sample.
+    This avoids reporting zero/fake data.
+  */
+
+  return Math.max(
+    ...results
+  );
+}
+
+
+/* =====================================================
+   CLOUDFLARE UPLOAD
+===================================================== */
+
+async function cloudflareUpload(){
+
+  const sizes = [
+    250000,
+    1000000
+  ];
+
+  const results = [];
+
+
+  for(
+    const bytes of sizes
+  ){
+
+    try{
+
+      const payload =
+        new Uint8Array(
+          bytes
+        );
+
+
+      const start =
+        performance.now();
+
+
+      const response =
+        await fetch(
+          "https://speed.cloudflare.com/__up?cacheBust=" +
+          Date.now(),
+          {
+            method:"POST",
+            body:payload,
+            cache:"no-store"
+          }
+        );
+
+
+      if(!response.ok)
+        continue;
+
+
+      const seconds =
+        (
+          performance.now() -
+          start
+        ) / 1000;
+
+
+      if(seconds <= 0)
+        continue;
 
 
       const mbps =
-        bits /
+        bytes *
+        8 /
         seconds /
         1000000;
 
@@ -1142,83 +1365,24 @@ async function downloadSpeedTest(){
         mbps > 0
       ){
 
-        best = mbps;
+        results.push(
+          mbps
+        );
       }
 
+
     }catch(e){}
+
   }
 
 
-  return best;
-}
-
-
-/* =====================================================
-   UPLOAD SPEED
-===================================================== */
-
-async function uploadSpeedTest(){
-
-  /*
-    Cloudflare upload endpoint.
-    If browser/CORS/server does not allow
-    the request, the result remains unavailable.
-  */
-
-  const bytes =
-    1000000;
-
-
-  const data =
-    new Uint8Array(bytes);
-
-
-  try{
-
-    const start =
-      performance.now();
-
-
-    const response =
-      await fetch(
-        "https://speed.cloudflare.com/__up",
-        {
-          method:"POST",
-          body:data,
-          cache:"no-store"
-        }
-      );
-
-
-    if(!response.ok)
-      return null;
-
-
-    const seconds =
-      (
-        performance.now() -
-        start
-      ) / 1000;
-
-
-    if(seconds <= 0)
-      return null;
-
-
-    const mbps =
-      bytes * 8 /
-      seconds /
-      1000000;
-
-
-    return Number.isFinite(mbps)
-      ? mbps
-      : null;
-
-  }catch(e){
-
+  if(!results.length)
     return null;
-  }
+
+
+  return Math.max(
+    ...results
+  );
 }
 
 
@@ -1226,84 +1390,112 @@ async function uploadSpeedTest(){
    SPEED TEST
 ===================================================== */
 
-async function startSpeedTest(){
+async function speedTest(){
 
-  $("speedStatus")
-    .textContent =
-    "Testing download...";
+  const button =
+    event?.currentTarget;
+
+
+  if(button)
+    button.disabled = true;
+
+
+  $("speedStatus").textContent =
+    "Testing latency...";
+
 
   $("speedProgress")
     .style.width =
-    "20%";
+    "10%";
 
-  $("speedValue")
-    .textContent =
-    "--";
+
+  const latency =
+    await measureLatency();
+
+
+  if(latency !== null){
+
+    set(
+      "latency",
+      latency.toFixed(0) +
+      " ms"
+    );
+
+  }else{
+
+    set(
+      "latency",
+      "Not Available"
+    );
+  }
+
+
+  $("speedStatus").textContent =
+    "Testing download...";
+
+
+  $("speedProgress")
+    .style.width =
+    "35%";
 
 
   const download =
-    await downloadSpeedTest();
+    await cloudflareDownload();
 
 
   if(download !== null){
 
-    $("downloadSpeed")
-      .textContent =
+    set(
+      "download",
       download.toFixed(2) +
-      " Mbps";
+      " Mbps"
+    );
 
-    $("speedValue")
+    $("speedNumber")
       .textContent =
       download.toFixed(2);
 
   }else{
 
-    $("downloadSpeed")
+    set(
+      "download",
+      "Not Available"
+    );
+
+    $("speedNumber")
       .textContent =
-      "Not Available";
+      "--";
   }
+
+
+  $("speedStatus").textContent =
+    "Testing upload...";
 
 
   $("speedProgress")
     .style.width =
-    "55%";
-
-
-  $("speedStatus")
-    .textContent =
-    "Testing upload...";
+    "70%";
 
 
   const upload =
-    await uploadSpeedTest();
+    await cloudflareUpload();
 
 
   if(upload !== null){
 
-    $("uploadSpeed")
-      .textContent =
+    set(
+      "upload",
       upload.toFixed(2) +
-      " Mbps";
+      " Mbps"
+    );
 
   }else{
 
-    $("uploadSpeed")
-      .textContent =
-      "Not Available";
+    set(
+      "upload",
+      "Not Available"
+    );
   }
-
-
-  $("speedProgress")
-    .style.width =
-    "85%";
-
-
-  $("speedStatus")
-    .textContent =
-    "Testing latency...";
-
-
-  await latencyTest();
 
 
   $("speedProgress")
@@ -1311,15 +1503,22 @@ async function startSpeedTest(){
     "100%";
 
 
-  $("speedStatus")
-    .textContent =
-    "Speed test complete";
+  $("speedStatus").textContent =
+    "Test complete";
 
 
-  addHistory(
+  saveHistory(
     download,
-    upload
+    upload,
+    latency
   );
+
+
+  if(button)
+    button.disabled = false;
+
+
+  runTests();
 }
 
 
@@ -1327,639 +1526,178 @@ async function startSpeedTest(){
    LOCATION
 ===================================================== */
 
-function updateLocation(position){
+let locationWatch = null;
 
-  const lat =
-    position.coords.latitude;
-
-  const lon =
-    position.coords.longitude;
-
-  const accuracy =
-    position.coords.accuracy;
-
-
-  setText(
-    "latitude",
-    lat.toFixed(6)
-  );
-
-  setText(
-    "longitude",
-    lon.toFixed(6)
-  );
-
-  setText(
-    "accuracy",
-    Math.round(
-      accuracy
-    ) + " m"
-  );
-
-
-  setText(
-    "locationTime",
-    new Date().toLocaleTimeString()
-  );
-
-
-  const map =
-    $("mapLink");
-
-
-  map.href =
-    "https://www.google.com/maps?q=" +
-    encodeURIComponent(
-      lat + "," + lon
-    );
-
-
-  map.style.display =
-    "inline-block";
-}
-
-
-/* =====================================================
-   LOCATION ERROR
-===================================================== */
-
-function locationError(error){
-
-  let message =
-    "Location unavailable";
-
-
-  if(error.code === 1)
-    message =
-      "Permission Denied";
-
-
-  if(error.code === 2)
-    message =
-      "Position Unavailable";
-
-
-  if(error.code === 3)
-    message =
-      "Location Timeout";
-
-
-  setText(
-    "latitude",
-    message
-  );
-
-  setText(
-    "longitude",
-    message
-  );
-}
-
-
-/* =====================================================
-   START LOCATION
-===================================================== */
 
 function startLocation(){
 
-  if(!navigator.geolocation){
+  if(!("geolocation" in navigator)){
 
-    alert(
-      "Geolocation is not supported."
+    set(
+      "lat",
+      "Not Supported"
     );
 
     return;
   }
 
 
-  stopLocation();
+  if(locationWatch !== null){
+
+    navigator.geolocation.clearWatch(
+      locationWatch
+    );
+  }
 
 
   /*
-    Browser permission is required.
-    Position is refreshed approximately
-    every 5 seconds.
+    This requires customer permission.
+    HTTPS is required.
   */
 
   locationWatch =
     navigator.geolocation.watchPosition(
-      updateLocation,
-      locationError,
+      position => {
+
+        const latitude =
+          position.coords.latitude;
+
+        const longitude =
+          position.coords.longitude;
+
+        const accuracy =
+          position.coords.accuracy;
+
+
+        set(
+          "lat",
+          latitude.toFixed(6)
+        );
+
+
+        set(
+          "lon",
+          longitude.toFixed(6)
+        );
+
+
+        set(
+          "accuracy",
+          Math.round(
+            accuracy
+          ) + " m"
+        );
+
+
+        set(
+          "locationTime",
+          new Date()
+            .toLocaleTimeString()
+        );
+
+
+        const map =
+          $("map");
+
+
+        map.href =
+          "https://www.google.com/maps?q=" +
+          encodeURIComponent(
+            latitude +
+            "," +
+            longitude
+          );
+
+
+        map.style.display =
+          "inline-block";
+
+      },
+
+      error => {
+
+        if(error.code === 1){
+
+          set(
+            "lat",
+            "Permission Denied"
+          );
+
+          set(
+            "lon",
+            "Permission Denied"
+          );
+
+        }else{
+
+          set(
+            "lat",
+            "Location Unavailable"
+          );
+
+          set(
+            "lon",
+            "Location Unavailable"
+          );
+        }
+      },
+
       {
         enableHighAccuracy:true,
         maximumAge:0,
         timeout:15000
       }
     );
-
-
-  setText(
-    "locationTime",
-    "Waiting for GPS..."
-  );
 }
 
 
 /* =====================================================
-   STOP LOCATION
+   SAVE HISTORY
 ===================================================== */
 
-function stopLocation(){
-
-  if(
-    locationWatch !== null
-  ){
-
-    navigator.geolocation.clearWatch(
-      locationWatch
-    );
-
-    locationWatch = null;
-  }
-}
-
-
-/* =====================================================
-   INTERNET STATUS
-===================================================== */
-
-function updateOnlineStatus(){
-
-  const status =
-    $("internetStatus");
-
-  const bar =
-    $("statusBar");
-
-
-  if(navigator.onLine){
-
-    status.textContent =
-      "Internet Online";
-
-    status.className =
-      "green";
-
-    bar.classList.remove(
-      "offline"
-    );
-
-  }else{
-
-    status.textContent =
-      "Internet Offline";
-
-    status.className =
-      "red";
-
-    bar.classList.add(
-      "offline"
-    );
-  }
-
-
-  setText(
-    "lastUpdate",
-    "Last update: " +
-    new Date().toLocaleTimeString()
-  );
-}
-
-
-window.addEventListener(
-  "online",
-  updateOnlineStatus
-);
-
-window.addEventListener(
-  "offline",
-  updateOnlineStatus
-);
-
-
-/* =====================================================
-   ROUTER
-===================================================== */
-
-function routerInfo(){
-
-  /*
-    A normal public webpage cannot directly
-    read router credentials, uptime,
-    connected clients or private gateway
-    reliably.
-
-    No fake IP is inserted.
-  */
-
-  setText(
-    "routerIP",
-    "Not Supported"
-  );
-
-  setText(
-    "routerStatus",
-    "Not Supported"
-  );
-
-  setText(
-    "routerUptime",
-    "Not Supported"
-  );
-
-  setText(
-    "connectedDevices",
-    "Not Supported"
-  );
-
-  setText(
-    "routerModel",
-    "Not Supported"
-}
-
-
-/* =====================================================
-   DEVICE INFO
-===================================================== */
-
-function deviceInfo(){
-
-  setText(
-    "device",
-    getDevice()
-  );
-
-  setText(
-    "browser",
-    getBrowser()
-  );
-
-  setText(
-    "screen",
-    screen.width +
-    " × " +
-    screen.height
-  );
-
-  setText(
-    "timezone",
-    Intl.DateTimeFormat()
-      .resolvedOptions()
-      .timeZone
-  );
-}
-
-
-/* =====================================================
-   ANALYZE
-===================================================== */
-
-async function analyze(){
-
-  deviceInfo();
-
-  readNetworkAPI();
-
-  routerInfo();
-
-  updateOnlineStatus();
-
-  await getIPInfo();
-
-  await latencyTest();
-
-  setText(
-    "lastUpdate",
-    "Last update: " +
-    new Date().toLocaleTimeString()
-  );
-}
-
-
-/* =====================================================
-   TEST SYSTEM
-===================================================== */
-
-const tests = [
-
-  ["ssid","SSID Detection",false],
-  ["signal","Wi-Fi Signal",false],
-  ["channel","Wi-Fi Channel",false],
-  ["frequency","Wi-Fi Frequency",false],
-  ["security","Wi-Fi Security",false],
-
-  ["networkType","Network Type",true],
-  ["downlink","Downlink Information",true],
-  ["rtt","RTT Information",true],
-
-  ["ipv4","IPv4",true],
-  ["ipv6","IPv6",true],
-  ["isp","ISP",true],
-  ["ipCountry","IP Country",true],
-  ["ipCity","IP City",true],
-
-  ["routerIP","Router IP",false],
-  ["routerStatus","Router Status",false],
-  ["routerUptime","Router Uptime",false],
-  ["connectedDevices","Connected Devices",false],
-  ["routerModel","Router Model",false],
-
-  ["device","Device Detection",true],
-  ["browser","Browser Detection",true],
-  ["screen","Screen Detection",true],
-  ["timezone","Timezone Detection",true],
-
-  ["latitude","GPS Latitude",false],
-  ["longitude","GPS Longitude",false],
-  ["accuracy","GPS Accuracy",false],
-
-  ["internet","Internet Connectivity",true],
-  ["storage","Local Storage",true],
-  ["geolocation","Geolocation API",true],
-  ["networkapi","Network Information API",true],
-  ["speed","Speed Test",true]
-];
-
-
-function testBadge(
-  name,
-  supported,
-  value
-){
-
-  if(!supported){
-
-    return `
-      <div class="testRow">
-        <span>${name}</span>
-        <span class="badge unsupported">
-          NOT SUPPORTED
-        </span>
-      </div>
-    `;
-  }
-
-
-  if(value){
-
-    return `
-      <div class="testRow">
-        <span>${name}</span>
-        <span class="badge pass">
-          PASS
-        </span>
-      </div>
-    `;
-  }
-
-
-  return `
-    <div class="testRow">
-      <span>${name}</span>
-      <span class="badge fail">
-        FAIL
-      </span>
-    </div>
-  `;
-}
-
-
-function runTests(){
-
-  let html = "";
-
-
-  for(
-    const item of tests
-  ){
-
-    const key =
-      item[0];
-
-    const name =
-      item[1];
-
-    let supported =
-      item[2];
-
-    let value =
-      false;
-
-
-    if(key === "internet"){
-
-      supported =
-        true;
-
-      value =
-        navigator.onLine;
-    }
-
-
-    else if(
-      key === "storage"
-    ){
-
-      try{
-
-        const testKey =
-          "__wifi_test__";
-
-        localStorage.setItem(
-          testKey,
-          "1"
-        );
-
-        localStorage.removeItem(
-          testKey
-        );
-
-        supported = true;
-        value = true;
-
-      }catch(e){
-
-        supported = true;
-        value = false;
-      }
-    }
-
-
-    else if(
-      key === "geolocation"
-    ){
-
-      supported =
-        "geolocation"
-        in navigator;
-
-      value =
-        supported;
-    }
-
-
-    else if(
-      key === "networkapi"
-    ){
-
-      supported =
-        !!(
-          navigator.connection ||
-          navigator.mozConnection ||
-          navigator.webkitConnection
-        );
-
-      value =
-        supported;
-    }
-
-
-    else if(
-      key === "speed"
-    ){
-
-      supported =
-        true;
-
-      value =
-        $("downloadSpeed")
-          .textContent !==
-        "Not Tested";
-    }
-
-
-    else{
-
-      const element =
-        $(key);
-
-
-      if(element){
-
-        const text =
-          element.textContent.trim();
-
-
-        value =
-          text !==
-          "Not Available" &&
-          text !==
-          "Not Supported" &&
-          text !==
-          "Not Requested" &&
-          text !==
-          "Checking..." &&
-          text !==
-          "Detecting..." &&
-          text !==
-          "Waiting for GPS...";
-      }
-    }
-
-
-    html +=
-      testBadge(
-        name,
-        supported,
-        value
-      );
-  }
-
-
-  $("testResults")
-    .innerHTML =
-    html;
-}
-
-
-/* =====================================================
-   TEST ALL
-===================================================== */
-
-async function runAllTests(){
-
-  $("testResults")
-    .innerHTML =
-    `<div class="empty">
-      Running real tests...
-    </div>`;
-
-
-  await analyze();
-
-  runTests();
-}
-
-
-/* =====================================================
-   HISTORY
-===================================================== */
-
-function getLocationText(){
-
-  const lat =
-    $("latitude").textContent;
-
-  const lon =
-    $("longitude").textContent;
-
-
-  if(
-    lat === "Not Requested" ||
-    lat === "Not Available" ||
-    lat === "Permission Denied" ||
-    lon === "Not Requested" ||
-    lon === "Not Available"
-  ){
-
-    return "Not Available";
-  }
-
-
-  return lat +
-    ", " +
-    lon;
-}
-
-
-function addHistory(
-  download = null,
-  upload = null
+function saveHistory(
+  download,
+  upload,
+  latency
 ){
 
   const record = {
 
     time:
-      new Date().toLocaleString(),
+      new Date()
+        .toLocaleString(),
 
     ipv4:
       $("ipv4").textContent,
-
-    ipv6:
-      $("ipv6").textContent,
 
     isp:
       $("isp").textContent,
 
     download:
       download === null
-        ? $("downloadSpeed").textContent
-        : download.toFixed(2) +
-          " Mbps",
+        ? "Not Available"
+        : download.toFixed(2)
+          + " Mbps",
 
     upload:
       upload === null
-        ? $("uploadSpeed").textContent
-        : upload.toFixed(2) +
-          " Mbps",
+        ? "Not Available"
+        : upload.toFixed(2)
+          + " Mbps",
+
+    latency:
+      latency === null
+        ? "Not Available"
+        : latency.toFixed(0)
+          + " ms",
 
     location:
-      getLocationText(),
-
-    status:
-      navigator.onLine
-        ? "Online"
-        : "Offline"
+      $("lat").textContent !==
+      "Permission required"
+        ? $("lat").textContent +
+          ", " +
+          $("lon").textContent
+        : "Not Available"
   };
 
 
@@ -1968,16 +1706,11 @@ function addHistory(
   );
 
 
-  if(
-    historyData.length > 100
-  ){
-
-    historyData =
-      historyData.slice(
-        0,
-        100
-      );
-  }
+  historyData =
+    historyData.slice(
+      0,
+      100
+    );
 
 
   try{
@@ -1997,40 +1730,28 @@ function addHistory(
 
 
 /* =====================================================
-   HISTORY RENDER
+   HISTORY
 ===================================================== */
 
 function renderHistory(){
 
-  const table =
-    $("historyTable");
-
-  const empty =
-    $("emptyHistory");
+  const body =
+    $("history");
 
 
-  table.innerHTML = "";
+  body.innerHTML = "";
 
 
-  if(
-    historyData.length === 0
-  ){
-
-    empty.style.display =
-      "block";
-
-    return;
-  }
-
-
-  empty.style.display =
-    "none";
+  $("noHistory").style.display =
+    historyData.length
+      ? "none"
+      : "block";
 
 
   historyData.forEach(
     item => {
 
-      const row =
+      const tr =
         document.createElement(
           "tr"
         );
@@ -2039,12 +1760,11 @@ function renderHistory(){
       [
         item.time,
         item.ipv4,
-        item.ipv6,
         item.isp,
         item.download,
         item.upload,
-        item.location,
-        item.status
+        item.latency,
+        item.location
 
       ].forEach(
         value => {
@@ -2055,22 +1775,269 @@ function renderHistory(){
             );
 
           td.textContent =
-            value ||
-            "Not Available";
+            value || "Not Available";
 
-          row.appendChild(td);
+          tr.appendChild(td);
         }
       );
 
 
-      table.appendChild(row);
+      body.appendChild(tr);
     }
   );
 }
 
 
 /* =====================================================
-   JSON EXPORT
+   TEST ENGINE
+===================================================== */
+
+function runTests(){
+
+  const supported = {
+
+    "Online Status":
+      true,
+
+    "IPv4":
+      $("ipv4").textContent !==
+      "Not Available" &&
+      $("ipv4").textContent !==
+      "Checking...",
+
+    "IPv6":
+      $("ipv6").textContent !==
+      "Not Available" &&
+      $("ipv6").textContent !==
+      "Checking...",
+
+    "ISP":
+      $("isp").textContent !==
+      "Not Available" &&
+      $("isp").textContent !==
+      "Checking...",
+
+    "IP Country":
+      $("country").textContent !==
+      "Not Available" &&
+      $("country").textContent !==
+      "--",
+
+    "IP City":
+      $("city").textContent !==
+      "Not Available" &&
+      $("city").textContent !==
+      "--",
+
+    "Network Information API":
+      !!(
+        navigator.connection ||
+        navigator.mozConnection ||
+        navigator.webkitConnection
+      ),
+
+    "Geolocation API":
+      "geolocation" in navigator,
+
+    "LocalStorage":
+      testStorage(),
+
+    "Online/Offline API":
+      "onLine" in navigator,
+
+    "Service HTTPS":
+      location.protocol ===
+      "https:" ||
+      location.hostname ===
+      "localhost",
+
+    "Device Detection":
+      detectDevice() !==
+      "Unknown",
+
+    "Browser Detection":
+      detectBrowser() !==
+      "Unknown",
+
+    "Screen Information":
+      screen.width > 0 &&
+      screen.height > 0,
+
+    "Timezone":
+      !!Intl.DateTimeFormat()
+        .resolvedOptions()
+        .timeZone,
+
+    "Speed Test":
+      $("download").textContent !==
+      "Not Tested"
+  };
+
+
+  const unsupported = [
+
+    "SSID",
+    "Wi-Fi Signal dBm",
+    "Wi-Fi Channel",
+    "Wi-Fi Frequency",
+    "Wi-Fi Security",
+    "Router Gateway",
+    "Router Uptime",
+    "Router Model",
+    "Connected Router Clients",
+    "ISP Username/Password"
+  ];
+
+
+  let html = "";
+
+
+  Object.entries(
+    supported
+  ).forEach(
+    ([name,pass]) => {
+
+      html +=
+        testRow(
+          name,
+          true,
+          pass
+        );
+    }
+  );
+
+
+  unsupported.forEach(
+    name => {
+
+      html +=
+        testRow(
+          name,
+          false,
+          false
+        );
+    }
+  );
+
+
+  $("tests").innerHTML =
+    html;
+}
+
+
+function testRow(
+  name,
+  supported,
+  pass
+){
+
+  if(!supported){
+
+    return `
+      <div class="test">
+        <span>${name}</span>
+        <span class="badge unsupported">
+          NOT SUPPORTED
+        </span>
+      </div>
+    `;
+  }
+
+
+  return `
+    <div class="test">
+      <span>${name}</span>
+      <span class="badge ${
+        pass ? "pass" : "fail"
+      }">
+        ${pass ? "PASS" : "FAIL"}
+      </span>
+    </div>
+  `;
+}
+
+
+function testStorage(){
+
+  try{
+
+    const key =
+      "__wifi_analyzer_test__";
+
+    localStorage.setItem(
+      key,
+      "1"
+    );
+
+    const ok =
+      localStorage.getItem(
+        key
+      ) === "1";
+
+    localStorage.removeItem(
+      key
+    );
+
+    return ok;
+
+  }catch(e){
+
+    return false;
+  }
+}
+
+
+/* =====================================================
+   REFRESH
+===================================================== */
+
+async function refreshAll(){
+
+  updateOnline();
+
+  networkInfo();
+
+  set(
+    "device",
+    detectDevice()
+  );
+
+  set(
+    "browser",
+    detectBrowser()
+  );
+
+
+  set(
+    "ipTimezone",
+    Intl.DateTimeFormat()
+      .resolvedOptions()
+      .timeZone
+  );
+
+
+  await getIP();
+
+  runTests();
+}
+
+
+/* =====================================================
+   TEST ALL
+===================================================== */
+
+async function runAll(){
+
+  await refreshAll();
+
+  await speedTest();
+
+  runTests();
+}
+
+
+/* =====================================================
+   EXPORT JSON
 ===================================================== */
 
 function exportJSON(){
@@ -2085,20 +2052,31 @@ function exportJSON(){
   }
 
 
-  downloadFile(
-    JSON.stringify(
-      historyData,
-      null,
-      2
-    ),
-    "wifi-analyzer-history.json",
-    "application/json"
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          historyData,
+          null,
+          2
+        )
+      ],
+      {
+        type:
+          "application/json"
+      }
+    );
+
+
+  downloadBlob(
+    blob,
+    "wifi-analyzer-history.json"
   );
 }
 
 
 /* =====================================================
-   CSV EXPORT
+   EXPORT CSV
 ===================================================== */
 
 function exportCSV(){
@@ -2116,12 +2094,11 @@ function exportCSV(){
   const headers = [
     "Time",
     "IPv4",
-    "IPv6",
     "ISP",
     "Download",
     "Upload",
-    "Location",
-    "Status"
+    "Latency",
+    "Location"
   ];
 
 
@@ -2131,43 +2108,42 @@ function exportCSV(){
         [
           item.time,
           item.ipv4,
-          item.ipv6,
           item.isp,
           item.download,
           item.upload,
-          item.location,
-          item.status
+          item.latency,
+          item.location
         ]
-        .map(csvEscape)
+        .map(csv)
         .join(",")
     );
 
 
-  const csv =
-    [
-      headers.join(","),
-      ...rows
-    ].join("\n");
+  const content =
+    headers.join(",") +
+    "\n" +
+    rows.join("\n");
 
 
-  downloadFile(
-    csv,
-    "wifi-analyzer-history.csv",
-    "text/csv"
+  downloadBlob(
+    new Blob(
+      [content],
+      {
+        type:"text/csv"
+      }
+    ),
+    "wifi-analyzer-history.csv"
   );
 }
 
 
-function csvEscape(value){
-
-  const text =
-    String(
-      value ?? ""
-    );
-
+function csv(value){
 
   return '"' +
-    text.replaceAll(
+    String(
+      value ?? ""
+    )
+    .replaceAll(
       '"',
       '""'
     ) +
@@ -2175,18 +2151,10 @@ function csvEscape(value){
 }
 
 
-function downloadFile(
-  content,
-  filename,
-  type
+function downloadBlob(
+  blob,
+  filename
 ){
-
-  const blob =
-    new Blob(
-      [content],
-      {type}
-    );
-
 
   const url =
     URL.createObjectURL(
@@ -2209,7 +2177,9 @@ function downloadFile(
 
   a.remove();
 
-  URL.revokeObjectURL(url);
+  URL.revokeObjectURL(
+    url
+  );
 }
 
 
@@ -2221,7 +2191,7 @@ function clearHistory(){
 
   if(
     !confirm(
-      "Clear all local history?"
+      "Delete all local history?"
     )
   ){
 
@@ -2255,6 +2225,9 @@ function toggleTheme(){
     "light"
   );
 
+  /*
+    Simple theme preference.
+  */
 
   localStorage.setItem(
     "wifiTheme",
@@ -2266,6 +2239,10 @@ function toggleTheme(){
   );
 }
 
+
+/* =====================================================
+   INIT
+===================================================== */
 
 if(
   localStorage.getItem(
@@ -2279,62 +2256,44 @@ if(
 }
 
 
-/* =====================================================
-   NETWORK CHANGE
-===================================================== */
-
-const connection =
-  navigator.connection ||
-  navigator.mozConnection ||
-  navigator.webkitConnection;
-
-
-if(connection){
-
-  connection.addEventListener(
-    "change",
-    function(){
-
-      readNetworkAPI();
-      updateOnlineStatus();
-    }
-  );
-}
-
-
-/* =====================================================
-   INIT
-===================================================== */
-
 renderHistory();
 
-deviceInfo();
+updateOnline();
 
-readNetworkAPI();
+networkInfo();
 
-routerInfo();
+set(
+  "device",
+  detectDevice()
+);
 
-updateOnlineStatus();
+set(
+  "browser",
+  detectBrowser()
+);
+
+set(
+  "ipTimezone",
+  Intl.DateTimeFormat()
+    .resolvedOptions()
+    .timeZone
+);
+
+getIP();
 
 runTests();
 
-getIPInfo();
-
 
 /*
-  Automatically refreshes browser-readable
+  Refresh browser-readable network
   information every 5 seconds.
-
-  Location itself only updates after the
-  user presses "Start Location" and grants
-  browser permission.
 */
 
 setInterval(
-  function(){
+  () => {
 
-    readNetworkAPI();
-    updateOnlineStatus();
+    updateOnline();
+    networkInfo();
 
   },
   5000
