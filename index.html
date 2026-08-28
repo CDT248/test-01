@@ -4,17 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#07111f">
-
 <title>WiFi Analyzer Pro</title>
 
 <style>
 :root{
-  --bg:#07111f;
-  --card:#0d1b2d;
-  --card2:#12243a;
-  --border:#203b5c;
+  --bg:#06101d;
+  --card:#0c1a2b;
+  --card2:#12253b;
+  --border:#203b5a;
   --text:#f5f9ff;
-  --muted:#8ea5bd;
+  --muted:#8fa6bd;
   --blue:#1683ff;
   --cyan:#00c8ff;
   --green:#00df8a;
@@ -22,16 +21,14 @@
   --yellow:#ffd34d;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
   color:var(--text);
   background:
-    radial-gradient(circle at 10% 0%,#123c72,transparent 30%),
-    radial-gradient(circle at 90% 0%,#3b1769,transparent 25%),
+    radial-gradient(circle at 10% 0%,#123b70,transparent 30%),
+    radial-gradient(circle at 90% 0%,#351263,transparent 25%),
     var(--bg);
   font-family:Arial,Helvetica,sans-serif;
 }
@@ -70,7 +67,7 @@ button{
   padding:12px 15px;
   border-radius:10px;
   background:var(--blue);
-  color:white;
+  color:#fff;
   font-weight:bold;
   cursor:pointer;
 }
@@ -100,13 +97,8 @@ button:disabled{
   margin-bottom:22px;
 }
 
-.statusOnline{
-  color:var(--green);
-}
-
-.statusOffline{
-  color:var(--red);
-}
+.statusOnline{color:var(--green)}
+.statusOffline{color:var(--red)}
 
 .section{
   margin-top:25px;
@@ -120,8 +112,7 @@ button:disabled{
 
 .grid{
   display:grid;
-  grid-template-columns:
-    repeat(auto-fit,minmax(210px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
   gap:13px;
 }
 
@@ -154,88 +145,32 @@ button:disabled{
   word-break:break-word;
 }
 
-.green{
-  color:var(--green);
-}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.yellow{color:var(--yellow)}
+.blue{color:#63aeff}
 
-.red{
-  color:var(--red);
-}
-
-.yellow{
-  color:var(--yellow);
-}
-
-.blue{
-  color:#63aeff;
-}
-
-.speedCard{
-  text-align:center;
-  padding:25px;
-}
-
-.speedNumber{
-  font-size:50px;
-  font-weight:900;
-  color:#61aeff;
-  margin:10px;
-}
-
-.speedGrid{
-  display:grid;
-  grid-template-columns:
-    repeat(auto-fit,minmax(150px,1fr));
-  gap:12px;
-  margin-top:20px;
-}
-
-.speedItem{
-  background:var(--card2);
-  padding:15px;
-  border-radius:12px;
-}
-
-.progress{
-  height:9px;
-  background:#1b2d43;
-  border-radius:20px;
-  overflow:hidden;
-  margin:15px 0;
-}
-
-.progress div{
-  height:100%;
-  width:0;
-  background:
-    linear-gradient(
-      90deg,
-      var(--blue),
-      var(--cyan),
-      var(--green)
-    );
-  transition:.2s;
-}
-
-.testBox{
+.tableWrap{
+  overflow:auto;
   background:var(--card);
   border:1px solid var(--border);
   border-radius:16px;
-  padding:10px 16px;
+  padding:12px;
 }
 
-.test{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px 0;
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:800px;
+}
+
+th,td{
+  padding:10px;
+  text-align:left;
   border-bottom:1px solid var(--border);
-  gap:10px;
 }
 
-.test:last-child{
-  border-bottom:0;
-}
+th{color:#69afff}
 
 .badge{
   padding:6px 10px;
@@ -256,39 +191,61 @@ button:disabled{
   background:#461822;
 }
 
-.unsupported{
-  color:var(--yellow);
-  background:#45380d;
-}
-
-.tableWrap{
-  overflow:auto;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:16px;
+.warning{
+  background:#3b2e09;
+  border:1px solid #745d12;
+  color:#ffe38a;
+  border-radius:12px;
   padding:12px;
+  margin-top:12px;
+  font-size:12px;
+  line-height:1.6;
 }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:950px;
-}
-
-th,td{
-  padding:10px;
-  text-align:left;
-  border-bottom:1px solid var(--border);
-}
-
-th{
-  color:#69afff;
-}
-
-.empty{
-  color:var(--muted);
+.speedCard{
   text-align:center;
-  padding:20px;
+  padding:25px;
+}
+
+.speedNumber{
+  font-size:48px;
+  font-weight:900;
+  color:#61aeff;
+  margin:10px;
+}
+
+.progress{
+  height:9px;
+  background:#1b2d43;
+  border-radius:20px;
+  overflow:hidden;
+  margin:15px 0;
+}
+
+.progress div{
+  height:100%;
+  width:0;
+  background:linear-gradient(
+    90deg,
+    var(--blue),
+    var(--cyan),
+    var(--green)
+  );
+  transition:.2s;
+}
+
+.speedGrid{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;
+  margin-top:20px;
+}
+
+.speedItem{
+  background:var(--card2);
+  padding:15px;
+  border-radius:12px;
 }
 
 .map{
@@ -308,15 +265,30 @@ th{
   margin-top:10px;
 }
 
-.warning{
-  background:#3b2e09;
-  border:1px solid #745d12;
-  color:#ffe38a;
-  border-radius:12px;
-  padding:12px;
-  margin-top:12px;
-  font-size:12px;
-  line-height:1.6;
+.test{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
+  gap:10px;
+}
+
+.test:last-child{
+  border-bottom:0;
+}
+
+.testBox{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:10px 16px;
+}
+
+.empty{
+  color:var(--muted);
+  text-align:center;
+  padding:20px;
 }
 
 footer{
@@ -326,22 +298,10 @@ footer{
 }
 
 @media(max-width:600px){
-
-  .container{
-    padding:11px;
-  }
-
-  header h1{
-    font-size:27px;
-  }
-
-  button{
-    width:100%;
-  }
-
-  .speedNumber{
-    font-size:40px;
-  }
+  .container{padding:11px}
+  header h1{font-size:27px}
+  button{width:100%}
+  .speedNumber{font-size:40px}
 }
 </style>
 </head>
@@ -350,7 +310,7 @@ footer{
 
 <header>
   <h1>📡 WiFi Analyzer Pro</h1>
-  <p>Real Internet & Network Diagnostics</p>
+  <p>Internet • DNS • IP • Speed • Location Diagnostics</p>
 </header>
 
 <div class="container">
@@ -367,6 +327,10 @@ footer{
 
     <button onclick="startLocation()">
       📍 Location
+    </button>
+
+    <button id="dnsBtn" onclick="testDNS()">
+      🌐 DNS Test
     </button>
 
     <button id="speedBtn" onclick="speedTest()">
@@ -446,44 +410,35 @@ footer{
       </div>
 
       <div class="card">
+        <div class="icon">🔗</div>
+        <div class="label">ASN</div>
+        <div class="value" id="asn">--</div>
+      </div>
+
+      <div class="card">
         <div class="icon">🌍</div>
         <div class="label">Country</div>
-        <div class="value" id="country">
-          --
-        </div>
+        <div class="value" id="country">--</div>
       </div>
 
       <div class="card">
         <div class="icon">🏙️</div>
         <div class="label">City</div>
-        <div class="value" id="city">
-          --
-        </div>
+        <div class="value" id="city">--</div>
       </div>
 
       <div class="card">
         <div class="icon">🕒</div>
         <div class="label">IP Timezone</div>
-        <div class="value" id="ipTimezone">
-          --
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🔗</div>
-        <div class="label">ASN</div>
-        <div class="value" id="asn">
-          --
-        </div>
+        <div class="value" id="ipTimezone">--</div>
       </div>
 
     </div>
 
     <div class="warning">
-      ⚠️ Browser থেকে কোনো IP-কে নিশ্চিতভাবে Static বা Dynamic
-      বলা যায় না। আপনার ISP/MikroTik backend থেকে lease/profile
-      information দিলে এখানে সত্যিকারের Static/Dynamic status
-      দেখানো যাবে।
+      Static/Dynamic IP browser থেকে নিশ্চিত করা যায় না।
+      আপনার ISP/MikroTik backend/API থেকে lease/profile information
+      দিলে verified status দেখানো যাবে।
     </div>
 
   </section>
@@ -500,47 +455,185 @@ footer{
       <div class="card">
         <div class="icon">📶</div>
         <div class="label">Connection Type</div>
-        <div class="value" id="connectionType">
-          --
-        </div>
+        <div class="value" id="connectionType">--</div>
       </div>
 
       <div class="card">
         <div class="icon">🚀</div>
         <div class="label">Estimated Downlink</div>
-        <div class="value" id="downlink">
-          --
-        </div>
+        <div class="value" id="downlink">--</div>
       </div>
 
       <div class="card">
         <div class="icon">⏱️</div>
         <div class="label">Browser RTT</div>
-        <div class="value" id="rtt">
-          --
-        </div>
+        <div class="value" id="rtt">--</div>
       </div>
 
       <div class="card">
         <div class="icon">💰</div>
         <div class="label">Data Saver</div>
-        <div class="value" id="metered">
-          --
-        </div>
+        <div class="value" id="metered">--</div>
       </div>
 
       <div class="card">
         <div class="icon">📱</div>
         <div class="label">Device</div>
-        <div class="value" id="device">
-          --
-        </div>
+        <div class="value" id="device">--</div>
       </div>
 
       <div class="card">
         <div class="icon">🌐</div>
         <div class="label">Browser</div>
-        <div class="value" id="browser">
+        <div class="value" id="browser">--</div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- DHCP / DNS -->
+
+  <section class="section">
+
+    <h2>🧩 DHCP / DNS Configuration</h2>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="icon">1️⃣</div>
+        <div class="label">DNS 1</div>
+        <div class="value">
+          8.8.8.8
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">2️⃣</div>
+        <div class="label">DNS 2</div>
+        <div class="value">
+          8.8.4.4
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">3️⃣</div>
+        <div class="label">DNS 3</div>
+        <div class="value">
+          1.1.1.1
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">4️⃣</div>
+        <div class="label">DNS 4</div>
+        <div class="value">
+          1.0.0.1
+        </div>
+      </div>
+
+    </div>
+
+    <div class="warning">
+      এগুলো public DNS resolver। এগুলো DHCP server নয়।
+      Browser সাধারণত আপনার router-এর আসল DHCP server,
+      DHCP pool বা lease list সরাসরি পড়তে পারে না।
+    </div>
+
+  </section>
+
+
+  <!-- DNS TEST -->
+
+  <section class="section">
+
+    <h2>🌐 Real DNS / Resolver Test</h2>
+
+    <div class="tableWrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Provider</th>
+            <th>Server</th>
+            <th>Protocol Test</th>
+            <th>Response</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody id="dnsResults">
+
+          <tr>
+            <td>Google</td>
+            <td>8.8.8.8</td>
+            <td>HTTPS</td>
+            <td>Not Tested</td>
+            <td>
+              <span class="badge">
+                WAITING
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Google</td>
+            <td>8.8.4.4</td>
+            <td>HTTPS</td>
+            <td>Not Tested</td>
+            <td>
+              <span class="badge">
+                WAITING
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Cloudflare</td>
+            <td>1.1.1.1</td>
+            <td>HTTPS</td>
+            <td>Not Tested</td>
+            <td>
+              <span class="badge">
+                WAITING
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Cloudflare</td>
+            <td>1.0.0.1</td>
+            <td>HTTPS</td>
+            <td>Not Tested</td>
+            <td>
+              <span class="badge">
+                WAITING
+              </span>
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="grid" style="margin-top:13px">
+
+      <div class="card">
+        <div class="icon">🏆</div>
+        <div class="label">Best Tested Resolver</div>
+        <div class="value green" id="bestDNS">
+          Not Tested
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">⏱️</div>
+        <div class="label">Best Response</div>
+        <div class="value" id="bestDNSms">
           --
         </div>
       </div>
@@ -548,9 +641,9 @@ footer{
     </div>
 
     <div class="note">
-      SSID, Wi-Fi channel, signal dBm, router password,
-      PPPoE password এবং router client list সাধারণ webpage
-      থেকে সরাসরি পাওয়া যায় না।
+      Browser থেকে সরাসরি UDP/53 DNS query করা যায় না।
+      তাই এখানে HTTPS endpoint দিয়ে real response-time test করা হচ্ছে।
+      এটি DNS server-এর raw UDP latency নয়।
     </div>
 
   </section>
@@ -582,10 +675,7 @@ footer{
       <div class="speedGrid">
 
         <div class="speedItem">
-          <div class="label">
-            Download
-          </div>
-
+          <div class="label">Download</div>
           <div class="value"
                id="download">
             Not Tested
@@ -593,10 +683,7 @@ footer{
         </div>
 
         <div class="speedItem">
-          <div class="label">
-            Upload
-          </div>
-
+          <div class="label">Upload</div>
           <div class="value"
                id="upload">
             Not Tested
@@ -604,10 +691,7 @@ footer{
         </div>
 
         <div class="speedItem">
-          <div class="label">
-            Latency
-          </div>
-
+          <div class="label">Latency</div>
           <div class="value"
                id="latency">
             Not Tested
@@ -648,17 +732,13 @@ footer{
       <div class="card">
         <div class="icon">🎯</div>
         <div class="label">Accuracy</div>
-        <div class="value" id="accuracy">
-          --
-        </div>
+        <div class="value" id="accuracy">--</div>
       </div>
 
       <div class="card">
         <div class="icon">🕒</div>
-        <div class="label">Last GPS Update</div>
-        <div class="value" id="locationTime">
-          --
-        </div>
+        <div class="label">Last Update</div>
+        <div class="value" id="locationTime">--</div>
       </div>
 
     </div>
@@ -718,7 +798,7 @@ footer{
   </section>
 
 
-  <!-- TEST -->
+  <!-- TESTS -->
 
   <section class="section">
 
@@ -751,12 +831,11 @@ footer{
             <th>Time</th>
             <th>IPv4</th>
             <th>IPv6</th>
-            <th>IP Type</th>
             <th>ISP</th>
+            <th>DNS</th>
             <th>Download</th>
             <th>Upload</th>
             <th>Latency</th>
-            <th>Location</th>
           </tr>
         </thead>
 
@@ -784,14 +863,37 @@ footer{
 <script>
 
 /* =====================================================
-   STORAGE
+   GLOBAL
 ===================================================== */
 
-let historyData = [];
+const DNS_SERVERS = [
+  {
+    provider:"Google",
+    ip:"8.8.8.8",
+    url:"https://dns.google/resolve?name=example.com&type=A"
+  },
+  {
+    provider:"Google",
+    ip:"8.8.4.4",
+    url:"https://dns.google/resolve?name=example.com&type=A"
+  },
+  {
+    provider:"Cloudflare",
+    ip:"1.1.1.1",
+    url:"https://cloudflare-dns.com/dns-query?name=example.com&type=A"
+  },
+  {
+    provider:"Cloudflare",
+    ip:"1.0.0.1",
+    url:"https://cloudflare-dns.com/dns-query?name=example.com&type=A"
+  }
+];
+
+
+let historyData=[];
 
 try{
-
-  historyData =
+  historyData=
     JSON.parse(
       localStorage.getItem(
         "wifiAnalyzerHistory"
@@ -799,18 +901,13 @@ try{
     );
 
   if(!Array.isArray(historyData)){
-    historyData = [];
+    historyData=[];
   }
 
 }catch(e){
-
-  historyData = [];
+  historyData=[];
 }
 
-
-/* =====================================================
-   HELPER
-===================================================== */
 
 function $(id){
   return document.getElementById(id);
@@ -819,55 +916,38 @@ function $(id){
 
 function setValue(id,value){
 
-  if(
+  $(id).textContent =
     value === undefined ||
     value === null ||
     value === ""
-  ){
-
-    $(id).textContent =
-      "Not Available";
-
-  }else{
-
-    $(id).textContent =
-      value;
-  }
+      ? "Not Available"
+      : value;
 }
 
 
 /* =====================================================
-   ONLINE STATUS
+   ONLINE
 ===================================================== */
 
 function updateOnline(){
 
-  const el =
+  const el=
     $("onlineStatus");
-
 
   if(navigator.onLine){
 
-    el.textContent =
-      "ONLINE";
-
-    el.className =
-      "statusOnline";
+    el.textContent="ONLINE";
+    el.className="statusOnline";
 
   }else{
 
-    el.textContent =
-      "OFFLINE";
-
-    el.className =
-      "statusOffline";
+    el.textContent="OFFLINE";
+    el.className="statusOffline";
   }
 
-
-  $("updated").textContent =
-    "Updated: " +
-    new Date()
-      .toLocaleTimeString();
+  $("updated").textContent=
+    "Updated: "+
+    new Date().toLocaleTimeString();
 }
 
 
@@ -888,9 +968,7 @@ window.addEventListener(
 
 function detectDevice(){
 
-  const ua =
-    navigator.userAgent;
-
+  const ua=navigator.userAgent;
 
   if(/iPhone/i.test(ua))
     return "iPhone";
@@ -916,9 +994,7 @@ function detectDevice(){
 
 function detectBrowser(){
 
-  const ua =
-    navigator.userAgent;
-
+  const ua=navigator.userAgent;
 
   if(/Edg\//i.test(ua))
     return "Edge";
@@ -940,16 +1016,15 @@ function detectBrowser(){
 
 
 /* =====================================================
-   NETWORK INFORMATION
+   NETWORK
 ===================================================== */
 
 function networkInfo(){
 
-  const c =
+  const c=
     navigator.connection ||
     navigator.mozConnection ||
     navigator.webkitConnection;
-
 
   if(!c){
 
@@ -976,7 +1051,6 @@ function networkInfo(){
     return;
   }
 
-
   setValue(
     "connectionType",
     c.effectiveType ||
@@ -984,31 +1058,26 @@ function networkInfo(){
     "Available"
   );
 
-
   setValue(
     "downlink",
-    typeof c.downlink === "number"
-      ? c.downlink + " Mbps"
+    typeof c.downlink==="number"
+      ? c.downlink+" Mbps"
       : "Not Available"
   );
-
 
   setValue(
     "rtt",
-    typeof c.rtt === "number"
-      ? c.rtt + " ms"
+    typeof c.rtt==="number"
+      ? c.rtt+" ms"
       : "Not Available"
   );
 
-
   setValue(
     "metered",
-    typeof c.saveData === "boolean"
-      ? (
-          c.saveData
-            ? "Yes"
-            : "No"
-        )
+    typeof c.saveData==="boolean"
+      ? c.saveData
+        ? "Yes"
+        : "No"
       : "Not Available"
   );
 }
@@ -1036,15 +1105,13 @@ async function getIP(){
   );
 
 
-  let ipv4 = null;
-  let ipv6 = null;
+  let ipv4=null;
+  let ipv6=null;
 
-
-  /* IPv4 */
 
   try{
 
-    const response =
+    const r=
       await fetch(
         "https://api.ipify.org?format=json",
         {
@@ -1052,31 +1119,25 @@ async function getIP(){
         }
       );
 
+    if(r.ok){
 
-    if(response.ok){
-
-      const data =
-        await response.json();
-
+      const d=
+        await r.json();
 
       if(
-        data &&
-        typeof data.ip === "string"
+        d &&
+        typeof d.ip==="string"
       ){
-
-        ipv4 =
-          data.ip;
+        ipv4=d.ip;
       }
     }
 
   }catch(e){}
 
 
-  /* IPv6 */
-
   try{
 
-    const response =
+    const r=
       await fetch(
         "https://api6.ipify.org?format=json",
         {
@@ -1084,20 +1145,16 @@ async function getIP(){
         }
       );
 
+    if(r.ok){
 
-    if(response.ok){
-
-      const data =
-        await response.json();
-
+      const d=
+        await r.json();
 
       if(
-        data &&
-        typeof data.ip === "string"
+        d &&
+        typeof d.ip==="string"
       ){
-
-        ipv6 =
-          data.ip;
+        ipv6=d.ip;
       }
     }
 
@@ -1109,18 +1166,11 @@ async function getIP(){
     ipv4 || "Not Available"
   );
 
-
   setValue(
     "ipv6",
     ipv6 || "Not Available"
   );
 
-
-  /*
-    IMPORTANT:
-    A browser cannot prove Static/Dynamic.
-    Therefore we NEVER fake the answer.
-  */
 
   setValue(
     "ipType",
@@ -1128,7 +1178,7 @@ async function getIP(){
   );
 
 
-  const selectedIP =
+  const selectedIP=
     ipv4 || ipv6;
 
 
@@ -1143,13 +1193,11 @@ async function getIP(){
   }
 
 
-  /* IP GEO */
-
   try{
 
-    const response =
+    const r=
       await fetch(
-        "https://ipwho.is/" +
+        "https://ipwho.is/"+
         encodeURIComponent(
           selectedIP
         ),
@@ -1158,53 +1206,44 @@ async function getIP(){
         }
       );
 
-
-    if(!response.ok)
+    if(!r.ok)
       throw new Error();
 
 
-    const data =
-      await response.json();
+    const d=
+      await r.json();
 
 
-    if(
-      data &&
-      data.success
-    ){
+    if(d && d.success){
 
       setValue(
         "isp",
-        data.connection?.isp ||
-        data.connection?.org
+        d.connection?.isp ||
+        d.connection?.org
       );
-
-
-      setValue(
-        "country",
-        data.country
-      );
-
-
-      setValue(
-        "city",
-        data.city
-      );
-
-
-      setValue(
-        "ipTimezone",
-        data.timezone?.id
-      );
-
 
       setValue(
         "asn",
-        data.connection?.asn
-          ? "AS" +
-            data.connection.asn
+        d.connection?.asn
+          ? "AS"+
+            d.connection.asn
           : "Not Available"
       );
 
+      setValue(
+        "country",
+        d.country
+      );
+
+      setValue(
+        "city",
+        d.city
+      );
+
+      setValue(
+        "ipTimezone",
+        d.timezone?.id
+      );
     }
 
   }catch(e){
@@ -1218,12 +1257,204 @@ async function getIP(){
 
 
 /* =====================================================
+   DNS TEST
+===================================================== */
+
+async function testOneDNS(server){
+
+  const start=
+    performance.now();
+
+
+  try{
+
+    const response=
+      await fetch(
+        server.url+
+        "&cacheBust="+
+        Date.now(),
+        {
+          method:"GET",
+          cache:"no-store",
+          mode:"cors",
+          headers:{
+            "Accept":
+              "application/dns-json,application/json"
+          }
+        }
+      );
+
+
+    const ms=
+      performance.now()-
+      start;
+
+
+    if(!response.ok){
+
+      return {
+        ok:false,
+        ms:null
+      };
+    }
+
+
+    await response.text();
+
+
+    return {
+      ok:true,
+      ms:ms
+    };
+
+  }catch(e){
+
+    return {
+      ok:false,
+      ms:null
+    };
+  }
+}
+
+
+async function testDNS(){
+
+  const btn=
+    $("dnsBtn");
+
+  btn.disabled=true;
+
+
+  const tbody=
+    $("dnsResults");
+
+  tbody.innerHTML="";
+
+
+  const results=[];
+
+
+  for(
+    const server of DNS_SERVERS
+  ){
+
+    const tr=
+      document.createElement("tr");
+
+
+    tr.innerHTML=`
+      <td>${server.provider}</td>
+      <td>${server.ip}</td>
+      <td>HTTPS DNS API</td>
+      <td>Testing...</td>
+      <td>
+        <span class="badge">
+          TESTING
+        </span>
+      </td>
+    `;
+
+
+    tbody.appendChild(tr);
+
+
+    const result=
+      await testOneDNS(
+        server
+      );
+
+
+    results.push({
+      ...server,
+      ...result
+    });
+
+
+    if(result.ok){
+
+      tr.cells[3].textContent=
+        result.ms.toFixed(0)+
+        " ms";
+
+      tr.cells[4].innerHTML=
+        `<span class="badge pass">
+          PASS
+        </span>`;
+
+    }else{
+
+      tr.cells[3].textContent=
+        "Not Available";
+
+      tr.cells[4].innerHTML=
+        `<span class="badge fail">
+          FAILED
+        </span>`;
+    }
+  }
+
+
+  const working=
+    results.filter(
+      x =>
+        x.ok &&
+        Number.isFinite(x.ms)
+    );
+
+
+  if(working.length){
+
+    const best=
+      working.reduce(
+        (a,b)=>
+          a.ms < b.ms
+            ? a
+            : b
+      );
+
+
+    setValue(
+      "bestDNS",
+      best.provider+
+      " — "+
+      best.ip
+    );
+
+
+    setValue(
+      "bestDNSms",
+      best.ms.toFixed(0)+
+      " ms"
+    );
+
+  }else{
+
+    setValue(
+      "bestDNS",
+      "No successful test"
+    );
+
+    setValue(
+      "bestDNSms",
+      "Not Available"
+    );
+  }
+
+
+  btn.disabled=false;
+
+
+  return results;
+}
+
+
+/* =====================================================
    LATENCY
 ===================================================== */
 
 async function measureLatency(){
 
-  const samples = [];
+  const samples=[];
 
 
   for(
@@ -1232,14 +1463,14 @@ async function measureLatency(){
     i++
   ){
 
-    const start =
+    const start=
       performance.now();
 
 
     try{
 
       await fetch(
-        "https://www.google.com/generate_204?" +
+        "https://www.google.com/generate_204?"+
         Date.now(),
         {
           mode:"no-cors",
@@ -1248,20 +1479,18 @@ async function measureLatency(){
       );
 
 
-      const ms =
-        performance.now() -
+      const ms=
+        performance.now()-
         start;
 
 
       if(
         Number.isFinite(ms)
       ){
-
         samples.push(ms);
       }
 
     }catch(e){}
-
   }
 
 
@@ -1269,29 +1498,26 @@ async function measureLatency(){
     return null;
 
 
-  return (
-    samples.reduce(
-      (a,b)=>a+b,
-      0
-    ) / samples.length
-  );
+  return samples.reduce(
+    (a,b)=>a+b,
+    0
+  ) / samples.length;
 }
 
 
 /* =====================================================
-   DOWNLOAD TEST
+   DOWNLOAD
 ===================================================== */
 
 async function downloadTest(){
 
-  const sizes = [
+  const sizes=[
     1000000,
     5000000,
     10000000
   ];
 
-
-  const results = [];
+  const results=[];
 
 
   for(
@@ -1300,15 +1526,15 @@ async function downloadTest(){
 
     try{
 
-      const start =
+      const start=
         performance.now();
 
 
-      const response =
+      const r=
         await fetch(
-          "https://speed.cloudflare.com/__down?bytes=" +
-          bytes +
-          "&cacheBust=" +
+          "https://speed.cloudflare.com/__down?bytes="+
+          bytes+
+          "&cacheBust="+
           Date.now(),
           {
             cache:"no-store"
@@ -1316,42 +1542,40 @@ async function downloadTest(){
         );
 
 
-      if(!response.ok)
+      if(!r.ok)
         continue;
 
 
-      const buffer =
-        await response.arrayBuffer();
+      const buffer=
+        await r.arrayBuffer();
 
 
-      const seconds =
+      const seconds=
         (
-          performance.now() -
+          performance.now()-
           start
-        ) / 1000;
+        )/1000;
 
 
-      if(seconds <= 0)
+      if(seconds<=0)
         continue;
 
 
-      const mbps =
-        buffer.byteLength *
-        8 /
-        seconds /
+      const mbps=
+        buffer.byteLength*
+        8/
+        seconds/
         1000000;
 
 
       if(
         Number.isFinite(mbps) &&
-        mbps > 0
+        mbps>0
       ){
-
         results.push(mbps);
       }
 
     }catch(e){}
-
   }
 
 
@@ -1366,18 +1590,17 @@ async function downloadTest(){
 
 
 /* =====================================================
-   UPLOAD TEST
+   UPLOAD
 ===================================================== */
 
 async function uploadTest(){
 
-  const sizes = [
+  const sizes=[
     250000,
     1000000
   ];
 
-
-  const results = [];
+  const results=[];
 
 
   for(
@@ -1386,19 +1609,19 @@ async function uploadTest(){
 
     try{
 
-      const data =
+      const data=
         new Uint8Array(
           bytes
         );
 
 
-      const start =
+      const start=
         performance.now();
 
 
-      const response =
+      const r=
         await fetch(
-          "https://speed.cloudflare.com/__up?cacheBust=" +
+          "https://speed.cloudflare.com/__up?cacheBust="+
           Date.now(),
           {
             method:"POST",
@@ -1408,38 +1631,36 @@ async function uploadTest(){
         );
 
 
-      if(!response.ok)
+      if(!r.ok)
         continue;
 
 
-      const seconds =
+      const seconds=
         (
-          performance.now() -
+          performance.now()-
           start
-        ) / 1000;
+        )/1000;
 
 
-      if(seconds <= 0)
+      if(seconds<=0)
         continue;
 
 
-      const mbps =
-        bytes *
-        8 /
-        seconds /
+      const mbps=
+        bytes*
+        8/
+        seconds/
         1000000;
 
 
       if(
         Number.isFinite(mbps) &&
-        mbps > 0
+        mbps>0
       ){
-
         results.push(mbps);
       }
 
     }catch(e){}
-
   }
 
 
@@ -1459,120 +1680,80 @@ async function uploadTest(){
 
 async function speedTest(){
 
-  const btn =
+  const btn=
     $("speedBtn");
 
-
-  btn.disabled =
-    true;
+  btn.disabled=true;
 
 
-  $("speedStatus").textContent =
+  $("speedStatus").textContent=
     "Testing latency...";
 
-
   $("speedProgress")
-    .style.width =
-    "10%";
+    .style.width="10%";
 
 
-  const latency =
+  const latency=
     await measureLatency();
 
 
-  if(latency !== null){
-
-    setValue(
-      "latency",
-      latency.toFixed(0) +
-      " ms"
-    );
-
-  }else{
-
-    setValue(
-      "latency",
-      "Not Available"
-    );
-  }
+  setValue(
+    "latency",
+    latency===null
+      ? "Not Available"
+      : latency.toFixed(0)+" ms"
+  );
 
 
-  $("speedStatus").textContent =
+  $("speedStatus").textContent=
     "Testing download...";
 
-
   $("speedProgress")
-    .style.width =
-    "35%";
+    .style.width="35%";
 
 
-  const download =
+  const download=
     await downloadTest();
 
 
-  if(download !== null){
-
-    setValue(
-      "download",
-      download.toFixed(2) +
-      " Mbps"
-    );
-
-
-    $("speedNumber")
-      .textContent =
-      download.toFixed(2);
-
-  }else{
-
-    setValue(
-      "download",
-      "Not Available"
-    );
+  setValue(
+    "download",
+    download===null
+      ? "Not Available"
+      : download.toFixed(2)+" Mbps"
+  );
 
 
-    $("speedNumber")
-      .textContent =
-      "--";
-  }
+  $("speedNumber").textContent=
+    download===null
+      ? "--"
+      : download.toFixed(2);
 
 
-  $("speedStatus").textContent =
+  $("speedStatus").textContent=
     "Testing upload...";
 
-
   $("speedProgress")
-    .style.width =
-    "70%";
+    .style.width="70%";
 
 
-  const upload =
+  const upload=
     await uploadTest();
 
 
-  if(upload !== null){
-
-    setValue(
-      "upload",
-      upload.toFixed(2) +
-      " Mbps"
-    );
-
-  }else{
-
-    setValue(
-      "upload",
-      "Not Available"
-    );
-  }
+  setValue(
+    "upload",
+    upload===null
+      ? "Not Available"
+      : upload.toFixed(2)+" Mbps"
+  );
 
 
   $("speedProgress")
-    .style.width =
-    "100%";
+    .style.width="100%";
 
 
-  $("speedStatus").textContent =
+  $("speedStatus").textContent=
     "Test complete";
 
 
@@ -1583,11 +1764,7 @@ async function speedTest(){
   );
 
 
-  btn.disabled =
-    false;
-
-
-  runTests();
+  btn.disabled=false;
 }
 
 
@@ -1595,8 +1772,7 @@ async function speedTest(){
    LOCATION
 ===================================================== */
 
-let locationWatch =
-  null;
+let locationWatch=null;
 
 
 function startLocation(){
@@ -1615,7 +1791,7 @@ function startLocation(){
 
 
   if(
-    locationWatch !== null
+    locationWatch!==null
   ){
 
     navigator.geolocation.clearWatch(
@@ -1624,18 +1800,18 @@ function startLocation(){
   }
 
 
-  locationWatch =
+  locationWatch=
     navigator.geolocation.watchPosition(
 
-      position => {
+      position=>{
 
-        const latitude =
+        const latitude=
           position.coords.latitude;
 
-        const longitude =
+        const longitude=
           position.coords.longitude;
 
-        const accuracy =
+        const accuracy=
           position.coords.accuracy;
 
 
@@ -1644,20 +1820,17 @@ function startLocation(){
           latitude.toFixed(6)
         );
 
-
         setValue(
           "lon",
           longitude.toFixed(6)
         );
 
-
         setValue(
           "accuracy",
           Math.round(
             accuracy
-          ) + " m"
+          )+" m"
         );
-
 
         setValue(
           "locationTime",
@@ -1666,53 +1839,39 @@ function startLocation(){
         );
 
 
-        const map =
+        const map=
           $("map");
 
 
-        map.href =
-          "https://www.google.com/maps?q=" +
+        map.href=
+          "https://www.google.com/maps?q="+
           encodeURIComponent(
-            latitude +
-            "," +
+            latitude+
+            ","+
             longitude
           );
 
 
-        map.style.display =
+        map.style.display=
           "inline-block";
 
       },
 
-      error => {
+      error=>{
 
-        if(
-          error.code === 1
-        ){
+        setValue(
+          "lat",
+          error.code===1
+            ? "Permission Denied"
+            : "Unavailable"
+        );
 
-          setValue(
-            "lat",
-            "Permission Denied"
-          );
-
-          setValue(
-            "lon",
-            "Permission Denied"
-          );
-
-        }else{
-
-          setValue(
-            "lat",
-            "Location Unavailable"
-          );
-
-          setValue(
-            "lon",
-            "Location Unavailable"
-          );
-        }
-
+        setValue(
+          "lon",
+          error.code===1
+            ? "Permission Denied"
+            : "Unavailable"
+        );
       },
 
       {
@@ -1734,20 +1893,16 @@ function saveHistory(
   latency
 ){
 
-  const location =
-    (
-      $("lat").textContent !==
-      "Permission required" &&
-      $("lat").textContent !==
-      "Not Available"
-    )
-      ? $("lat").textContent +
-        ", " +
+  const location=
+    $("lat").textContent !==
+    "Permission required"
+      ? $("lat").textContent+
+        ", "+
         $("lon").textContent
       : "Not Available";
 
 
-  const record = {
+  const record={
 
     time:
       new Date()
@@ -1759,32 +1914,28 @@ function saveHistory(
     ipv6:
       $("ipv6").textContent,
 
-    ipType:
-      $("ipType").textContent,
-
     isp:
       $("isp").textContent,
 
+    dns:
+      $("bestDNS").textContent,
+
     download:
-      download === null
+      download===null
         ? "Not Available"
-        : download.toFixed(2) +
-          " Mbps",
+        : download.toFixed(2)+" Mbps",
 
     upload:
-      upload === null
+      upload===null
         ? "Not Available"
-        : upload.toFixed(2) +
-          " Mbps",
+        : upload.toFixed(2)+" Mbps",
 
     latency:
-      latency === null
+      latency===null
         ? "Not Available"
-        : latency.toFixed(0) +
-          " ms",
+        : latency.toFixed(0)+" ms",
 
-    location:
-      location
+    location
   };
 
 
@@ -1793,7 +1944,7 @@ function saveHistory(
   );
 
 
-  historyData =
+  historyData=
     historyData.slice(
       0,
       100
@@ -1818,24 +1969,23 @@ function saveHistory(
 
 function renderHistory(){
 
-  const body =
+  const body=
     $("history");
 
 
-  body.innerHTML =
-    "";
+  body.innerHTML="";
 
 
-  $("noHistory").style.display =
+  $("noHistory").style.display=
     historyData.length
       ? "none"
       : "block";
 
 
   historyData.forEach(
-    item => {
+    item=>{
 
-      const tr =
+      const tr=
         document.createElement(
           "tr"
         );
@@ -1845,25 +1995,21 @@ function renderHistory(){
         item.time,
         item.ipv4,
         item.ipv6,
-        item.ipType,
         item.isp,
+        item.dns,
         item.download,
         item.upload,
-        item.latency,
-        item.location
-
+        item.latency
       ].forEach(
-        value => {
+        value=>{
 
-          const td =
+          const td=
             document.createElement(
               "td"
             );
 
-
-          td.textContent =
+          td.textContent=
             value || "Not Available";
-
 
           tr.appendChild(td);
         }
@@ -1877,25 +2023,25 @@ function renderHistory(){
 
 
 /* =====================================================
-   FEATURE TEST
+   FEATURES
 ===================================================== */
 
 function testStorage(){
 
   try{
 
-    const key =
-      "__test__";
+    const key=
+      "__wifi_test__";
 
     localStorage.setItem(
       key,
       "1"
     );
 
-    const result =
+    const result=
       localStorage.getItem(
         key
-      ) === "1";
+      )==="1";
 
     localStorage.removeItem(
       key
@@ -1910,41 +2056,23 @@ function testStorage(){
 }
 
 
-function testFeatures(){
+function runTests(){
 
-  const tests = {
+  const tests={
 
     "Internet Connection":
       navigator.onLine,
 
     "Public IPv4":
-      $("ipv4").textContent !==
-      "Not Available" &&
-      $("ipv4").textContent !==
-      "Checking...",
-
-    "Public IPv6":
-      $("ipv6").textContent !==
-      "Not Available" &&
-      $("ipv6").textContent !==
-      "Checking...",
+      $("ipv4").textContent!=="Not Available" &&
+      $("ipv4").textContent!=="Checking...",
 
     "ISP Detection":
-      $("isp").textContent !==
-      "Not Available" &&
-      $("isp").textContent !==
-      "Checking...",
+      $("isp").textContent!=="Not Available" &&
+      $("isp").textContent!=="Checking...",
 
-    "IP Location":
-      $("city").textContent !==
-      "--",
-
-    "Network Information":
-      !!(
-        navigator.connection ||
-        navigator.mozConnection ||
-        navigator.webkitConnection
-      ),
+    "DNS Test":
+      $("bestDNS").textContent!=="Not Tested",
 
     "GPS":
       "geolocation" in navigator,
@@ -1952,63 +2080,36 @@ function testFeatures(){
     "Local Storage":
       testStorage(),
 
-    "Online API":
-      "onLine" in navigator,
-
     "HTTPS":
-      location.protocol ===
-      "https:" ||
-      location.hostname ===
-      "localhost",
+      location.protocol==="https:" ||
+      location.hostname==="localhost",
 
     "Device Detection":
-      detectDevice() !==
-      "Unknown",
+      detectDevice()!=="Unknown",
 
     "Browser Detection":
-      detectBrowser() !==
-      "Unknown",
-
-    "Timezone":
-      !!Intl.DateTimeFormat()
-        .resolvedOptions()
-        .timeZone,
+      detectBrowser()!=="Unknown",
 
     "Speed Test":
-      $("download").textContent !==
-      "Not Tested",
+      $("download").textContent!=="Not Tested",
 
     "Static IP Verification":
       false
   };
 
 
-  const unsupported = [
-    "SSID",
-    "Wi-Fi Signal dBm",
-    "Wi-Fi Channel",
-    "Wi-Fi Frequency",
-    "Router LAN IP",
-    "Router Uptime",
-    "Router Model",
-    "Connected Clients",
-    "PPPoE Username",
-    "PPPoE Password"
-  ];
-
-
-  let html =
-    "";
+  let html="";
 
 
   Object.entries(
     tests
   ).forEach(
-    ([name,pass]) => {
+    ([name,pass])=>{
 
-      html += `
+      html+=`
         <div class="test">
           <span>${name}</span>
+
           <span class="badge ${
             pass
               ? "pass"
@@ -2026,13 +2127,29 @@ function testFeatures(){
   );
 
 
-  unsupported.forEach(
-    name => {
+  const backendFeatures=[
+    "SSID",
+    "BSSID / Wi-Fi MAC",
+    "Wi-Fi Signal",
+    "Wi-Fi Channel",
+    "Router LAN IP",
+    "DHCP Lease",
+    "DHCP Pool",
+    "PPPoE Username",
+    "Router Uptime",
+    "Connected Clients"
+  ];
 
-      html += `
+
+  backendFeatures.forEach(
+    name=>{
+
+      html+=`
         <div class="test">
           <span>${name}</span>
-          <span class="badge unsupported">
+
+          <span class="badge"
+                style="color:var(--yellow)">
             BACKEND REQUIRED
           </span>
         </div>
@@ -2041,7 +2158,7 @@ function testFeatures(){
   );
 
 
-  $("tests").innerHTML =
+  $("tests").innerHTML=
     html;
 }
 
@@ -2079,34 +2196,35 @@ async function refreshAll(){
 
   await getIP();
 
-
-  testFeatures();
+  runTests();
 }
 
 
 /* =====================================================
-   TEST ALL
+   ALL
 ===================================================== */
 
 async function runAll(){
 
-  const btn =
+  const btn=
     $("allBtn");
 
-
-  btn.disabled =
-    true;
+  btn.disabled=true;
 
 
   await refreshAll();
 
+
+  await testDNS();
+
+
   await speedTest();
 
-  testFeatures();
+
+  runTests();
 
 
-  btn.disabled =
-    false;
+  btn.disabled=false;
 }
 
 
@@ -2116,9 +2234,7 @@ async function runAll(){
 
 function exportJSON(){
 
-  if(
-    !historyData.length
-  ){
+  if(!historyData.length){
 
     alert(
       "No history available."
@@ -2128,7 +2244,7 @@ function exportJSON(){
   }
 
 
-  const blob =
+  const blob=
     new Blob(
       [
         JSON.stringify(
@@ -2157,9 +2273,7 @@ function exportJSON(){
 
 function exportCSV(){
 
-  if(
-    !historyData.length
-  ){
+  if(!historyData.length){
 
     alert(
       "No history available."
@@ -2169,41 +2283,39 @@ function exportCSV(){
   }
 
 
-  const headers = [
+  const headers=[
     "Time",
     "IPv4",
     "IPv6",
-    "IP Type",
     "ISP",
+    "DNS",
     "Download",
     "Upload",
-    "Latency",
-    "Location"
+    "Latency"
   ];
 
 
-  const rows =
+  const rows=
     historyData.map(
-      item =>
+      item=>
         [
           item.time,
           item.ipv4,
           item.ipv6,
-          item.ipType,
           item.isp,
+          item.dns,
           item.download,
           item.upload,
-          item.latency,
-          item.location
+          item.latency
         ]
         .map(csv)
         .join(",")
     );
 
 
-  const content =
-    headers.join(",") +
-    "\n" +
+  const content=
+    headers.join(",")+
+    "\n"+
     rows.join("\n");
 
 
@@ -2221,14 +2333,14 @@ function exportCSV(){
 
 function csv(value){
 
-  return '"' +
+  return '"'+
     String(
       value ?? ""
     )
     .replaceAll(
       '"',
       '""'
-    ) +
+    )+
     '"';
 }
 
@@ -2238,43 +2350,35 @@ function downloadBlob(
   filename
 ){
 
-  const url =
+  const url=
     URL.createObjectURL(
       blob
     );
 
 
-  const a =
+  const a=
     document.createElement(
       "a"
     );
 
 
-  a.href =
-    url;
-
-  a.download =
-    filename;
+  a.href=url;
+  a.download=filename;
 
 
-  document.body.appendChild(
-    a
-  );
-
+  document.body.appendChild(a);
 
   a.click();
 
   a.remove();
 
 
-  URL.revokeObjectURL(
-    url
-  );
+  URL.revokeObjectURL(url);
 }
 
 
 /* =====================================================
-   CLEAR
+   CLEAR HISTORY
 ===================================================== */
 
 function clearHistory(){
@@ -2284,12 +2388,11 @@ function clearHistory(){
       "Delete all local history?"
     )
   ){
-
     return;
   }
 
 
-  historyData = [];
+  historyData=[];
 
 
   try{
@@ -2306,7 +2409,7 @@ function clearHistory(){
 
 
 /* =====================================================
-   INITIALIZE
+   INIT
 ===================================================== */
 
 renderHistory();
@@ -2338,20 +2441,13 @@ setValue(
 
 getIP();
 
-testFeatures();
+runTests();
 
-
-/*
-  Browser-readable network
-  information refreshes every 5 seconds.
-*/
 
 setInterval(
-  () => {
-
+  ()=>{
     updateOnline();
     networkInfo();
-
   },
   5000
 );
