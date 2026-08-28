@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#07111f">
+
 <title>WiFi Analyzer Pro</title>
 
 <style>
@@ -21,7 +22,9 @@
   --yellow:#ffd34d;
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -97,8 +100,13 @@ button:disabled{
   margin-bottom:22px;
 }
 
-.statusOnline{color:var(--green)}
-.statusOffline{color:var(--red)}
+.statusOnline{
+  color:var(--green);
+}
+
+.statusOffline{
+  color:var(--red);
+}
 
 .section{
   margin-top:25px;
@@ -170,7 +178,9 @@ th,td{
   border-bottom:1px solid var(--border);
 }
 
-th{color:#69afff}
+th{
+  color:#69afff;
+}
 
 .badge{
   padding:6px 10px;
@@ -202,36 +212,43 @@ th{color:#69afff}
   line-height:1.6;
 }
 
+/* SPEED */
+
 .speedCard{
   text-align:center;
   padding:25px;
 }
 
 .speedNumber{
-  font-size:48px;
+  font-size:50px;
   font-weight:900;
   color:#61aeff;
-  margin:10px;
+  margin:12px;
+}
+
+.speedUnit{
+  color:var(--muted);
+  font-size:14px;
 }
 
 .progress{
-  height:9px;
+  height:10px;
   background:#1b2d43;
   border-radius:20px;
   overflow:hidden;
-  margin:15px 0;
+  margin:18px 0;
 }
 
 .progress div{
   height:100%;
-  width:0;
+  width:0%;
   background:linear-gradient(
     90deg,
     var(--blue),
     var(--cyan),
     var(--green)
   );
-  transition:.2s;
+  transition:.15s linear;
 }
 
 .speedGrid{
@@ -246,6 +263,15 @@ th{color:#69afff}
   background:var(--card2);
   padding:15px;
   border-radius:12px;
+}
+
+.serverBox{
+  margin-top:15px;
+  background:#081522;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:13px;
+  text-align:left;
 }
 
 .map{
@@ -298,10 +324,22 @@ footer{
 }
 
 @media(max-width:600px){
-  .container{padding:11px}
-  header h1{font-size:27px}
-  button{width:100%}
-  .speedNumber{font-size:40px}
+
+  .container{
+    padding:11px;
+  }
+
+  header h1{
+    font-size:27px;
+  }
+
+  button{
+    width:100%;
+  }
+
+  .speedNumber{
+    font-size:40px;
+  }
 }
 </style>
 </head>
@@ -315,542 +353,578 @@ footer{
 
 <div class="container">
 
-  <div class="toolbar">
+<!-- TOOLBAR -->
 
-    <button id="allBtn" onclick="runAll()">
-      🧪 Test All
-    </button>
+<div class="toolbar">
 
-    <button onclick="refreshAll()">
-      🔄 Refresh
-    </button>
+  <button id="allBtn" onclick="runAll()">
+    🧪 Test All
+  </button>
 
-    <button onclick="startLocation()">
-      📍 Location
-    </button>
+  <button onclick="refreshAll()">
+    🔄 Refresh
+  </button>
 
-    <button id="dnsBtn" onclick="testDNS()">
-      🌐 DNS Test
-    </button>
+  <button onclick="startLocation()">
+    📍 Location
+  </button>
 
-    <button id="speedBtn" onclick="speedTest()">
-      ⚡ Speed Test
-    </button>
+  <button id="dnsBtn" onclick="testDNS()">
+    🌐 DNS Test
+  </button>
 
-    <button class="secondary"
-            onclick="exportJSON()">
-      JSON
-    </button>
+  <button id="speedBtn" onclick="speedTest()">
+    ⚡ Speed Test
+  </button>
 
-    <button class="secondary"
-            onclick="exportCSV()">
-      CSV
-    </button>
+  <button class="secondary"
+          onclick="exportJSON()">
+    JSON
+  </button>
 
-    <button class="danger"
-            onclick="clearHistory()">
-      Clear History
-    </button>
+  <button class="secondary"
+          onclick="exportCSV()">
+    CSV
+  </button>
 
+  <button class="danger"
+          onclick="clearHistory()">
+    Clear History
+  </button>
+
+</div>
+
+
+<!-- STATUS -->
+
+<div class="status">
+
+  <div>
+    Internet:
+    <b id="onlineStatus">Checking...</b>
   </div>
 
+  <div id="updated">
+    Updated: --
+  </div>
 
-  <div class="status">
+</div>
+
+
+<!-- PUBLIC IP -->
+
+<section class="section">
+
+<h2>🌐 Public IP & ISP</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="icon">4️⃣</div>
+    <div class="label">Public IPv4</div>
+    <div class="value" id="ipv4">
+      Checking...
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">6️⃣</div>
+    <div class="label">Public IPv6</div>
+    <div class="value" id="ipv6">
+      Checking...
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">📌</div>
+    <div class="label">IP Type</div>
+    <div class="value yellow" id="ipType">
+      Unknown
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🏢</div>
+    <div class="label">ISP / Organization</div>
+    <div class="value" id="isp">
+      Checking...
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🔗</div>
+    <div class="label">ASN</div>
+    <div class="value" id="asn">--</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🌍</div>
+    <div class="label">Country</div>
+    <div class="value" id="country">--</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🏙️</div>
+    <div class="label">City</div>
+    <div class="value" id="city">--</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🕒</div>
+    <div class="label">IP Timezone</div>
+    <div class="value" id="ipTimezone">--</div>
+  </div>
+
+</div>
+
+<div class="warning">
+  Static/Dynamic IP browser থেকে নির্ভরযোগ্যভাবে নির্ধারণ করা যায় না।
+  Router/MikroTik backend/API লাগবে।
+</div>
+
+</section>
+
+
+<!-- NETWORK -->
+
+<section class="section">
+
+<h2>📡 Network Information</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="icon">📶</div>
+    <div class="label">Connection Type</div>
+    <div class="value" id="connectionType">--</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🚀</div>
+    <div class="label">Browser Downlink</div>
+    <div class="value" id="downlink">--</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">⏱️</div>
+    <div class="label">Browser RTT</div>
+    <div class="value" id="rtt">--</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">💾</div>
+    <div class="label">Data Saver</div>
+    <div class="value" id="metered">--</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">📱</div>
+    <div class="label">Device</div>
+    <div class="value" id="device">--</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🌐</div>
+    <div class="label">Browser</div>
+    <div class="value" id="browser">--</div>
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- DHCP DNS -->
+
+<section class="section">
+
+<h2>🧩 DHCP / DNS</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="icon">1️⃣</div>
+    <div class="label">DNS 1</div>
+    <div class="value">8.8.8.8</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">2️⃣</div>
+    <div class="label">DNS 2</div>
+    <div class="value">8.8.4.4</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">3️⃣</div>
+    <div class="label">DNS 3</div>
+    <div class="value">1.1.1.1</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">4️⃣</div>
+    <div class="label">DNS 4</div>
+    <div class="value">1.0.0.1</div>
+  </div>
+
+</div>
+
+<div class="warning">
+  এগুলো public DNS resolver। এগুলো DHCP server নয়।
+  আসল DHCP lease/pool দেখতে router বা backend API প্রয়োজন।
+</div>
+
+</section>
+
+
+<!-- DNS TEST -->
+
+<section class="section">
+
+<h2>🌐 DNS Resolver Test</h2>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+<tr>
+  <th>Provider</th>
+  <th>Server</th>
+  <th>Test</th>
+  <th>Response</th>
+  <th>Status</th>
+</tr>
+</thead>
+
+<tbody id="dnsResults">
+
+<tr>
+  <td>Google</td>
+  <td>8.8.8.8</td>
+  <td>HTTPS</td>
+  <td>Not Tested</td>
+  <td>
+    <span class="badge">WAITING</span>
+  </td>
+</tr>
+
+<tr>
+  <td>Google</td>
+  <td>8.8.4.4</td>
+  <td>HTTPS</td>
+  <td>Not Tested</td>
+  <td>
+    <span class="badge">WAITING</span>
+  </td>
+</tr>
+
+<tr>
+  <td>Cloudflare</td>
+  <td>1.1.1.1</td>
+  <td>HTTPS</td>
+  <td>Not Tested</td>
+  <td>
+    <span class="badge">WAITING</span>
+  </td>
+</tr>
+
+<tr>
+  <td>Cloudflare</td>
+  <td>1.0.0.1</td>
+  <td>HTTPS</td>
+  <td>Not Tested</td>
+  <td>
+    <span class="badge">WAITING</span>
+  </td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="grid" style="margin-top:13px">
+
+  <div class="card">
+    <div class="icon">🏆</div>
+    <div class="label">Best Resolver</div>
+    <div class="value green" id="bestDNS">
+      Not Tested
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">⏱️</div>
+    <div class="label">Best Response</div>
+    <div class="value" id="bestDNSms">
+      --
+    </div>
+  </div>
+
+</div>
+
+<div class="note">
+  Browser থেকে raw UDP/53 DNS test করা যায় না।
+  তাই HTTPS DNS endpoint দিয়ে response test করা হচ্ছে।
+</div>
+
+</section>
+
+
+<!-- SPEED TEST -->
+
+<section class="section">
+
+<h2>⚡ Internet Speed Test</h2>
+
+<div class="card speedCard">
+
+  <div id="speedStatus">
+    Ready
+  </div>
+
+  <div class="speedNumber"
+       id="speedNumber">
+    --
+  </div>
+
+  <div class="speedUnit">
+    Mbps
+  </div>
+
+  <div class="progress">
+    <div id="speedProgress"></div>
+  </div>
+
+  <div class="serverBox">
 
     <div>
-      Internet:
-      <b id="onlineStatus">Checking...</b>
-    </div>
-
-    <div id="updated">
-      Updated: --
-    </div>
-
-  </div>
-
-
-  <!-- PUBLIC IP -->
-
-  <section class="section">
-
-    <h2>🌐 Public IP & ISP</h2>
-
-    <div class="grid">
-
-      <div class="card">
-        <div class="icon">4️⃣</div>
-        <div class="label">Public IPv4</div>
-        <div class="value" id="ipv4">
-          Checking...
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">6️⃣</div>
-        <div class="label">Public IPv6</div>
-        <div class="value" id="ipv6">
-          Checking...
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">📌</div>
-        <div class="label">IP Type</div>
-        <div class="value yellow" id="ipType">
-          Unknown
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🏢</div>
-        <div class="label">ISP / Organization</div>
-        <div class="value" id="isp">
-          Checking...
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🔗</div>
-        <div class="label">ASN</div>
-        <div class="value" id="asn">--</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🌍</div>
-        <div class="label">Country</div>
-        <div class="value" id="country">--</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🏙️</div>
-        <div class="label">City</div>
-        <div class="value" id="city">--</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🕒</div>
-        <div class="label">IP Timezone</div>
-        <div class="value" id="ipTimezone">--</div>
-      </div>
-
-    </div>
-
-    <div class="warning">
-      Static/Dynamic IP browser থেকে নিশ্চিত করা যায় না।
-      আপনার ISP/MikroTik backend/API থেকে lease/profile information
-      দিলে verified status দেখানো যাবে।
-    </div>
-
-  </section>
-
-
-  <!-- NETWORK -->
-
-  <section class="section">
-
-    <h2>📡 Network Information</h2>
-
-    <div class="grid">
-
-      <div class="card">
-        <div class="icon">📶</div>
-        <div class="label">Connection Type</div>
-        <div class="value" id="connectionType">--</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🚀</div>
-        <div class="label">Estimated Downlink</div>
-        <div class="value" id="downlink">--</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">⏱️</div>
-        <div class="label">Browser RTT</div>
-        <div class="value" id="rtt">--</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">💰</div>
-        <div class="label">Data Saver</div>
-        <div class="value" id="metered">--</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">📱</div>
-        <div class="label">Device</div>
-        <div class="value" id="device">--</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🌐</div>
-        <div class="label">Browser</div>
-        <div class="value" id="browser">--</div>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- DHCP / DNS -->
-
-  <section class="section">
-
-    <h2>🧩 DHCP / DNS Configuration</h2>
-
-    <div class="grid">
-
-      <div class="card">
-        <div class="icon">1️⃣</div>
-        <div class="label">DNS 1</div>
-        <div class="value">
-          8.8.8.8
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">2️⃣</div>
-        <div class="label">DNS 2</div>
-        <div class="value">
-          8.8.4.4
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">3️⃣</div>
-        <div class="label">DNS 3</div>
-        <div class="value">
-          1.1.1.1
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">4️⃣</div>
-        <div class="label">DNS 4</div>
-        <div class="value">
-          1.0.0.1
-        </div>
-      </div>
-
-    </div>
-
-    <div class="warning">
-      এগুলো public DNS resolver। এগুলো DHCP server নয়।
-      Browser সাধারণত আপনার router-এর আসল DHCP server,
-      DHCP pool বা lease list সরাসরি পড়তে পারে না।
-    </div>
-
-  </section>
-
-
-  <!-- DNS TEST -->
-
-  <section class="section">
-
-    <h2>🌐 Real DNS / Resolver Test</h2>
-
-    <div class="tableWrap">
-
-      <table>
-
-        <thead>
-          <tr>
-            <th>Provider</th>
-            <th>Server</th>
-            <th>Protocol Test</th>
-            <th>Response</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-
-        <tbody id="dnsResults">
-
-          <tr>
-            <td>Google</td>
-            <td>8.8.8.8</td>
-            <td>HTTPS</td>
-            <td>Not Tested</td>
-            <td>
-              <span class="badge">
-                WAITING
-              </span>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Google</td>
-            <td>8.8.4.4</td>
-            <td>HTTPS</td>
-            <td>Not Tested</td>
-            <td>
-              <span class="badge">
-                WAITING
-              </span>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Cloudflare</td>
-            <td>1.1.1.1</td>
-            <td>HTTPS</td>
-            <td>Not Tested</td>
-            <td>
-              <span class="badge">
-                WAITING
-              </span>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Cloudflare</td>
-            <td>1.0.0.1</td>
-            <td>HTTPS</td>
-            <td>Not Tested</td>
-            <td>
-              <span class="badge">
-                WAITING
-              </span>
-            </td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-    <div class="grid" style="margin-top:13px">
-
-      <div class="card">
-        <div class="icon">🏆</div>
-        <div class="label">Best Tested Resolver</div>
-        <div class="value green" id="bestDNS">
-          Not Tested
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">⏱️</div>
-        <div class="label">Best Response</div>
-        <div class="value" id="bestDNSms">
-          --
-        </div>
-      </div>
-
+      <b>Test Server</b>
     </div>
 
     <div class="note">
-      Browser থেকে সরাসরি UDP/53 DNS query করা যায় না।
-      তাই এখানে HTTPS endpoint দিয়ে real response-time test করা হচ্ছে।
-      এটি DNS server-এর raw UDP latency নয়।
+      Cloudflare Speed Test Network
     </div>
 
-  </section>
-
-
-  <!-- SPEED -->
-
-  <section class="section">
-
-    <h2>⚡ Internet Speed Test</h2>
-
-    <div class="card speedCard">
-
-      <div id="speedStatus">
-        Ready
-      </div>
-
-      <div class="speedNumber"
-           id="speedNumber">
-        --
-      </div>
-
-      <div>Mbps</div>
-
-      <div class="progress">
-        <div id="speedProgress"></div>
-      </div>
-
-      <div class="speedGrid">
-
-        <div class="speedItem">
-          <div class="label">Download</div>
-          <div class="value"
-               id="download">
-            Not Tested
-          </div>
-        </div>
-
-        <div class="speedItem">
-          <div class="label">Upload</div>
-          <div class="value"
-               id="upload">
-            Not Tested
-          </div>
-        </div>
-
-        <div class="speedItem">
-          <div class="label">Latency</div>
-          <div class="value"
-               id="latency">
-            Not Tested
-          </div>
-        </div>
-
-      </div>
-
+    <div class="note">
+      Browser-based test
     </div>
 
-  </section>
+  </div>
 
+  <div class="speedGrid">
 
-  <!-- LOCATION -->
-
-  <section class="section">
-
-    <h2>📍 GPS Location</h2>
-
-    <div class="grid">
-
-      <div class="card">
-        <div class="icon">↕️</div>
-        <div class="label">Latitude</div>
-        <div class="value" id="lat">
-          Permission required
-        </div>
+    <div class="speedItem">
+      <div class="label">Download</div>
+      <div class="value"
+           id="download">
+        Not Tested
       </div>
-
-      <div class="card">
-        <div class="icon">↔️</div>
-        <div class="label">Longitude</div>
-        <div class="value" id="lon">
-          Permission required
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🎯</div>
-        <div class="label">Accuracy</div>
-        <div class="value" id="accuracy">--</div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🕒</div>
-        <div class="label">Last Update</div>
-        <div class="value" id="locationTime">--</div>
-      </div>
-
     </div>
 
-    <a id="map"
-       class="map"
-       target="_blank"
-       rel="noopener">
-       🗺️ Open Location
-    </a>
-
-  </section>
-
-
-  <!-- ROUTER -->
-
-  <section class="section">
-
-    <h2>🛜 Router Information</h2>
-
-    <div class="grid">
-
-      <div class="card">
-        <div class="icon">🛜</div>
-        <div class="label">Router IP</div>
-        <div class="value">
-          Backend Required
-        </div>
+    <div class="speedItem">
+      <div class="label">Upload</div>
+      <div class="value"
+           id="upload">
+        Not Tested
       </div>
-
-      <div class="card">
-        <div class="icon">⏱️</div>
-        <div class="label">Router Uptime</div>
-        <div class="value">
-          Backend Required
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">👥</div>
-        <div class="label">Connected Clients</div>
-        <div class="value">
-          Router API Required
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="icon">🔧</div>
-        <div class="label">Router Model</div>
-        <div class="value">
-          Router API Required
-        </div>
-      </div>
-
     </div>
 
-  </section>
-
-
-  <!-- TESTS -->
-
-  <section class="section">
-
-    <h2>🧪 Feature Test</h2>
-
-    <div class="testBox"
-         id="tests">
-
-      <div class="empty">
-        Press Test All
+    <div class="speedItem">
+      <div class="label">Ping</div>
+      <div class="value"
+           id="latency">
+        Not Tested
       </div>
-
     </div>
 
-  </section>
-
-
-  <!-- HISTORY -->
-
-  <section class="section">
-
-    <h2>📜 Local Test History</h2>
-
-    <div class="tableWrap">
-
-      <table>
-
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>IPv4</th>
-            <th>IPv6</th>
-            <th>ISP</th>
-            <th>DNS</th>
-            <th>Download</th>
-            <th>Upload</th>
-            <th>Latency</th>
-          </tr>
-        </thead>
-
-        <tbody id="history"></tbody>
-
-      </table>
-
-      <div class="empty"
-           id="noHistory">
-        No tests saved.
+    <div class="speedItem">
+      <div class="label">Jitter</div>
+      <div class="value"
+           id="jitter">
+        Not Tested
       </div>
-
     </div>
 
-  </section>
+    <div class="speedItem">
+      <div class="label">Test Time</div>
+      <div class="value"
+           id="testTime">
+        Not Tested
+      </div>
+    </div>
+
+    <div class="speedItem">
+      <div class="label">Quality</div>
+      <div class="value"
+           id="quality">
+        Not Tested
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="warning">
+  Browser-based speed test-এর result device, Wi-Fi signal,
+  browser, server distance এবং network load-এর কারণে পরিবর্তিত হতে পারে।
+  ISP-এর official customer speed test-এর জন্য নিজের test server
+  ব্যবহার করা সবচেয়ে ভালো।
+</div>
+
+</section>
+
+
+<!-- LOCATION -->
+
+<section class="section">
+
+<h2>📍 GPS Location</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="icon">↕️</div>
+    <div class="label">Latitude</div>
+    <div class="value" id="lat">
+      Permission required
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">↔️</div>
+    <div class="label">Longitude</div>
+    <div class="value" id="lon">
+      Permission required
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🎯</div>
+    <div class="label">Accuracy</div>
+    <div class="value" id="accuracy">--</div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🕒</div>
+    <div class="label">Last Update</div>
+    <div class="value" id="locationTime">--</div>
+  </div>
+
+</div>
+
+<a id="map"
+   class="map"
+   target="_blank"
+   rel="noopener">
+   🗺️ Open Location
+</a>
+
+</section>
+
+
+<!-- ROUTER -->
+
+<section class="section">
+
+<h2>🛜 Router Information</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="icon">🛜</div>
+    <div class="label">Router IP</div>
+    <div class="value">
+      Backend Required
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">⏱️</div>
+    <div class="label">Router Uptime</div>
+    <div class="value">
+      Backend Required
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">👥</div>
+    <div class="label">Connected Clients</div>
+    <div class="value">
+      Router API Required
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon">🔧</div>
+    <div class="label">Router Model</div>
+    <div class="value">
+      Router API Required
+    </div>
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- FEATURE TEST -->
+
+<section class="section">
+
+<h2>🧪 System Test</h2>
+
+<div class="testBox"
+     id="tests">
+
+<div class="empty">
+  Press Test All
+</div>
+
+</div>
+
+</section>
+
+
+<!-- HISTORY -->
+
+<section class="section">
+
+<h2>📜 Test History</h2>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+
+<tr>
+  <th>Time</th>
+  <th>IPv4</th>
+  <th>IPv6</th>
+  <th>ISP</th>
+  <th>DNS</th>
+  <th>Download</th>
+  <th>Upload</th>
+  <th>Ping</th>
+</tr>
+
+</thead>
+
+<tbody id="history"></tbody>
+
+</table>
+
+<div class="empty"
+     id="noHistory">
+  No tests saved.
+</div>
+
+</div>
+
+</section>
 
 </div>
 
@@ -862,38 +936,63 @@ footer{
 
 <script>
 
-/* =====================================================
-   GLOBAL
-===================================================== */
+/* =========================================================
+   CONFIGURATION
+========================================================= */
 
 const DNS_SERVERS = [
+
   {
     provider:"Google",
     ip:"8.8.8.8",
-    url:"https://dns.google/resolve?name=example.com&type=A"
+    url:
+      "https://dns.google/resolve?name=example.com&type=A"
   },
+
   {
     provider:"Google",
     ip:"8.8.4.4",
-    url:"https://dns.google/resolve?name=example.com&type=A"
+    url:
+      "https://dns.google/resolve?name=example.com&type=A"
   },
+
   {
     provider:"Cloudflare",
     ip:"1.1.1.1",
-    url:"https://cloudflare-dns.com/dns-query?name=example.com&type=A"
+    url:
+      "https://cloudflare-dns.com/dns-query?name=example.com&type=A"
   },
+
   {
     provider:"Cloudflare",
     ip:"1.0.0.1",
-    url:"https://cloudflare-dns.com/dns-query?name=example.com&type=A"
+    url:
+      "https://cloudflare-dns.com/dns-query?name=example.com&type=A"
   }
+
 ];
+
+
+/*
+  Cloudflare Speed Test endpoints.
+
+  These are used only when the browser allows the request.
+*/
+
+const SPEED_SERVER = {
+  name:"Cloudflare Speed Test",
+  download:
+    "https://speed.cloudflare.com/__down",
+  upload:
+    "https://speed.cloudflare.com/__up"
+};
 
 
 let historyData=[];
 
 try{
-  historyData=
+
+  historyData =
     JSON.parse(
       localStorage.getItem(
         "wifiAnalyzerHistory"
@@ -905,16 +1004,24 @@ try{
   }
 
 }catch(e){
+
   historyData=[];
 }
 
+
+/* =========================================================
+   HELPER
+========================================================= */
 
 function $(id){
   return document.getElementById(id);
 }
 
 
-function setValue(id,value){
+function setValue(
+  id,
+  value
+){
 
   $(id).textContent =
     value === undefined ||
@@ -925,13 +1032,13 @@ function setValue(id,value){
 }
 
 
-/* =====================================================
-   ONLINE
-===================================================== */
+/* =========================================================
+   ONLINE STATUS
+========================================================= */
 
 function updateOnline(){
 
-  const el=
+  const el =
     $("onlineStatus");
 
   if(navigator.onLine){
@@ -945,7 +1052,7 @@ function updateOnline(){
     el.className="statusOffline";
   }
 
-  $("updated").textContent=
+  $("updated").textContent =
     "Updated: "+
     new Date().toLocaleTimeString();
 }
@@ -962,13 +1069,14 @@ window.addEventListener(
 );
 
 
-/* =====================================================
+/* =========================================================
    DEVICE
-===================================================== */
+========================================================= */
 
 function detectDevice(){
 
-  const ua=navigator.userAgent;
+  const ua =
+    navigator.userAgent;
 
   if(/iPhone/i.test(ua))
     return "iPhone";
@@ -994,7 +1102,8 @@ function detectDevice(){
 
 function detectBrowser(){
 
-  const ua=navigator.userAgent;
+  const ua =
+    navigator.userAgent;
 
   if(/Edg\//i.test(ua))
     return "Edge";
@@ -1015,13 +1124,13 @@ function detectBrowser(){
 }
 
 
-/* =====================================================
-   NETWORK
-===================================================== */
+/* =========================================================
+   NETWORK INFO
+========================================================= */
 
 function networkInfo(){
 
-  const c=
+  const c =
     navigator.connection ||
     navigator.mozConnection ||
     navigator.webkitConnection;
@@ -1051,6 +1160,7 @@ function networkInfo(){
     return;
   }
 
+
   setValue(
     "connectionType",
     c.effectiveType ||
@@ -1058,23 +1168,26 @@ function networkInfo(){
     "Available"
   );
 
+
   setValue(
     "downlink",
-    typeof c.downlink==="number"
+    typeof c.downlink === "number"
       ? c.downlink+" Mbps"
       : "Not Available"
   );
 
+
   setValue(
     "rtt",
-    typeof c.rtt==="number"
+    typeof c.rtt === "number"
       ? c.rtt+" ms"
       : "Not Available"
   );
 
+
   setValue(
     "metered",
-    typeof c.saveData==="boolean"
+    typeof c.saveData === "boolean"
       ? c.saveData
         ? "Yes"
         : "No"
@@ -1083,9 +1196,9 @@ function networkInfo(){
 }
 
 
-/* =====================================================
+/* =========================================================
    PUBLIC IP
-===================================================== */
+========================================================= */
 
 async function getIP(){
 
@@ -1111,7 +1224,7 @@ async function getIP(){
 
   try{
 
-    const r=
+    const r =
       await fetch(
         "https://api.ipify.org?format=json",
         {
@@ -1119,14 +1232,15 @@ async function getIP(){
         }
       );
 
+
     if(r.ok){
 
-      const d=
+      const d =
         await r.json();
 
       if(
         d &&
-        typeof d.ip==="string"
+        typeof d.ip === "string"
       ){
         ipv4=d.ip;
       }
@@ -1137,7 +1251,7 @@ async function getIP(){
 
   try{
 
-    const r=
+    const r =
       await fetch(
         "https://api6.ipify.org?format=json",
         {
@@ -1145,14 +1259,15 @@ async function getIP(){
         }
       );
 
+
     if(r.ok){
 
-      const d=
+      const d =
         await r.json();
 
       if(
         d &&
-        typeof d.ip==="string"
+        typeof d.ip === "string"
       ){
         ipv6=d.ip;
       }
@@ -1172,13 +1287,7 @@ async function getIP(){
   );
 
 
-  setValue(
-    "ipType",
-    "Unknown"
-  );
-
-
-  const selectedIP=
+  const selectedIP =
     ipv4 || ipv6;
 
 
@@ -1195,7 +1304,7 @@ async function getIP(){
 
   try{
 
-    const r=
+    const r =
       await fetch(
         "https://ipwho.is/"+
         encodeURIComponent(
@@ -1206,21 +1315,26 @@ async function getIP(){
         }
       );
 
+
     if(!r.ok)
       throw new Error();
 
 
-    const d=
+    const d =
       await r.json();
 
 
-    if(d && d.success){
+    if(
+      d &&
+      d.success
+    ){
 
       setValue(
         "isp",
         d.connection?.isp ||
         d.connection?.org
       );
+
 
       setValue(
         "asn",
@@ -1230,15 +1344,18 @@ async function getIP(){
           : "Not Available"
       );
 
+
       setValue(
         "country",
         d.country
       );
 
+
       setValue(
         "city",
         d.city
       );
+
 
       setValue(
         "ipTimezone",
@@ -1256,19 +1373,21 @@ async function getIP(){
 }
 
 
-/* =====================================================
+/* =========================================================
    DNS TEST
-===================================================== */
+========================================================= */
 
-async function testOneDNS(server){
+async function testOneDNS(
+  server
+){
 
-  const start=
+  const start =
     performance.now();
 
 
   try{
 
-    const response=
+    const response =
       await fetch(
         server.url+
         "&cacheBust="+
@@ -1285,8 +1404,8 @@ async function testOneDNS(server){
       );
 
 
-    const ms=
-      performance.now()-
+    const ms =
+      performance.now() -
       start;
 
 
@@ -1319,13 +1438,13 @@ async function testOneDNS(server){
 
 async function testDNS(){
 
-  const btn=
+  const btn =
     $("dnsBtn");
 
   btn.disabled=true;
 
 
-  const tbody=
+  const tbody =
     $("dnsResults");
 
   tbody.innerHTML="";
@@ -1338,14 +1457,16 @@ async function testDNS(){
     const server of DNS_SERVERS
   ){
 
-    const tr=
-      document.createElement("tr");
+    const tr =
+      document.createElement(
+        "tr"
+      );
 
 
-    tr.innerHTML=`
+    tr.innerHTML = `
       <td>${server.provider}</td>
       <td>${server.ip}</td>
-      <td>HTTPS DNS API</td>
+      <td>HTTPS DNS</td>
       <td>Testing...</td>
       <td>
         <span class="badge">
@@ -1358,7 +1479,7 @@ async function testDNS(){
     tbody.appendChild(tr);
 
 
-    const result=
+    const result =
       await testOneDNS(
         server
       );
@@ -1372,21 +1493,23 @@ async function testDNS(){
 
     if(result.ok){
 
-      tr.cells[3].textContent=
+      tr.cells[3].textContent =
         result.ms.toFixed(0)+
         " ms";
 
-      tr.cells[4].innerHTML=
+
+      tr.cells[4].innerHTML =
         `<span class="badge pass">
           PASS
         </span>`;
 
     }else{
 
-      tr.cells[3].textContent=
+      tr.cells[3].textContent =
         "Not Available";
 
-      tr.cells[4].innerHTML=
+
+      tr.cells[4].innerHTML =
         `<span class="badge fail">
           FAILED
         </span>`;
@@ -1394,7 +1517,7 @@ async function testDNS(){
   }
 
 
-  const working=
+  const working =
     results.filter(
       x =>
         x.ok &&
@@ -1404,7 +1527,7 @@ async function testDNS(){
 
   if(working.length){
 
-    const best=
+    const best =
       working.reduce(
         (a,b)=>
           a.ms < b.ms
@@ -1443,27 +1566,26 @@ async function testDNS(){
 
   btn.disabled=false;
 
-
   return results;
 }
 
 
-/* =====================================================
-   LATENCY
-===================================================== */
+/* =========================================================
+   PING + JITTER
+========================================================= */
 
-async function measureLatency(){
+async function pingSamples(){
 
   const samples=[];
 
 
   for(
     let i=0;
-    i<5;
+    i<7;
     i++
   ){
 
-    const start=
+    const start =
       performance.now();
 
 
@@ -1473,155 +1595,325 @@ async function measureLatency(){
         "https://www.google.com/generate_204?"+
         Date.now(),
         {
+          method:"GET",
           mode:"no-cors",
           cache:"no-store"
         }
       );
 
 
-      const ms=
-        performance.now()-
+      const ms =
+        performance.now() -
         start;
 
 
       if(
-        Number.isFinite(ms)
+        Number.isFinite(ms) &&
+        ms > 0
       ){
+
         samples.push(ms);
       }
 
     }catch(e){}
+
+
+    await sleep(100);
   }
 
 
-  if(!samples.length)
-    return null;
+  if(!samples.length){
+
+    return {
+      ping:null,
+      jitter:null
+    };
+  }
 
 
-  return samples.reduce(
-    (a,b)=>a+b,
-    0
-  ) / samples.length;
+  const avg =
+    samples.reduce(
+      (a,b)=>a+b,
+      0
+    ) /
+    samples.length;
+
+
+  const deviations =
+    samples.map(
+      x =>
+        Math.abs(
+          x-avg
+        )
+    );
+
+
+  const jitter =
+    deviations.reduce(
+      (a,b)=>a+b,
+      0
+    ) /
+    deviations.length;
+
+
+  return {
+    ping:avg,
+    jitter:jitter
+  };
 }
 
 
-/* =====================================================
-   DOWNLOAD
-===================================================== */
+/* =========================================================
+   DOWNLOAD TEST
+========================================================= */
 
-async function downloadTest(){
+async function downloadSpeedTest(){
+
+  /*
+    Multiple sizes are used.
+    The larger samples reduce the effect
+    of very short browser/network bursts.
+  */
 
   const sizes=[
-    1000000,
     5000000,
-    10000000
+    10000000,
+    20000000
   ];
 
-  const results=[];
+
+  const speeds=[];
 
 
   for(
-    const bytes of sizes
+    let i=0;
+    i<sizes.length;
+    i++
   ){
+
+    const bytes =
+      sizes[i];
+
+
+    const start =
+      performance.now();
+
 
     try{
 
-      const start=
-        performance.now();
-
-
-      const r=
+      const response =
         await fetch(
-          "https://speed.cloudflare.com/__down?bytes="+
+          SPEED_SERVER.download+
+          "?bytes="+
           bytes+
           "&cacheBust="+
           Date.now(),
           {
+            method:"GET",
             cache:"no-store"
           }
         );
 
 
-      if(!r.ok)
+      if(!response.ok)
         continue;
 
 
-      const buffer=
-        await r.arrayBuffer();
+      const buffer =
+        await response.arrayBuffer();
 
 
-      const seconds=
+      const elapsed =
         (
           performance.now()-
           start
         )/1000;
 
 
-      if(seconds<=0)
+      if(
+        elapsed <= 0 ||
+        !buffer.byteLength
+      ){
         continue;
+      }
 
 
-      const mbps=
-        buffer.byteLength*
-        8/
-        seconds/
+      const mbps =
+        (
+          buffer.byteLength*
+          8/
+          elapsed
+        )/
         1000000;
 
 
       if(
         Number.isFinite(mbps) &&
-        mbps>0
+        mbps > 0
       ){
-        results.push(mbps);
+
+        speeds.push(
+          mbps
+        );
       }
+
+
+      /*
+        Show current result.
+      */
+
+      $("speedNumber").textContent =
+        mbps.toFixed(2);
+
+
+      $("download").textContent =
+        mbps.toFixed(2)+
+        " Mbps";
+
+
+      const progress =
+        15+
+        (
+          (i+1)/
+          sizes.length
+        )*
+        30;
+
+
+      $("speedProgress")
+        .style.width=
+        progress+"%";
+
 
     }catch(e){}
   }
 
 
-  if(!results.length)
+  if(!speeds.length)
     return null;
 
 
-  return Math.max(
-    ...results
+  /*
+    Median is more stable than simply
+    taking one sample.
+  */
+
+  speeds.sort(
+    (a,b)=>a-b
   );
+
+
+  const middle =
+    Math.floor(
+      speeds.length/2
+    );
+
+
+  if(
+    speeds.length % 2
+  ){
+
+    return speeds[middle];
+
+  }
+
+
+  return (
+    speeds[middle-1]+
+    speeds[middle]
+  )/2;
 }
 
 
-/* =====================================================
-   UPLOAD
-===================================================== */
+/* =========================================================
+   UPLOAD TEST
+========================================================= */
 
-async function uploadTest(){
+async function uploadSpeedTest(){
+
+  /*
+    Upload sample sizes.
+    Large enough to avoid very short tests.
+  */
 
   const sizes=[
-    250000,
-    1000000
+    1000000,
+    3000000,
+    5000000
   ];
 
-  const results=[];
+
+  const speeds=[];
 
 
   for(
-    const bytes of sizes
+    let i=0;
+    i<sizes.length;
+    i++
   ){
+
+    const bytes =
+      sizes[i];
+
 
     try{
 
-      const data=
+      /*
+        Create random-ish data.
+        This prevents excessive compression/caching.
+      */
+
+      const data =
         new Uint8Array(
           bytes
         );
 
 
-      const start=
+      if(
+        window.crypto &&
+        crypto.getRandomValues
+      ){
+
+        /*
+          Fill in chunks because getRandomValues
+          has a per-call size limit.
+        */
+
+        for(
+          let pos=0;
+          pos<bytes;
+          pos+=65536
+        ){
+
+          const chunk =
+            data.subarray(
+              pos,
+              Math.min(
+                pos+65536,
+                bytes
+              )
+            );
+
+
+          crypto.getRandomValues(
+            chunk
+          );
+        }
+
+      }else{
+
+        data.fill(77);
+      }
+
+
+      const start =
         performance.now();
 
 
-      const r=
+      const response =
         await fetch(
-          "https://speed.cloudflare.com/__up?cacheBust="+
+          SPEED_SERVER.upload+
+          "?cacheBust="+
           Date.now(),
           {
             method:"POST",
@@ -1631,25 +1923,37 @@ async function uploadTest(){
         );
 
 
-      if(!r.ok)
+      if(!response.ok)
         continue;
 
 
-      const seconds=
+      /*
+        Make sure the browser finishes
+        reading the response.
+      */
+
+      try{
+        await response.text();
+      }catch(e){}
+
+
+      const elapsed =
         (
           performance.now()-
           start
         )/1000;
 
 
-      if(seconds<=0)
+      if(elapsed<=0)
         continue;
 
 
-      const mbps=
-        bytes*
-        8/
-        seconds/
+      const mbps =
+        (
+          bytes*
+          8/
+          elapsed
+        )/
         1000000;
 
 
@@ -1657,120 +1961,396 @@ async function uploadTest(){
         Number.isFinite(mbps) &&
         mbps>0
       ){
-        results.push(mbps);
+
+        speeds.push(
+          mbps
+        );
       }
+
+
+      $("upload").textContent =
+        mbps.toFixed(2)+
+        " Mbps";
+
+
+      const progress =
+        50+
+        (
+          (i+1)/
+          sizes.length
+        )*
+        40;
+
+
+      $("speedProgress")
+        .style.width=
+        progress+"%";
+
 
     }catch(e){}
   }
 
 
-  if(!results.length)
+  if(!speeds.length)
     return null;
 
 
-  return Math.max(
-    ...results
+  speeds.sort(
+    (a,b)=>a-b
   );
+
+
+  const middle =
+    Math.floor(
+      speeds.length/2
+    );
+
+
+  if(
+    speeds.length % 2
+  ){
+
+    return speeds[middle];
+
+  }
+
+
+  return (
+    speeds[middle-1]+
+    speeds[middle]
+  )/2;
 }
 
 
-/* =====================================================
-   SPEED TEST
-===================================================== */
+/* =========================================================
+   QUALITY
+========================================================= */
+
+function calculateQuality(
+  download,
+  upload,
+  ping,
+  jitter
+){
+
+  if(
+    download===null &&
+    upload===null &&
+    ping===null
+  ){
+
+    return "Not Available";
+  }
+
+
+  let score=0;
+
+
+  /*
+    Download
+  */
+
+  if(download!==null){
+
+    if(download>=100)
+      score+=35;
+
+    else if(download>=50)
+      score+=30;
+
+    else if(download>=20)
+      score+=24;
+
+    else if(download>=10)
+      score+=17;
+
+    else
+      score+=8;
+  }
+
+
+  /*
+    Upload
+  */
+
+  if(upload!==null){
+
+    if(upload>=50)
+      score+=25;
+
+    else if(upload>=20)
+      score+=21;
+
+    else if(upload>=10)
+      score+=17;
+
+    else if(upload>=5)
+      score+=12;
+
+    else
+      score+=6;
+  }
+
+
+  /*
+    Ping
+  */
+
+  if(ping!==null){
+
+    if(ping<=20)
+      score+=20;
+
+    else if(ping<=50)
+      score+=16;
+
+    else if(ping<=100)
+      score+=11;
+
+    else
+      score+=5;
+  }
+
+
+  /*
+    Jitter
+  */
+
+  if(jitter!==null){
+
+    if(jitter<=5)
+      score+=20;
+
+    else if(jitter<=15)
+      score+=15;
+
+    else if(jitter<=30)
+      score+=9;
+
+    else
+      score+=4;
+  }
+
+
+  if(score>=85)
+    return "Excellent";
+
+  if(score>=70)
+    return "Good";
+
+  if(score>=50)
+    return "Fair";
+
+  return "Poor";
+}
+
+
+/* =========================================================
+   FULL SPEED TEST
+========================================================= */
 
 async function speedTest(){
 
-  const btn=
+  const btn =
     $("speedBtn");
+
+
+  if(
+    !navigator.onLine
+  ){
+
+    $("speedStatus").textContent =
+      "You are offline";
+
+
+    return;
+  }
+
 
   btn.disabled=true;
 
 
-  $("speedStatus").textContent=
-    "Testing latency...";
+  const startAll =
+    performance.now();
+
+
+  $("speedStatus").textContent =
+    "Preparing test...";
+
+
+  $("speedNumber").textContent =
+    "--";
+
+
+  $("download").textContent =
+    "Testing...";
+
+
+  $("upload").textContent =
+    "Waiting...";
+
+
+  $("latency").textContent =
+    "Testing...";
+
+
+  $("jitter").textContent =
+    "Testing...";
+
+
+  $("testTime").textContent =
+    "Testing...";
+
+
+  $("quality").textContent =
+    "Testing...";
+
 
   $("speedProgress")
-    .style.width="10%";
+    .style.width="3%";
 
 
-  const latency=
-    await measureLatency();
+  /*
+    PING
+  */
+
+  $("speedStatus").textContent =
+    "Measuring ping...";
+
+
+  const pingResult =
+    await pingSamples();
 
 
   setValue(
     "latency",
-    latency===null
+    pingResult.ping===null
       ? "Not Available"
-      : latency.toFixed(0)+" ms"
+      : pingResult.ping.toFixed(1)+
+        " ms"
   );
 
 
-  $("speedStatus").textContent=
+  setValue(
+    "jitter",
+    pingResult.jitter===null
+      ? "Not Available"
+      : pingResult.jitter.toFixed(1)+
+        " ms"
+  );
+
+
+  /*
+    DOWNLOAD
+  */
+
+  $("speedStatus").textContent =
     "Testing download...";
 
-  $("speedProgress")
-    .style.width="35%";
 
-
-  const download=
-    await downloadTest();
+  const download =
+    await downloadSpeedTest();
 
 
   setValue(
     "download",
     download===null
       ? "Not Available"
-      : download.toFixed(2)+" Mbps"
+      : download.toFixed(2)+
+        " Mbps"
   );
 
 
-  $("speedNumber").textContent=
-    download===null
-      ? "--"
-      : download.toFixed(2);
+  if(download!==null){
+
+    $("speedNumber").textContent =
+      download.toFixed(2);
+  }
 
 
-  $("speedStatus").textContent=
+  /*
+    UPLOAD
+  */
+
+  $("speedStatus").textContent =
     "Testing upload...";
 
+
   $("speedProgress")
-    .style.width="70%";
+    .style.width="52%";
 
 
-  const upload=
-    await uploadTest();
+  const upload =
+    await uploadSpeedTest();
 
 
   setValue(
     "upload",
     upload===null
       ? "Not Available"
-      : upload.toFixed(2)+" Mbps"
+      : upload.toFixed(2)+
+        " Mbps"
   );
 
+
+  /*
+    COMPLETE
+  */
 
   $("speedProgress")
     .style.width="100%";
 
 
-  $("speedStatus").textContent=
+  const totalSeconds =
+    (
+      performance.now()-
+      startAll
+    )/1000;
+
+
+  setValue(
+    "testTime",
+    totalSeconds.toFixed(1)+
+    " sec"
+  );
+
+
+  const quality =
+    calculateQuality(
+      download,
+      upload,
+      pingResult.ping,
+      pingResult.jitter
+    );
+
+
+  setValue(
+    "quality",
+    quality
+  );
+
+
+  $("speedStatus").textContent =
     "Test complete";
 
 
   saveHistory(
     download,
     upload,
-    latency
+    pingResult.ping
   );
 
 
   btn.disabled=false;
+
+
+  runTests();
 }
 
 
-/* =====================================================
+/* =========================================================
    LOCATION
-===================================================== */
+========================================================= */
 
 let locationWatch=null;
 
@@ -1791,7 +2371,7 @@ function startLocation(){
 
 
   if(
-    locationWatch!==null
+    locationWatch !== null
   ){
 
     navigator.geolocation.clearWatch(
@@ -1800,18 +2380,18 @@ function startLocation(){
   }
 
 
-  locationWatch=
+  locationWatch =
     navigator.geolocation.watchPosition(
 
-      position=>{
+      position => {
 
-        const latitude=
+        const latitude =
           position.coords.latitude;
 
-        const longitude=
+        const longitude =
           position.coords.longitude;
 
-        const accuracy=
+        const accuracy =
           position.coords.accuracy;
 
 
@@ -1820,17 +2400,21 @@ function startLocation(){
           latitude.toFixed(6)
         );
 
+
         setValue(
           "lon",
           longitude.toFixed(6)
         );
 
+
         setValue(
           "accuracy",
           Math.round(
             accuracy
-          )+" m"
+          )+
+          " m"
         );
+
 
         setValue(
           "locationTime",
@@ -1839,11 +2423,11 @@ function startLocation(){
         );
 
 
-        const map=
+        const map =
           $("map");
 
 
-        map.href=
+        map.href =
           "https://www.google.com/maps?q="+
           encodeURIComponent(
             latitude+
@@ -1852,12 +2436,13 @@ function startLocation(){
           );
 
 
-        map.style.display=
+        map.style.display =
           "inline-block";
 
       },
 
-      error=>{
+
+      error => {
 
         setValue(
           "lat",
@@ -1866,6 +2451,7 @@ function startLocation(){
             : "Unavailable"
         );
 
+
         setValue(
           "lon",
           error.code===1
@@ -1873,6 +2459,7 @@ function startLocation(){
             : "Unavailable"
         );
       },
+
 
       {
         enableHighAccuracy:true,
@@ -1883,9 +2470,9 @@ function startLocation(){
 }
 
 
-/* =====================================================
+/* =========================================================
    HISTORY
-===================================================== */
+========================================================= */
 
 function saveHistory(
   download,
@@ -1893,16 +2480,7 @@ function saveHistory(
   latency
 ){
 
-  const location=
-    $("lat").textContent !==
-    "Permission required"
-      ? $("lat").textContent+
-        ", "+
-        $("lon").textContent
-      : "Not Available";
-
-
-  const record={
+  const record = {
 
     time:
       new Date()
@@ -1923,19 +2501,21 @@ function saveHistory(
     download:
       download===null
         ? "Not Available"
-        : download.toFixed(2)+" Mbps",
+        : download.toFixed(2)+
+          " Mbps",
 
     upload:
       upload===null
         ? "Not Available"
-        : upload.toFixed(2)+" Mbps",
+        : upload.toFixed(2)+
+          " Mbps",
 
     latency:
       latency===null
         ? "Not Available"
-        : latency.toFixed(0)+" ms",
+        : latency.toFixed(1)+
+          " ms"
 
-    location
   };
 
 
@@ -1944,7 +2524,7 @@ function saveHistory(
   );
 
 
-  historyData=
+  historyData =
     historyData.slice(
       0,
       100
@@ -1969,23 +2549,23 @@ function saveHistory(
 
 function renderHistory(){
 
-  const body=
+  const body =
     $("history");
 
 
   body.innerHTML="";
 
 
-  $("noHistory").style.display=
+  $("noHistory").style.display =
     historyData.length
       ? "none"
       : "block";
 
 
   historyData.forEach(
-    item=>{
+    item => {
 
-      const tr=
+      const tr =
         document.createElement(
           "tr"
         );
@@ -2001,15 +2581,18 @@ function renderHistory(){
         item.upload,
         item.latency
       ].forEach(
-        value=>{
+        value => {
 
-          const td=
+          const td =
             document.createElement(
               "td"
             );
 
-          td.textContent=
-            value || "Not Available";
+
+          td.textContent =
+            value ||
+            "Not Available";
+
 
           tr.appendChild(td);
         }
@@ -2022,30 +2605,34 @@ function renderHistory(){
 }
 
 
-/* =====================================================
-   FEATURES
-===================================================== */
+/* =========================================================
+   SYSTEM TEST
+========================================================= */
 
 function testStorage(){
 
   try{
 
-    const key=
+    const key =
       "__wifi_test__";
+
 
     localStorage.setItem(
       key,
       "1"
     );
 
-    const result=
+
+    const result =
       localStorage.getItem(
         key
-      )==="1";
+      ) === "1";
+
 
     localStorage.removeItem(
       key
     );
+
 
     return result;
 
@@ -2058,43 +2645,50 @@ function testStorage(){
 
 function runTests(){
 
-  const tests={
+  const tests = {
 
     "Internet Connection":
       navigator.onLine,
 
     "Public IPv4":
-      $("ipv4").textContent!=="Not Available" &&
-      $("ipv4").textContent!=="Checking...",
+      $("ipv4").textContent !==
+      "Not Available" &&
+      $("ipv4").textContent !==
+      "Checking...",
 
     "ISP Detection":
-      $("isp").textContent!=="Not Available" &&
-      $("isp").textContent!=="Checking...",
+      $("isp").textContent !==
+      "Not Available" &&
+      $("isp").textContent !==
+      "Checking...",
 
     "DNS Test":
-      $("bestDNS").textContent!=="Not Tested",
+      $("bestDNS").textContent !==
+      "Not Tested",
 
-    "GPS":
+    "GPS Support":
       "geolocation" in navigator,
 
     "Local Storage":
       testStorage(),
 
-    "HTTPS":
-      location.protocol==="https:" ||
-      location.hostname==="localhost",
+    "HTTPS / Localhost":
+      location.protocol === "https:" ||
+      location.hostname === "localhost",
 
     "Device Detection":
-      detectDevice()!=="Unknown",
+      detectDevice() !== "Unknown",
 
     "Browser Detection":
-      detectBrowser()!=="Unknown",
+      detectBrowser() !== "Unknown",
 
     "Speed Test":
-      $("download").textContent!=="Not Tested",
+      $("download").textContent !==
+      "Not Tested",
 
     "Static IP Verification":
       false
+
   };
 
 
@@ -2104,30 +2698,37 @@ function runTests(){
   Object.entries(
     tests
   ).forEach(
-    ([name,pass])=>{
+    ([name,pass]) => {
 
-      html+=`
+      html += `
         <div class="test">
-          <span>${name}</span>
+
+          <span>
+            ${name}
+          </span>
 
           <span class="badge ${
             pass
               ? "pass"
               : "fail"
           }">
+
             ${
               pass
                 ? "PASS"
                 : "NOT VERIFIED"
             }
+
           </span>
+
         </div>
       `;
     }
   );
 
 
-  const backendFeatures=[
+  const backendFeatures = [
+
     "SSID",
     "BSSID / Wi-Fi MAC",
     "Wi-Fi Signal",
@@ -2138,34 +2739,41 @@ function runTests(){
     "PPPoE Username",
     "Router Uptime",
     "Connected Clients"
+
   ];
 
 
   backendFeatures.forEach(
-    name=>{
+    name => {
 
-      html+=`
+      html += `
         <div class="test">
-          <span>${name}</span>
 
-          <span class="badge"
-                style="color:var(--yellow)">
+          <span>
+            ${name}
+          </span>
+
+          <span
+            class="badge"
+            style="color:var(--yellow)"
+          >
             BACKEND REQUIRED
           </span>
+
         </div>
       `;
     }
   );
 
 
-  $("tests").innerHTML=
+  $("tests").innerHTML =
     html;
 }
 
 
-/* =====================================================
+/* =========================================================
    REFRESH
-===================================================== */
+========================================================= */
 
 async function refreshAll(){
 
@@ -2196,18 +2804,20 @@ async function refreshAll(){
 
   await getIP();
 
+
   runTests();
 }
 
 
-/* =====================================================
-   ALL
-===================================================== */
+/* =========================================================
+   RUN ALL
+========================================================= */
 
 async function runAll(){
 
-  const btn=
+  const btn =
     $("allBtn");
+
 
   btn.disabled=true;
 
@@ -2228,9 +2838,9 @@ async function runAll(){
 }
 
 
-/* =====================================================
+/* =========================================================
    EXPORT JSON
-===================================================== */
+========================================================= */
 
 function exportJSON(){
 
@@ -2244,7 +2854,7 @@ function exportJSON(){
   }
 
 
-  const blob=
+  const blob =
     new Blob(
       [
         JSON.stringify(
@@ -2254,8 +2864,7 @@ function exportJSON(){
         )
       ],
       {
-        type:
-          "application/json"
+        type:"application/json"
       }
     );
 
@@ -2267,9 +2876,9 @@ function exportJSON(){
 }
 
 
-/* =====================================================
+/* =========================================================
    EXPORT CSV
-===================================================== */
+========================================================= */
 
 function exportCSV(){
 
@@ -2283,7 +2892,8 @@ function exportCSV(){
   }
 
 
-  const headers=[
+  const headers = [
+
     "Time",
     "IPv4",
     "IPv6",
@@ -2292,12 +2902,13 @@ function exportCSV(){
     "Download",
     "Upload",
     "Latency"
+
   ];
 
 
-  const rows=
+  const rows =
     historyData.map(
-      item=>
+      item =>
         [
           item.time,
           item.ipv4,
@@ -2313,7 +2924,7 @@ function exportCSV(){
     );
 
 
-  const content=
+  const content =
     headers.join(",")+
     "\n"+
     rows.join("\n");
@@ -2333,7 +2944,7 @@ function exportCSV(){
 
 function csv(value){
 
-  return '"'+
+  return '"' +
     String(
       value ?? ""
     )
@@ -2350,13 +2961,13 @@ function downloadBlob(
   filename
 ){
 
-  const url=
+  const url =
     URL.createObjectURL(
       blob
     );
 
 
-  const a=
+  const a =
     document.createElement(
       "a"
     );
@@ -2377,9 +2988,9 @@ function downloadBlob(
 }
 
 
-/* =====================================================
+/* =========================================================
    CLEAR HISTORY
-===================================================== */
+========================================================= */
 
 function clearHistory(){
 
@@ -2408,9 +3019,25 @@ function clearHistory(){
 }
 
 
-/* =====================================================
+/* =========================================================
+   UTILITY
+========================================================= */
+
+function sleep(ms){
+
+  return new Promise(
+    resolve =>
+      setTimeout(
+        resolve,
+        ms
+      )
+  );
+}
+
+
+/* =========================================================
    INIT
-===================================================== */
+========================================================= */
 
 renderHistory();
 
@@ -2445,9 +3072,11 @@ runTests();
 
 
 setInterval(
-  ()=>{
+  () => {
+
     updateOnline();
     networkInfo();
+
   },
   5000
 );
