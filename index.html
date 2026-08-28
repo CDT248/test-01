@@ -2,917 +2,1085 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Chrome Internet Test</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Real Internet Speed Test</title>
 
 <style>
 *{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#07111f;
-    color:#fff;
-    min-height:100vh;
-    padding:20px;
+ margin:0;
+ background:#06111f;
+ color:#fff;
+ font-family:Arial,sans-serif;
+ padding:18px;
 }
 
-.container{
-    max-width:900px;
-    margin:auto;
+.app{
+ max-width:950px;
+ margin:auto;
 }
 
 .card{
-    background:#0d1b2a;
-    border:1px solid #1e344b;
-    border-radius:22px;
-    padding:24px;
-    box-shadow:0 20px 60px #0008;
+ background:#0c1b2b;
+ border:1px solid #20364d;
+ border-radius:24px;
+ padding:22px;
+ box-shadow:0 20px 70px #0009;
 }
 
 h1{
-    text-align:center;
-    margin:0;
-    font-size:30px;
+ text-align:center;
+ margin:0;
+ font-size:30px;
 }
 
 .subtitle{
-    text-align:center;
-    color:#91a7bc;
-    margin:8px 0 25px;
+ text-align:center;
+ color:#8da5bb;
+ margin:7px 0 22px;
 }
 
-.circle{
-    width:180px;
-    height:180px;
-    border-radius:50%;
-    margin:0 auto 25px;
-    background:conic-gradient(#00e676 0deg,#00e676 0deg,#172b40 0deg);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    position:relative;
+.speedbox{
+ text-align:center;
+ padding:15px;
 }
 
-.circle::after{
-    content:"";
-    position:absolute;
-    inset:11px;
-    border-radius:50%;
-    background:#0d1b2a;
+.live{
+ font-size:64px;
+ font-weight:800;
+ color:#00e676;
+ line-height:1;
 }
 
-.score{
-    position:relative;
-    z-index:2;
-    text-align:center;
+.unit{
+ color:#9bb0c4;
+ margin-top:8px;
 }
 
-.score strong{
-    display:block;
-    font-size:48px;
-}
-
-.score span{
-    color:#91a7bc;
-    font-size:12px;
+canvas{
+ width:100%;
+ height:180px;
+ background:#071522;
+ border-radius:15px;
+ margin:20px 0;
 }
 
 button{
-    width:100%;
-    border:0;
-    border-radius:12px;
-    padding:16px;
-    background:#00c853;
-    color:white;
-    font-size:17px;
-    font-weight:bold;
-    cursor:pointer;
-    margin-bottom:20px;
+ width:100%;
+ border:0;
+ border-radius:13px;
+ padding:16px;
+ background:#00c853;
+ color:#fff;
+ font-size:17px;
+ font-weight:bold;
+ cursor:pointer;
 }
 
 button:hover{
-    background:#00e676;
+ background:#00e676;
 }
 
 button:disabled{
-    opacity:.5;
-    cursor:not-allowed;
+ opacity:.5;
+ cursor:not-allowed;
 }
 
 .grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:12px;
+ margin-top:18px;
 }
 
-.test{
-    background:#101f30;
-    border:1px solid #20364d;
-    border-radius:14px;
-    padding:15px;
+.item{
+ background:#101f30;
+ border:1px solid #21374c;
+ border-radius:14px;
+ padding:15px;
 }
 
-.name{
-    color:#8fa6ba;
-    font-size:12px;
-    margin-bottom:8px;
+.label{
+ color:#8fa6bb;
+ font-size:12px;
+ margin-bottom:7px;
 }
 
 .value{
-    font-size:20px;
-    font-weight:bold;
+ font-size:21px;
+ font-weight:bold;
 }
 
 .status{
-    color:#00e676;
-    font-size:11px;
-    margin-top:5px;
+ color:#00e676;
+ font-size:11px;
+ margin-top:5px;
+}
+
+.index{
+ margin:25px auto 10px;
+ width:170px;
+ height:170px;
+ border-radius:50%;
+ background:conic-gradient(
+   #00e676 0deg,
+   #00e676 0deg,
+   #172c41 0deg
+ );
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ position:relative;
+}
+
+.index:before{
+ content:"";
+ position:absolute;
+ inset:11px;
+ border-radius:50%;
+ background:#0c1b2b;
+}
+
+.indexContent{
+ position:relative;
+ text-align:center;
+}
+
+.indexNumber{
+ font-size:42px;
+ font-weight:bold;
+}
+
+.indexText{
+ font-size:11px;
+ color:#8fa6bb;
 }
 
 .log{
-    margin-top:20px;
-    padding:14px;
-    height:120px;
-    overflow:auto;
-    background:#050d16;
-    border-radius:12px;
-    color:#91a7bc;
-    font:12px monospace;
+ margin-top:18px;
+ background:#050c14;
+ border-radius:13px;
+ height:120px;
+ overflow:auto;
+ padding:13px;
+ color:#91a8bd;
+ font:12px monospace;
 }
 
 @media(max-width:700px){
-    .grid{
-        grid-template-columns:repeat(2,1fr);
-    }
+ .grid{grid-template-columns:repeat(2,1fr)}
+ .live{font-size:52px}
 }
 
 @media(max-width:430px){
-    .grid{
-        grid-template-columns:1fr;
-    }
+ .grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 <div class="card">
 
-<h1>🌐 Internet Test</h1>
-<div class="subtitle">Chrome Browser Network Test</div>
+<h1>🌐 Real Internet Test</h1>
+<div class="subtitle">Live browser network measurement</div>
 
-<div class="circle" id="circle">
-    <div class="score">
-        <strong id="score">--</strong>
-        <span>INDEX / 100</span>
-    </div>
+<div class="speedbox">
+ <div class="live" id="liveSpeed">0.00</div>
+ <div class="unit">Mbps LIVE DOWNLOAD</div>
 </div>
 
-<button id="start" onclick="runTests()">
-    START INTERNET TEST
+<canvas id="graph"></canvas>
+
+<button id="start" onclick="startTest()">
+ START SPEED TEST
 </button>
+
+<div class="index" id="indexCircle">
+ <div class="indexContent">
+  <div class="indexNumber" id="index">--</div>
+  <div class="indexText">INTERNET INDEX</div>
+ </div>
+</div>
 
 <div class="grid">
 
-<div class="test">
-    <div class="name">01 • Internet</div>
-    <div class="value" id="internet">--</div>
-    <div class="status" id="st1">Waiting</div>
+<div class="item">
+ <div class="label">PING</div>
+ <div class="value" id="ping">--</div>
+ <div class="status" id="s1">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">02 • Latency</div>
-    <div class="value" id="latency">--</div>
-    <div class="status" id="st2">Waiting</div>
+<div class="item">
+ <div class="label">JITTER</div>
+ <div class="value" id="jitter">--</div>
+ <div class="status" id="s2">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">03 • Jitter</div>
-    <div class="value" id="jitter">--</div>
-    <div class="status" id="st3">Waiting</div>
+<div class="item">
+ <div class="label">DOWNLOAD</div>
+ <div class="value" id="download">--</div>
+ <div class="status" id="s3">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">04 • DNS</div>
-    <div class="value" id="dns">--</div>
-    <div class="status" id="st4">Waiting</div>
+<div class="item">
+ <div class="label">DNS</div>
+ <div class="value" id="dns">--</div>
+ <div class="status" id="s4">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">05 • HTTPS</div>
-    <div class="value" id="https">--</div>
-    <div class="status" id="st5">Waiting</div>
+<div class="item">
+ <div class="label">HTTPS</div>
+ <div class="value" id="https">--</div>
+ <div class="status" id="s5">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">06 • Google</div>
-    <div class="value" id="google">--</div>
-    <div class="status" id="st6">Waiting</div>
+<div class="item">
+ <div class="label">GOOGLE</div>
+ <div class="value" id="google">--</div>
+ <div class="status" id="s6">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">07 • Cloudflare</div>
-    <div class="value" id="cloudflare">--</div>
-    <div class="status" id="st7">Waiting</div>
+<div class="item">
+ <div class="label">CLOUDFLARE</div>
+ <div class="value" id="cloudflare">--</div>
+ <div class="status" id="s7">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">08 • API</div>
-    <div class="value" id="api">--</div>
-    <div class="status" id="st8">Waiting</div>
+<div class="item">
+ <div class="label">API RESPONSE</div>
+ <div class="value" id="api">--</div>
+ <div class="status" id="s8">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">09 • 100 KB</div>
-    <div class="value" id="d100">--</div>
-    <div class="status" id="st9">Waiting</div>
+<div class="item">
+ <div class="label">100 KB</div>
+ <div class="value" id="d100">--</div>
+ <div class="status" id="s9">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">10 • 500 KB</div>
-    <div class="value" id="d500">--</div>
-    <div class="status" id="st10">Waiting</div>
+<div class="item">
+ <div class="label">500 KB</div>
+ <div class="value" id="d500">--</div>
+ <div class="status" id="s10">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">11 • 1 MB</div>
-    <div class="value" id="d1m">--</div>
-    <div class="status" id="st11">Waiting</div>
+<div class="item">
+ <div class="label">1 MB</div>
+ <div class="value" id="d1">--</div>
+ <div class="status" id="s11">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">12 • 5 MB</div>
-    <div class="value" id="d5m">--</div>
-    <div class="status" id="st12">Waiting</div>
+<div class="item">
+ <div class="label">5 MB</div>
+ <div class="value" id="d5">--</div>
+ <div class="status" id="s12">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">13 • Network Type</div>
-    <div class="value" id="network">--</div>
-    <div class="status" id="st13">Waiting</div>
+<div class="item">
+ <div class="label">NETWORK TYPE</div>
+ <div class="value" id="network">--</div>
+ <div class="status" id="s13">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">14 • Downlink</div>
-    <div class="value" id="downlink">--</div>
-    <div class="status" id="st14">Waiting</div>
+<div class="item">
+ <div class="label">CHROME DOWNLINK</div>
+ <div class="value" id="downlink">--</div>
+ <div class="status" id="s14">Waiting</div>
 </div>
 
-<div class="test">
-    <div class="name">15 • Final Index</div>
-    <div class="value" id="final">--</div>
-    <div class="status" id="st15">Waiting</div>
+<div class="item">
+ <div class="label">STABILITY</div>
+ <div class="value" id="stability">--</div>
+ <div class="status" id="s15">Waiting</div>
 </div>
 
 </div>
 
-<div class="log" id="log">
-Ready...
-</div>
+<div class="log" id="log">Ready...</div>
 
 </div>
 </div>
 
 <script>
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
+
+const canvas=$("graph");
+const ctx=canvas.getContext("2d");
+
+let graphData=[];
 
 function log(text){
-    $("log").innerHTML += "<br>• " + text;
-    $("log").scrollTop = $("log").scrollHeight;
+ $("log").innerHTML+="<br>• "+text;
+ $("log").scrollTop=$("log").scrollHeight;
 }
 
 function done(n){
-    $("st"+n).textContent = "Done";
+ $("s"+n).textContent="Done";
 }
 
-function wait(ms){
-    return new Promise(resolve => setTimeout(resolve,ms));
+function sleep(ms){
+ return new Promise(r=>setTimeout(r,ms));
 }
 
 
-/* 01 - INTERNET */
+/* =========================
+   GRAPH
+========================= */
 
-async function testInternet(){
+function resizeCanvas(){
 
-    try{
+ canvas.width=canvas.clientWidth*devicePixelRatio;
+ canvas.height=180*devicePixelRatio;
 
-        const start = performance.now();
+ drawGraph();
+}
 
-        await fetch(
-            "https://www.cloudflare.com/cdn-cgi/trace?t="+Math.random(),
-            {
-                cache:"no-store",
-                mode:"cors"
-            }
-        );
+window.addEventListener("resize",resizeCanvas);
 
-        const time = performance.now()-start;
+function drawGraph(){
 
-        $("internet").textContent = "ONLINE";
-        done(1);
+ const w=canvas.width;
+ const h=canvas.height;
 
-        return time;
+ ctx.clearRect(0,0,w,h);
 
-    }catch(e){
+ ctx.strokeStyle="#173047";
+ ctx.lineWidth=devicePixelRatio;
 
-        $("internet").textContent = "OFFLINE";
-        $("st1").textContent = "Failed";
+ for(let i=1;i<5;i++){
 
-        return null;
+  const y=(h/5)*i;
+
+  ctx.beginPath();
+  ctx.moveTo(0,y);
+  ctx.lineTo(w,y);
+  ctx.stroke();
+ }
+
+ if(graphData.length<2)return;
+
+ const max=Math.max(...graphData,10);
+
+ ctx.beginPath();
+
+ graphData.forEach((v,i)=>{
+
+  const x=
+   (i/(graphData.length-1))*w;
+
+  const y=
+   h-(v/max)*h*.85-10;
+
+  if(i===0)ctx.moveTo(x,y);
+  else ctx.lineTo(x,y);
+ });
+
+ ctx.strokeStyle="#00e676";
+ ctx.lineWidth=3*devicePixelRatio;
+ ctx.stroke();
+}
+
+resizeCanvas();
+
+
+/* =========================
+   PING
+========================= */
+
+async function testPing(){
+
+ let times=[];
+
+ for(let i=0;i<7;i++){
+
+  const start=performance.now();
+
+  try{
+
+   await fetch(
+    "https://www.cloudflare.com/cdn-cgi/trace?t="+Math.random(),
+    {
+     cache:"no-store",
+     mode:"cors"
     }
+   );
+
+   times.push(performance.now()-start);
+
+  }catch(e){}
+
+  await sleep(100);
+ }
+
+ if(!times.length)return null;
+
+ const avg=
+  times.reduce((a,b)=>a+b,0)/times.length;
+
+ $("ping").textContent=
+  Math.round(avg)+" ms";
+
+ done(1);
+
+ return avg;
 }
 
 
-/* 02 - LATENCY */
-
-async function testLatency(){
-
-    let results=[];
-
-    for(let i=0;i<5;i++){
-
-        const start=performance.now();
-
-        try{
-
-            await fetch(
-                "https://www.cloudflare.com/cdn-cgi/trace?t="+Math.random(),
-                {
-                    cache:"no-store",
-                    mode:"cors"
-                }
-            );
-
-            results.push(performance.now()-start);
-
-        }catch(e){}
-
-        await wait(100);
-    }
-
-    if(!results.length) return null;
-
-    const avg =
-        results.reduce((a,b)=>a+b,0)/results.length;
-
-    $("latency").textContent =
-        Math.round(avg)+" ms";
-
-    done(2);
-
-    return avg;
-}
-
-
-/* 03 - JITTER */
+/* =========================
+   JITTER
+========================= */
 
 async function testJitter(){
 
-    let values=[];
+ let arr=[];
 
-    for(let i=0;i<6;i++){
+ for(let i=0;i<6;i++){
 
-        const start=performance.now();
+  const start=performance.now();
 
-        try{
+  try{
 
-            await fetch(
-                "https://www.cloudflare.com/cdn-cgi/trace?t="+Math.random(),
-                {
-                    cache:"no-store",
-                    mode:"cors"
-                }
-            );
-
-            values.push(performance.now()-start);
-
-        }catch(e){}
-
-        await wait(100);
+   await fetch(
+    "https://www.cloudflare.com/cdn-cgi/trace?t="+Math.random(),
+    {
+     cache:"no-store",
+     mode:"cors"
     }
+   );
 
-    if(values.length<2) return null;
+   arr.push(performance.now()-start);
 
-    let difference=[];
+  }catch(e){}
 
-    for(let i=1;i<values.length;i++){
-        difference.push(
-            Math.abs(values[i]-values[i-1])
-        );
-    }
+  await sleep(100);
+ }
 
-    const avg =
-        difference.reduce((a,b)=>a+b,0)
-        /difference.length;
+ if(arr.length<2)return null;
 
-    $("jitter").textContent =
-        Math.round(avg)+" ms";
+ let diffs=[];
 
-    done(3);
+ for(let i=1;i<arr.length;i++){
+  diffs.push(Math.abs(arr[i]-arr[i-1]));
+ }
 
-    return avg;
+ const avg=
+  diffs.reduce((a,b)=>a+b,0)/diffs.length;
+
+ $("jitter").textContent=
+  Math.round(avg)+" ms";
+
+ done(2);
+
+ return avg;
 }
 
 
-/* 04 - DNS */
+/* =========================
+   DNS
+========================= */
 
 async function testDNS(){
 
-    const start=performance.now();
+ const start=performance.now();
 
-    try{
+ try{
 
-        await fetch(
-            "https://cloudflare-dns.com/dns-query?name=example.com&type=A",
-            {
-                cache:"no-store",
-                headers:{
-                    "accept":"application/dns-json"
-                }
-            }
-        );
-
-        const time=performance.now()-start;
-
-        $("dns").textContent =
-            Math.round(time)+" ms";
-
-        done(4);
-
-        return time;
-
-    }catch(e){
-
-        $("dns").textContent="Failed";
-        return null;
+  await fetch(
+   "https://cloudflare-dns.com/dns-query?name=example.com&type=A",
+   {
+    cache:"no-store",
+    headers:{
+     accept:"application/dns-json"
     }
+   }
+  );
+
+  const t=performance.now()-start;
+
+  $("dns").textContent=Math.round(t)+" ms";
+
+  done(4);
+
+  return t;
+
+ }catch(e){
+
+  $("dns").textContent="Failed";
+
+  return null;
+ }
 }
 
 
-/* 05 - HTTPS */
+/* =========================
+   HTTPS
+========================= */
 
 async function testHTTPS(){
 
-    const start=performance.now();
+ const start=performance.now();
 
-    try{
+ try{
 
-        await fetch(
-            "https://example.com/?t="+Math.random(),
-            {
-                cache:"no-store",
-                mode:"cors"
-            }
-        );
+  await fetch(
+   "https://example.com/?t="+Math.random(),
+   {
+    cache:"no-store",
+    mode:"cors"
+   }
+  );
 
-        const time=performance.now()-start;
+  const t=performance.now()-start;
 
-        $("https").textContent =
-            Math.round(time)+" ms";
+  $("https").textContent=Math.round(t)+" ms";
 
-        done(5);
+  done(5);
 
-        return time;
+  return t;
 
-    }catch(e){
+ }catch(e){
 
-        $("https").textContent="Failed";
-        return null;
-    }
+  $("https").textContent="Failed";
+
+  return null;
+ }
 }
 
 
-/* 06 - GOOGLE */
+/* =========================
+   GOOGLE
+========================= */
 
 async function testGoogle(){
 
-    const start=performance.now();
+ const start=performance.now();
 
-    try{
+ try{
 
-        await fetch(
-            "https://www.google.com/generate_204?t="+Math.random(),
-            {
-                cache:"no-store",
-                mode:"no-cors"
-            }
-        );
+  await fetch(
+   "https://www.google.com/generate_204?t="+Math.random(),
+   {
+    cache:"no-store",
+    mode:"no-cors"
+   }
+  );
 
-        const time=performance.now()-start;
+  const t=performance.now()-start;
 
-        $("google").textContent =
-            Math.round(time)+" ms";
+  $("google").textContent=Math.round(t)+" ms";
 
-        done(6);
+  done(6);
 
-        return time;
+  return t;
 
-    }catch(e){
+ }catch(e){
 
-        $("google").textContent="Failed";
-        return null;
-    }
+  $("google").textContent="Failed";
+
+  return null;
+ }
 }
 
 
-/* 07 - CLOUDFLARE */
+/* =========================
+   CLOUDFLARE
+========================= */
 
 async function testCloudflare(){
 
-    const start=performance.now();
+ const start=performance.now();
 
-    try{
+ try{
 
-        await fetch(
-            "https://1.1.1.1/cdn-cgi/trace?t="+Math.random(),
-            {
-                cache:"no-store",
-                mode:"cors"
-            }
-        );
+  await fetch(
+   "https://www.cloudflare.com/cdn-cgi/trace?t="+Math.random(),
+   {
+    cache:"no-store",
+    mode:"cors"
+   }
+  );
 
-        const time=performance.now()-start;
+  const t=performance.now()-start;
 
-        $("cloudflare").textContent =
-            Math.round(time)+" ms";
+  $("cloudflare").textContent=
+   Math.round(t)+" ms";
 
-        done(7);
+  done(7);
 
-        return time;
+  return t;
 
-    }catch(e){
+ }catch(e){
 
-        $("cloudflare").textContent="Failed";
-        return null;
-    }
+  $("cloudflare").textContent="Failed";
+
+  return null;
+ }
 }
 
 
-/* 08 - API */
+/* =========================
+   API
+========================= */
 
 async function testAPI(){
 
-    const start=performance.now();
+ const start=performance.now();
 
-    try{
+ try{
 
-        await fetch(
-            "https://api.github.com/",
-            {
-                cache:"no-store"
-            }
-        );
+  await fetch(
+   "https://api.github.com/",
+   {
+    cache:"no-store"
+   }
+  );
 
-        const time=performance.now()-start;
+  const t=performance.now()-start;
 
-        $("api").textContent =
-            Math.round(time)+" ms";
+  $("api").textContent=
+   Math.round(t)+" ms";
 
-        done(8);
+  done(8);
 
-        return time;
+  return t;
 
-    }catch(e){
+ }catch(e){
 
-        $("api").textContent="Failed";
-        return null;
-    }
+  $("api").textContent="Failed";
+
+  return null;
+ }
 }
 
 
-/* DOWNLOAD */
+/* =========================
+   LIVE DOWNLOAD
+========================= */
 
-async function downloadTest(bytes){
+async function liveDownload(bytes,element){
 
-    const start=performance.now();
+ graphData=[];
+ drawGraph();
 
-    try{
+ const start=performance.now();
 
-        const response=await fetch(
-            "https://speed.cloudflare.com/__down?bytes="+
-            bytes+
-            "&t="+Math.random(),
-            {
-                cache:"no-store"
-            }
-        );
+ let total=0;
+ let lastBytes=0;
+ let lastTime=start;
 
-        const reader=response.body.getReader();
+ try{
 
-        let total=0;
+  const response=await fetch(
+   "https://speed.cloudflare.com/__down?bytes="+
+   bytes+
+   "&t="+Math.random(),
+   {
+    cache:"no-store"
+   }
+  );
 
-        while(true){
+  if(!response.body)throw new Error("No stream");
 
-            const result=await reader.read();
+  const reader=response.body.getReader();
 
-            if(result.done) break;
+  while(true){
 
-            total+=result.value.length;
-        }
+   const result=await reader.read();
 
-        const seconds =
-            (performance.now()-start)/1000;
+   if(result.done)break;
 
-        if(!total || !seconds) return null;
+   total+=result.value.length;
 
-        return (total*8/seconds)/1000000;
+   const now=performance.now();
 
-    }catch(e){
+   const dt=(now-lastTime)/1000;
 
-        return null;
+   if(dt>=0.08){
+
+    const chunkBytes=total-lastBytes;
+
+    const mbps=
+     (chunkBytes*8/dt)/1000000;
+
+    $("liveSpeed").textContent=
+     mbps.toFixed(2);
+
+    graphData.push(mbps);
+
+    if(graphData.length>80){
+     graphData.shift();
     }
+
+    drawGraph();
+
+    lastBytes=total;
+    lastTime=now;
+   }
+  }
+
+  const seconds=
+   (performance.now()-start)/1000;
+
+  const speed=
+   (total*8/seconds)/1000000;
+
+  $("liveSpeed").textContent=
+   speed.toFixed(2);
+
+  return speed;
+
+ }catch(e){
+
+  $("liveSpeed").textContent="0.00";
+
+  return null;
+ }
 }
 
 
-/* 09 */
+/* =========================
+   DOWNLOAD TESTS
+========================= */
 
-async function test100KB(){
+async function test100(){
 
-    const speed=await downloadTest(100*1024);
+ const speed=
+  await liveDownload(100*1024,"d100");
 
-    if(speed===null){
-        $("d100").textContent="Failed";
-        return null;
-    }
+ if(speed===null){
+  $("d100").textContent="Failed";
+  return null;
+ }
 
-    $("d100").textContent =
-        speed.toFixed(2)+" Mbps";
+ $("d100").textContent=
+  speed.toFixed(2)+" Mbps";
 
-    done(9);
+ done(9);
 
-    return speed;
+ return speed;
 }
 
 
-/* 10 */
+async function test500(){
 
-async function test500KB(){
+ const speed=
+  await liveDownload(500*1024,"d500");
 
-    const speed=await downloadTest(500*1024);
+ if(speed===null){
+  $("d500").textContent="Failed";
+  return null;
+ }
 
-    if(speed===null){
-        $("d500").textContent="Failed";
-        return null;
-    }
+ $("d500").textContent=
+  speed.toFixed(2)+" Mbps";
 
-    $("d500").textContent =
-        speed.toFixed(2)+" Mbps";
+ done(10);
 
-    done(10);
-
-    return speed;
+ return speed;
 }
 
-
-/* 11 */
 
 async function test1MB(){
 
-    const speed=await downloadTest(1024*1024);
+ const speed=
+  await liveDownload(1024*1024,"d1");
 
-    if(speed===null){
-        $("d1m").textContent="Failed";
-        return null;
-    }
+ if(speed===null){
+  $("d1").textContent="Failed";
+  return null;
+ }
 
-    $("d1m").textContent =
-        speed.toFixed(2)+" Mbps";
+ $("d1").textContent=
+  speed.toFixed(2)+" Mbps";
 
-    done(11);
+ done(11);
 
-    return speed;
+ return speed;
 }
 
-
-/* 12 */
 
 async function test5MB(){
 
-    const speed=await downloadTest(5*1024*1024);
+ const speed=
+  await liveDownload(5*1024*1024,"d5");
 
-    if(speed===null){
-        $("d5m").textContent="Failed";
-        return null;
-    }
+ if(speed===null){
+  $("d5").textContent="Failed";
+  return null;
+ }
 
-    $("d5m").textContent =
-        speed.toFixed(2)+" Mbps";
+ $("d5").textContent=
+  speed.toFixed(2)+" Mbps";
 
-    done(12);
+ done(12);
 
-    return speed;
+ return speed;
 }
 
 
-/* 13 - NETWORK TYPE */
+/* =========================
+   NETWORK INFORMATION
+========================= */
 
 function testNetwork(){
 
-    const connection =
-        navigator.connection ||
-        navigator.mozConnection ||
-        navigator.webkitConnection;
+ const c=
+  navigator.connection ||
+  navigator.mozConnection ||
+  navigator.webkitConnection;
 
-    if(!connection){
+ if(!c){
 
-        $("network").textContent="Unavailable";
-        $("st13").textContent="Chrome API unavailable";
+  $("network").textContent="Unavailable";
 
-        return null;
-    }
+  return null;
+ }
 
-    const type =
-        connection.effectiveType ||
-        connection.type ||
-        "Unknown";
+ $("network").textContent=
+  (c.effectiveType || "unknown").toUpperCase();
 
-    $("network").textContent =
-        type.toUpperCase();
+ done(13);
 
-    done(13);
-
-    return connection;
+ return c;
 }
 
-
-/* 14 - DOWNLINK */
 
 function testDownlink(){
 
-    const connection =
-        navigator.connection ||
-        navigator.mozConnection ||
-        navigator.webkitConnection;
+ const c=
+  navigator.connection ||
+  navigator.mozConnection ||
+  navigator.webkitConnection;
 
-    if(!connection ||
-       typeof connection.downlink!=="number"){
+ if(!c ||
+    typeof c.downlink!=="number"){
 
-        $("downlink").textContent="Unavailable";
-        $("st14").textContent="Chrome API unavailable";
+  $("downlink").textContent=
+   "Unavailable";
 
-        return null;
-    }
+  return null;
+ }
 
-    const speed=connection.downlink;
+ $("downlink").textContent=
+  c.downlink.toFixed(2)+" Mbps";
 
-    $("downlink").textContent =
-        speed.toFixed(2)+" Mbps";
+ done(14);
 
-    done(14);
-
-    return speed;
+ return c.downlink;
 }
 
 
-/* FINAL SCORE */
+/* =========================
+   STABILITY
+========================= */
 
-function calculateScore(data){
+async function testStability(){
 
-    let points=[];
-    let p;
+ let values=[];
 
-    /* latency */
+ for(let i=0;i<8;i++){
 
-    if(data.latency!==null){
+  const start=performance.now();
 
-        p=100-Math.min(data.latency,300)/3;
-        points.push(Math.max(0,p));
+  try{
+
+   await fetch(
+    "https://www.cloudflare.com/cdn-cgi/trace?t="+Math.random(),
+    {
+     cache:"no-store",
+     mode:"cors"
     }
+   );
 
-    /* jitter */
+   values.push(performance.now()-start);
 
-    if(data.jitter!==null){
+  }catch(e){}
 
-        p=100-Math.min(data.jitter,100);
-        points.push(Math.max(0,p));
-    }
+  await sleep(150);
+ }
 
-    /* download */
+ if(values.length<2)return null;
 
-    if(data.download!==null){
+ const avg=
+  values.reduce((a,b)=>a+b,0)/values.length;
 
-        p=Math.min(100,
-            data.download/500*100
-        );
+ const variance=
+  values.reduce(
+   (a,b)=>a+Math.pow(b-avg,2),
+   0
+  )/values.length;
 
-        points.push(p);
-    }
+ const deviation=Math.sqrt(variance);
 
-    /* API/connection */
+ const score=Math.max(
+  0,
+  Math.min(100,100-deviation*2)
+ );
 
-    if(data.https!==null){
+ $("stability").textContent=
+  Math.round(score)+"/100";
 
-        p=100-Math.min(data.https,500)/5;
-        points.push(Math.max(0,p));
-    }
+ done(15);
 
-    /* downlink */
-
-    if(data.downlink!==null){
-
-        p=Math.min(100,
-            data.downlink/500*100
-        );
-
-        points.push(p);
-    }
-
-    if(!points.length) return 0;
-
-    return Math.round(
-        points.reduce((a,b)=>a+b,0)
-        /points.length
-    );
+ return score;
 }
 
 
-/* RUN ALL */
+/* =========================
+   INDEX
+========================= */
 
-async function runTests(){
+function calculateIndex(
+ ping,
+ jitter,
+ download,
+ stability,
+ downlink
+){
 
-    const btn=$("start");
+ let scores=[];
 
-    btn.disabled=true;
-    btn.textContent="TESTING...";
+ if(ping!==null){
 
-    $("log").innerHTML="Starting test...";
+  scores.push(
+   Math.max(
+    0,
+    100-Math.min(ping,300)/3
+   )
+  );
+ }
 
-    log("Checking internet...");
+ if(jitter!==null){
 
-    const data={
-        latency:null,
-        jitter:null,
-        dns:null,
-        https:null,
-        download:null,
-        downlink:null
-    };
+  scores.push(
+   Math.max(
+    0,
+    100-Math.min(jitter,100)
+   )
+  );
+ }
 
-    await testInternet();
+ if(download!==null){
 
-    log("Testing latency...");
-    data.latency=await testLatency();
+  scores.push(
+   Math.min(
+    100,
+    download/500*100
+   )
+  );
+ }
 
-    log("Testing jitter...");
-    data.jitter=await testJitter();
+ if(downlink!==null){
 
-    log("Testing DNS...");
-    data.dns=await testDNS();
+  scores.push(
+   Math.min(
+    100,
+    downlink/500*100
+   )
+  );
+ }
 
-    log("Testing HTTPS...");
-    data.https=await testHTTPS();
+ if(stability!==null){
+  scores.push(stability);
+ }
 
-    log("Testing Google...");
-    await testGoogle();
+ if(!scores.length)return 0;
 
-    log("Testing Cloudflare...");
-    await testCloudflare();
+ return Math.round(
+  scores.reduce((a,b)=>a+b,0)/scores.length
+ );
+}
 
-    log("Testing API...");
-    await testAPI();
 
-    log("Testing 100 KB download...");
-    await test100KB();
+/* =========================
+   START
+========================= */
 
-    log("Testing 500 KB download...");
-    await test500KB();
+async function startTest(){
 
-    log("Testing 1 MB download...");
-    await test1MB();
+ const btn=$("start");
 
-    log("Testing 5 MB download...");
-    data.download=await test5MB();
+ btn.disabled=true;
+ btn.textContent="TESTING...";
 
-    log("Checking network type...");
-    testNetwork();
+ $("log").innerHTML="Starting...";
 
-    log("Checking Chrome downlink...");
-    data.downlink=testDownlink();
+ graphData=[];
+ drawGraph();
 
-    log("Calculating final index...");
+ log("Checking connection...");
 
-    const score=calculateScore(data);
+ log("Ping test...");
+ const ping=await testPing();
 
-    $("score").textContent=score;
-    $("final").textContent=score+"/100";
-    done(15);
+ log("Jitter test...");
+ const jitter=await testJitter();
 
-    const degree=score*3.6;
+ log("DNS test...");
+ await testDNS();
 
-    $("circle").style.background=
-        `conic-gradient(
-            #00e676 0deg,
-            #00e676 ${degree}deg,
-            #172b40 ${degree}deg
-        )`;
+ log("HTTPS test...");
+ await testHTTPS();
 
-    log("Internet test completed.");
+ log("Google test...");
+ await testGoogle();
 
-    btn.disabled=false;
-    btn.textContent="RUN TEST AGAIN";
+ log("Cloudflare test...");
+ await testCloudflare();
+
+ log("API response test...");
+ await testAPI();
+
+ log("100 KB live download...");
+ await test100();
+
+ log("500 KB live download...");
+ await test500();
+
+ log("1 MB live download...");
+ await test1MB();
+
+ log("5 MB LIVE DOWNLOAD...");
+ const download=await test5MB();
+
+ log("Reading network type...");
+ const connection=testNetwork();
+
+ log("Reading Chrome downlink...");
+ const downlink=testDownlink();
+
+ log("Testing stability...");
+ const stability=await testStability();
+
+ log("Calculating Internet Index...");
+
+ const score=calculateIndex(
+  ping,
+  jitter,
+  download,
+  stability,
+  downlink
+ );
+
+ $("index").textContent=score;
+
+ const deg=score*3.6;
+
+ $("indexCircle").style.background=
+ `conic-gradient(
+   #00e676 0deg,
+   #00e676 ${deg}deg,
+   #172c41 ${deg}deg
+ )`;
+
+ log("Test completed.");
+
+ btn.disabled=false;
+ btn.textContent="RUN TEST AGAIN";
 }
 
 </script>
