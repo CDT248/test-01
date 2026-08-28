@@ -2,288 +2,236 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#07111f">
-<title>WiFi Analyzer Pro — 300 Tests</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WiFi Analyzer Pro</title>
 
 <style>
 :root{
- --bg:#050d18;
- --card:#0b1929;
- --card2:#10243a;
- --border:#203a55;
- --text:#f4f8ff;
- --muted:#8da5bc;
- --blue:#1683ff;
- --cyan:#00c8ff;
- --green:#00df8a;
- --red:#ff5365;
- --yellow:#ffd34d;
+  --bg:#07111f;
+  --card:#0d1b2d;
+  --card2:#10243b;
+  --text:#eef6ff;
+  --muted:#91a7bd;
+  --blue:#28a9ff;
+  --green:#20d68b;
+  --red:#ff5570;
+  --yellow:#ffc857;
+  --border:#1b3550;
 }
 
 *{box-sizing:border-box}
 
 body{
- margin:0;
- background:
- radial-gradient(circle at 10% 0%,#123b70,transparent 30%),
- radial-gradient(circle at 90% 0%,#351263,transparent 27%),
- var(--bg);
- color:var(--text);
- font-family:Arial,Helvetica,sans-serif;
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:linear-gradient(135deg,#050c16,#09182a 55%,#06111e);
+  color:var(--text);
 }
 
 header{
- text-align:center;
- padding:28px 15px;
- background:linear-gradient(135deg,#096cff,#7028d9);
+  padding:24px;
+  border-bottom:1px solid var(--border);
+  background:rgba(5,14,25,.85);
+  position:sticky;
+  top:0;
+  z-index:5;
+  backdrop-filter:blur(15px);
 }
 
-header h1{
- margin:0 0 7px;
- font-size:30px;
+.header{
+  max-width:1400px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
 }
 
-header p{
- margin:0;
- opacity:.85;
+.logo{
+  font-size:25px;
+  font-weight:800;
 }
 
-.container{
- max-width:1300px;
- margin:auto;
- padding:15px;
-}
-
-.toolbar{
- display:flex;
- flex-wrap:wrap;
- gap:8px;
- margin-bottom:14px;
-}
-
-button{
- border:0;
- border-radius:10px;
- padding:11px 14px;
- color:#fff;
- background:var(--blue);
- font-weight:bold;
- cursor:pointer;
-}
-
-button:hover{filter:brightness(1.1)}
-button:disabled{opacity:.5}
-
-.secondary{background:#263b54}
-.green{background:#087f5b}
-.red{background:#a01e37}
+.logo span{color:var(--blue)}
 
 .status{
- display:flex;
- flex-wrap:wrap;
- justify-content:space-between;
- gap:12px;
- background:var(--card);
- border:1px solid var(--border);
- border-radius:13px;
- padding:13px;
+  padding:8px 14px;
+  border-radius:20px;
+  background:#11283e;
+  color:#7bd0ff;
+  font-size:13px;
 }
 
-.online{color:var(--green)}
-.offline{color:var(--red)}
-
-.section{margin-top:22px}
-
-.section h2{
- margin:0 0 10px;
- color:#68b3ff;
- font-size:19px;
+main{
+  max-width:1400px;
+  margin:auto;
+  padding:22px;
 }
 
 .grid{
- display:grid;
- grid-template-columns:
- repeat(auto-fit,minmax(185px,1fr));
- gap:10px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
 }
 
 .card{
- background:var(--card);
- border:1px solid var(--border);
- border-radius:14px;
- padding:14px;
+  background:linear-gradient(145deg,var(--card),#0a1727);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
 }
 
-.label{
- color:var(--muted);
- font-size:12px;
+.card h3{
+  margin:0 0 10px;
+  font-size:14px;
+  color:var(--muted);
 }
 
 .value{
- margin-top:6px;
- font-weight:bold;
- word-break:break-word;
+  font-size:23px;
+  font-weight:750;
+  word-break:break-word;
 }
 
-.big{
- font-size:38px;
- color:#65b3ff;
+.sub{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:12px;
 }
 
-.speed{
- text-align:center;
- padding:22px;
+.section{
+  margin-top:20px;
 }
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.section-title h2{
+  margin:0;
+  font-size:19px;
+}
+
+button{
+  border:0;
+  padding:11px 15px;
+  border-radius:10px;
+  color:white;
+  background:#117ac0;
+  cursor:pointer;
+  font-weight:650;
+}
+
+button:hover{filter:brightness(1.12)}
+button:disabled{opacity:.45;cursor:not-allowed}
+
+.buttons{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.good{color:var(--green)}
+.bad{color:var(--red)}
+.warn{color:var(--yellow)}
 
 .progress{
- height:8px;
- background:#1b2c40;
- border-radius:20px;
- overflow:hidden;
- margin:15px 0;
+  width:100%;
+  height:9px;
+  background:#07111d;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:12px;
 }
 
 .progress div{
- width:0;
- height:100%;
- background:linear-gradient(
-  90deg,
-  #1683ff,
-  #00c8ff,
-  #00df8a
- );
- transition:.2s;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#168cff,#24e0a0);
+  transition:.2s;
 }
 
-.speedGrid{
- display:grid;
- grid-template-columns:
- repeat(auto-fit,minmax(140px,1fr));
- gap:9px;
-}
-
-.speedItem{
- background:var(--card2);
- border-radius:10px;
- padding:12px;
-}
-
-.filters{
- display:flex;
- flex-wrap:wrap;
- gap:7px;
- margin-bottom:10px;
-}
-
-.filter{
- padding:8px 12px;
- background:#263b54;
- border-radius:18px;
- cursor:pointer;
- font-size:12px;
-}
-
-.filter.active{background:var(--blue)}
-
-.tests{
- display:grid;
- grid-template-columns:
- repeat(auto-fit,minmax(285px,1fr));
- gap:8px;
+.test-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
 }
 
 .test{
- display:flex;
- justify-content:space-between;
- gap:8px;
- align-items:center;
- padding:10px;
- background:var(--card);
- border:1px solid var(--border);
- border-radius:10px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:12px;
+  background:#091727;
 }
 
-.testName{
- font-size:12px;
+.test-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.test-name{
+  font-weight:650;
 }
 
 .badge{
- font-size:9px;
- padding:5px 8px;
- border-radius:15px;
- font-weight:bold;
- white-space:nowrap;
+  font-size:11px;
+  padding:3px 7px;
+  border-radius:10px;
+  background:#13283c;
+  color:#a8bfd5;
 }
 
-.pass{
- color:#73ffc1;
- background:#063d2d;
+.test-result{
+  margin-top:8px;
+  font-size:13px;
+  color:var(--muted);
 }
 
-.fail{
- color:#ff8a95;
- background:#481925;
+.history{
+  max-height:480px;
+  overflow:auto;
 }
 
-.na{
- color:#c4d0dc;
- background:#29394a;
+.history-item{
+  display:grid;
+  grid-template-columns:170px 1fr 120px;
+  gap:10px;
+  padding:11px;
+  border-bottom:1px solid #142b40;
+  font-size:13px;
 }
 
-.permission{
- color:#ffe48c;
- background:#40340d;
-}
-
-.historyWrap{
- overflow:auto;
- background:var(--card);
- border:1px solid var(--border);
- border-radius:13px;
-}
+.small{font-size:12px;color:var(--muted)}
 
 table{
- width:100%;
- border-collapse:collapse;
- min-width:900px;
+  width:100%;
+  border-collapse:collapse;
 }
 
-th,td{
- padding:9px;
- border-bottom:1px solid var(--border);
- text-align:left;
- font-size:11px;
+td,th{
+  padding:10px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+  font-size:13px;
 }
 
-th{
- color:#69b4ff;
- position:sticky;
- top:0;
- background:#0b1929;
+th{color:var(--muted)}
+
+@media(max-width:1050px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .test-grid{grid-template-columns:repeat(2,1fr)}
 }
 
-.failRow{
- background:rgba(255,60,80,.07);
-}
-
-footer{
- text-align:center;
- padding:28px;
- color:var(--muted);
- font-size:12px;
-}
-
-.note{
- color:var(--muted);
- font-size:12px;
- line-height:1.6;
- margin-top:10px;
-}
-
-@media(max-width:600px){
- button{width:100%}
- header h1{font-size:24px}
+@media(max-width:650px){
+  main{padding:12px}
+  .grid,.test-grid{grid-template-columns:1fr}
+  .header{align-items:flex-start;flex-direction:column}
+  .history-item{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -291,4074 +239,1039 @@ footer{
 <body>
 
 <header>
-<h1>📡 WiFi Analyzer Pro</h1>
-<p>300 Real Browser Diagnostics & Internet Tests</p>
+  <div class="header">
+    <div class="logo">WiFi <span>Analyzer</span> Pro</div>
+    <div id="onlineStatus" class="status">Checking...</div>
+  </div>
 </header>
 
-<div class="container">
-
-<div class="toolbar">
-<button id="runBtn" onclick="runAll()">🧪 Run 300 Tests</button>
-<button onclick="refreshNetwork()">🔄 Refresh</button>
-<button onclick="speedTest()">⚡ Speed Test</button>
-<button onclick="getLocation()">📍 Location</button>
-<button onclick="exportJSON()">JSON</button>
-<button onclick="exportCSV()">CSV</button>
-<button class="secondary" onclick="showOnlyFail()">❌ Fail Only</button>
-<button class="secondary" onclick="showAll()">All</button>
-<button class="red" onclick="clearHistory()">Clear History</button>
-</div>
-
-<div class="status">
-<div>
-Internet:
-<b id="online">Checking...</b>
-</div>
-
-<div>
-Completed:
-<b id="completed">0 / 300</b>
-</div>
-
-<div>
-PASS:
-<b id="pass">0</b>
-</div>
-
-<div>
-FAIL:
-<b id="fail">0</b>
-</div>
-
-<div>
-N/A:
-<b id="na">0</b>
-</div>
-
-<div id="clock">--</div>
-</div>
-
-
-<!-- INTERNET -->
-
-<section class="section">
-<h2>🌐 Internet Information</h2>
-
-<div class="grid">
-
-<div class="card">
-<div class="label">IPv4</div>
-<div class="value" id="ipv4">--</div>
-</div>
-
-<div class="card">
-<div class="label">IPv6</div>
-<div class="value" id="ipv6">--</div>
-</div>
-
-<div class="card">
-<div class="label">ISP</div>
-<div class="value" id="isp">--</div>
-</div>
-
-<div class="card">
-<div class="label">ASN</div>
-<div class="value" id="asn">--</div>
-</div>
-
-<div class="card">
-<div class="label">Country</div>
-<div class="value" id="country">--</div>
-</div>
-
-<div class="card">
-<div class="label">City</div>
-<div class="value" id="city">--</div>
-</div>
-
-<div class="card">
-<div class="label">Timezone</div>
-<div class="value" id="tz">--</div>
-</div>
-
-<div class="card">
-<div class="label">Secure Context</div>
-<div class="value" id="secure">--</div>
-</div>
-
-</div>
-
-<div class="note">
-Public IP/ISP information uses public Internet services.
-Chrome webpages cannot directly read router PPPoE credentials,
-DHCP leases, router passwords or Wi-Fi SSID.
-</div>
-</section>
-
-
-<!-- NETWORK -->
-
-<section class="section">
-<h2>📶 Network Information</h2>
-
-<div class="grid">
-
-<div class="card">
-<div class="label">Online</div>
-<div class="value" id="netOnline">--</div>
-</div>
-
-<div class="card">
-<div class="label">Connection Type</div>
-<div class="value" id="netType">--</div>
-</div>
-
-<div class="card">
-<div class="label">Effective Type</div>
-<div class="value" id="effective">--</div>
-</div>
-
-<div class="card">
-<div class="label">Downlink Estimate</div>
-<div class="value" id="downlink">--</div>
-</div>
-
-<div class="card">
-<div class="label">Browser RTT</div>
-<div class="value" id="rtt">--</div>
-</div>
-
-<div class="card">
-<div class="label">Save Data</div>
-<div class="value" id="saveData">--</div>
-</div>
-
-</div>
-</section>
-
-
-<!-- SPEED -->
-
-<section class="section">
-<h2>⚡ Internet Speed Test</h2>
-
-<div class="card speed">
-
-<div id="speedStatus">Ready</div>
-
-<div class="big" id="speedValue">--</div>
-
-<div class="label">Mbps</div>
-
-<div class="progress">
-<div id="progress"></div>
-</div>
-
-<div class="speedGrid">
-
-<div class="speedItem">
-<div class="label">Download</div>
-<div class="value" id="download">--</div>
-</div>
-
-<div class="speedItem">
-<div class="label">Upload</div>
-<div class="value" id="upload">--</div>
-</div>
-
-<div class="speedItem">
-<div class="label">Ping</div>
-<div class="value" id="ping">--</div>
-</div>
-
-<div class="speedItem">
-<div class="label">Jitter</div>
-<div class="value" id="jitter">--</div>
-</div>
-
-<div class="speedItem">
-<div class="label">Quality</div>
-<div class="value" id="quality">--</div>
-</div>
-
-<div class="speedItem">
-<div class="label">Duration</div>
-<div class="value" id="duration">--</div>
-</div>
-
-</div>
-</div>
-</section>
-
-
-<!-- LOCATION -->
-
-<section class="section">
-<h2>📍 Location</h2>
-
-<div class="grid">
-
-<div class="card">
-<div class="label">Latitude</div>
-<div class="value" id="lat">--</div>
-</div>
-
-<div class="card">
-<div class="label">Longitude</div>
-<div class="value" id="lon">--</div>
-</div>
-
-<div class="card">
-<div class="label">Accuracy</div>
-<div class="value" id="accuracy">--</div>
-</div>
-
-<div class="card">
-<div class="label">Altitude</div>
-<div class="value" id="altitude">--</div>
-</div>
-
-</div>
-</section>
-
-
-<!-- TEST LIST -->
-
-<section class="section">
-
-<h2>🧪 300 Tests</h2>
-
-<div class="filters">
-
-<span class="filter active"
-onclick="filterTests('ALL',this)">
-ALL
-</span>
-
-<span class="filter"
-onclick="filterTests('PASS',this)">
-PASS
-</span>
-
-<span class="filter"
-onclick="filterTests('FAIL',this)">
-FAIL
-</span>
-
-<span class="filter"
-onclick="filterTests('N/A',this)">
-N/A
-</span>
-
-<span class="filter"
-onclick="filterTests('PERMISSION',this)">
-PERMISSION
-</span>
-
-</div>
-
-<div class="tests" id="tests">
-<div class="test">
-<div class="testName">
-Press Run 300 Tests
-</div>
-</div>
-</div>
-
-</section>
-
-
-<!-- HISTORY -->
-
-<section class="section">
-
-<h2>📜 Complete Test History</h2>
-
-<div class="historyWrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Run</th>
-<th>Time</th>
-<th>#</th>
-<th>Test</th>
-<th>Result</th>
-</tr>
-</thead>
-
-<tbody id="history"></tbody>
-
-</table>
-
-<div id="emptyHistory"
-style="padding:20px;text-align:center;color:#8da5bc">
-No test history.
-</div>
-
-</div>
-</section>
-
-</div>
-
-<footer>
-WiFi Analyzer Pro • Browser-accessible diagnostics only
-</footer>
-
+<main>
+
+  <!-- BASIC NETWORK INFORMATION -->
+  <section class="grid">
+
+    <div class="card">
+      <h3>Connection</h3>
+      <div id="connection" class="value">N/A</div>
+      <div id="connectionDetails" class="sub">Waiting...</div>
+    </div>
+
+    <div class="card">
+      <h3>Public IPv4</h3>
+      <div id="ipv4" class="value">Loading...</div>
+      <div class="sub">Detected from external service</div>
+    </div>
+
+    <div class="card">
+      <h3>Public IPv6</h3>
+      <div id="ipv6" class="value">Loading...</div>
+      <div class="sub">Detected when available</div>
+    </div>
+
+    <div class="card">
+      <h3>Browser</h3>
+      <div id="browser" class="value">Loading...</div>
+      <div class="sub" id="platform"></div>
+    </div>
+
+  </section>
+
+  <!-- NETWORK DETAILS -->
+  <section class="section">
+    <div class="section-title">
+      <h2>Network Information</h2>
+      <div class="buttons">
+        <button onclick="refreshNetwork()">Refresh</button>
+        <button onclick="runAll()">Run All Tests</button>
+        <button onclick="clearHistory()">Clear History</button>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>Effective Connection Type</h3>
+        <div id="netType" class="value">N/A</div>
+        <div id="downlink" class="sub">Downlink: N/A</div>
+      </div>
+
+      <div class="card">
+        <h3>Estimated RTT</h3>
+        <div id="rtt" class="value">N/A</div>
+        <div class="sub">Browser Network Information API</div>
+      </div>
+
+      <div class="card">
+        <h3>Online Since</h3>
+        <div id="onlineSince" class="value">—</div>
+        <div class="sub">Page session</div>
+      </div>
+
+      <div class="card">
+        <h3>Data Saver</h3>
+        <div id="saveData" class="value">N/A</div>
+        <div class="sub">Browser-reported preference</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SPEED -->
+  <section class="section">
+    <div class="section-title">
+      <h2>Speed Test</h2>
+      <button id="speedBtn" onclick="speedTest()">Start Speed Test</button>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>Latency</h3>
+        <div id="latency" class="value">—</div>
+        <div class="sub">HTTP request latency</div>
+      </div>
+
+      <div class="card">
+        <h3>Download</h3>
+        <div id="downloadSpeed" class="value">—</div>
+        <div class="sub">Measured using test endpoint</div>
+      </div>
+
+      <div class="card">
+        <h3>Upload</h3>
+        <div id="uploadSpeed" class="value">—</div>
+        <div class="sub">Measured using test endpoint</div>
+      </div>
+
+    </div>
+
+    <div class="card" style="margin-top:15px">
+      <div class="small" id="speedMessage">No speed test has been performed.</div>
+      <div class="progress"><div id="speedProgress"></div></div>
+    </div>
+  </section>
+
+  <!-- DNS -->
+  <section class="section">
+    <div class="section-title">
+      <h2>DNS / Internet Tests</h2>
+    </div>
+
+    <div class="test-grid" id="dnsTests"></div>
+  </section>
+
+  <!-- WEBSITE CONNECTIVITY -->
+  <section class="section">
+    <div class="section-title">
+      <h2>Service Connectivity</h2>
+      <span class="small">
+        Blocked/CORS means the browser cannot directly verify the service.
+      </span>
+    </div>
+
+    <div class="test-grid" id="serviceTests"></div>
+  </section>
+
+  <!-- 1000 TEST ENGINE -->
+  <section class="section">
+    <div class="section-title">
+      <h2>Extended Test Suite — 1000 Tests</h2>
+      <button onclick="run1000()">Run 1000 Tests</button>
+    </div>
+
+    <div class="card">
+      <div id="suiteStatus">Ready.</div>
+      <div class="progress"><div id="suiteProgress"></div></div>
+    </div>
+
+    <div class="test-grid" id="allTests"></div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="section">
+    <div class="section-title">
+      <h2>Test History</h2>
+      <span class="small">Pass, Fail, Timeout, Blocked এবং actual result রাখা হবে</span>
+    </div>
+
+    <div class="card history" id="history"></div>
+  </section>
+
+</main>
 
 <script>
 
-/* =========================================================
-   CORE
-========================================================= */
+/* ============================================================
+   WiFi Analyzer Pro
+   Browser-only version
 
-const state={
- results:[],
- filter:"ALL",
- running:false,
- runId:0
-};
-
-let history=[];
-
-try{
- history=JSON.parse(
- localStorage.getItem(
- "wifiAnalyzer300History"
- )||"[]"
- );
-
- if(!Array.isArray(history))
- history=[];
-}catch(e){
- history=[];
-}
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-const $=id=>
- document.getElementById(id);
-
-function set(id,value){
- $(id).textContent=
- value==null?"--":value;
-}
-
-function sleep(ms){
- return new Promise(
- resolve=>setTimeout(resolve,ms)
- );
-}
-
-function api(name){
- return name in window;
-}
-
-
-/* =========================================================
-   BASIC TESTS
-========================================================= */
-
-const baseTests=[
-
-["Internet connection",
- ()=>navigator.onLine],
-
-["Secure context",
- ()=>isSecureContext],
-
-["Fetch API",
- ()=>api("fetch")],
-
-["URL API",
- ()=>api("URL")],
-
-["URLSearchParams",
- ()=>api("URLSearchParams")],
-
-["AbortController",
- ()=>api("AbortController")],
-
-["Crypto API",
- ()=>api("crypto")],
-
-["Crypto random",
- ()=>!!crypto?.getRandomValues],
-
-["TextEncoder",
- ()=>api("TextEncoder")],
-
-["TextDecoder",
- ()=>api("TextDecoder")],
-
-["Promise",
- ()=>api("Promise")],
-
-["WebSocket",
- ()=>api("WebSocket")],
-
-["EventSource",
- ()=>api("EventSource")],
-
-["Beacon API",
- ()=>!!navigator.sendBeacon],
-
-["Network Information",
- ()=>!!navigator.connection],
-
-["Effective connection type",
- ()=>!!navigator.connection?.effectiveType],
-
-["Connection downlink",
- ()=>typeof navigator.connection?.downlink==="number"],
-
-["Connection RTT",
- ()=>typeof navigator.connection?.rtt==="number"],
-
-["Connection saveData",
- ()=>typeof navigator.connection?.saveData==="boolean"],
-
-["Online event",
- ()=>"ononline" in window],
-
-["Offline event",
- ()=>"onoffline" in window],
-
-["LocalStorage",
- ()=>testStorage(localStorage)],
-
-["SessionStorage",
- ()=>testStorage(sessionStorage)],
-
-["IndexedDB",
- ()=>api("indexedDB")],
-
-["Cache API",
- ()=>api("caches")],
-
-["Storage API",
- ()=>!!navigator.storage],
-
-["Storage estimate",
- ()=>!!navigator.storage?.estimate],
-
-["Storage persist",
- ()=>!!navigator.storage?.persist],
-
-["Storage persisted",
- ()=>!!navigator.storage?.persisted],
-
-["Cookies enabled",
- ()=>navigator.cookieEnabled],
-
-["MediaDevices",
- ()=>!!navigator.mediaDevices],
-
-["getUserMedia",
- ()=>!!navigator.mediaDevices?.getUserMedia],
-
-["MediaRecorder",
- ()=>api("MediaRecorder")],
-
-["AudioContext",
- ()=>api("AudioContext")||api("webkitAudioContext")],
-
-["Media Session",
- ()=>"mediaSession" in navigator],
-
-["Picture in Picture",
- ()=>"pictureInPictureEnabled" in document],
-
-["Screen capture",
- ()=>!!navigator.mediaDevices?.getDisplayMedia],
-
-["WebCodecs",
- ()=>api("VideoDecoder")],
-
-["Canvas",
- ()=>api("HTMLCanvasElement")],
-
-["Canvas 2D",
- ()=>canvasContext("2d")],
-
-["WebGL",
- ()=>canvasContext("webgl")],
-
-["WebGL2",
- ()=>canvasContext("webgl2")],
-
-["OffscreenCanvas",
- ()=>api("OffscreenCanvas")],
-
-["ImageBitmap",
- ()=>api("createImageBitmap")],
-
-["Web Worker",
- ()=>api("Worker")],
-
-["Shared Worker",
- ()=>api("SharedWorker")],
-
-["Service Worker",
- ()=>"serviceWorker" in navigator],
-
-["BroadcastChannel",
- ()=>api("BroadcastChannel")],
-
-["MessageChannel",
- ()=>api("MessageChannel")],
-
-["MessagePort",
- ()=>api("MessagePort")],
-
-["Push API",
- ()=>api("PushManager")],
-
-["Notification API",
- ()=>api("Notification")],
-
-["Permissions API",
- ()=>!!navigator.permissions],
-
-["Geolocation API",
- ()=>"geolocation" in navigator],
-
-["Clipboard",
- ()=>!!navigator.clipboard],
-
-["Clipboard read",
- ()=>!!navigator.clipboard?.readText],
-
-["Clipboard write",
- ()=>!!navigator.clipboard?.writeText],
-
-["Web Share",
- ()=>!!navigator.share],
-
-["Web Share check",
- ()=>!!navigator.canShare],
-
-["Fullscreen",
- ()=>"fullscreenEnabled" in document],
-
-["Wake Lock",
- ()=>"wakeLock" in navigator],
-
-["Speech Synthesis",
- ()=>api("speechSynthesis")],
-
-["Speech Recognition",
- ()=>api("SpeechRecognition")||
-    api("webkitSpeechRecognition")],
-
-["Bluetooth API",
- ()=>"bluetooth" in navigator],
-
-["USB API",
- ()=>"usb" in navigator],
-
-["HID API",
- ()=>"hid" in navigator],
-
-["Serial API",
- ()=>"serial" in navigator],
-
-["NFC API",
- ()=>api("NDEFReader")],
-
-["Hardware concurrency",
- ()=>typeof navigator.hardwareConcurrency==="number"],
-
-["Device memory",
- ()=>"deviceMemory" in navigator],
-
-["Touch points",
- ()=>typeof navigator.maxTouchPoints==="number"],
-
-["Pointer Events",
- ()=>api("PointerEvent")],
-
-["Touch Events",
- ()=>"ontouchstart" in window],
-
-["Gamepad API",
- ()=>!!navigator.getGamepads],
-
-["Vibration API",
- ()=>!!navigator.vibrate],
-
-["Device Orientation",
- ()=>api("DeviceOrientationEvent")],
-
-["Device Motion",
- ()=>api("DeviceMotionEvent")],
-
-["Screen API",
- ()=>api("screen")],
-
-["Screen width",
- ()=>screen.width>0],
-
-["Screen height",
- ()=>screen.height>0],
-
-["Available width",
- ()=>screen.availWidth>0],
-
-["Available height",
- ()=>screen.availHeight>0],
-
-["Pixel ratio",
- ()=>devicePixelRatio>0],
-
-["Color depth",
- ()=>screen.colorDepth>0],
-
-["Pixel depth",
- ()=>screen.pixelDepth>0],
-
-["Screen orientation",
- ()=>!!screen.orientation],
-
-["Orientation lock",
- ()=>!!screen.orientation?.lock],
-
-["Performance API",
- ()=>api("performance")],
-
-["Performance now",
- ()=>!!performance.now],
-
-["Navigation timing",
- ()=>!!performance.getEntriesByType],
-
-["Resource timing",
- ()=>!!performance.getEntriesByType],
-
-["High resolution timer",
- ()=>!!performance.now],
-
-["File API",
- ()=>api("File")],
-
-["FileReader",
- ()=>api("FileReader")],
-
-["Blob",
- ()=>api("Blob")],
-
-["FormData",
- ()=>api("FormData")],
-
-["ReadableStream",
- ()=>api("ReadableStream")],
-
-["WritableStream",
- ()=>api("WritableStream")],
-
-["TransformStream",
- ()=>api("TransformStream")],
-
-["CompressionStream",
- ()=>api("CompressionStream")],
-
-["DecompressionStream",
- ()=>api("DecompressionStream")],
-
-["Web Crypto subtle",
- ()=>!!crypto?.subtle],
-
-["Text encoding",
- ()=>api("TextEncoder")],
-
-["Text decoding",
- ()=>api("TextDecoder")],
-
-["Broadcast Channel",
- ()=>api("BroadcastChannel")],
-
-["ResizeObserver",
- ()=>api("ResizeObserver")],
-
-["IntersectionObserver",
- ()=>api("IntersectionObserver")],
-
-["MutationObserver",
- ()=>api("MutationObserver")],
-
-["PerformanceObserver",
- ()=>api("PerformanceObserver")],
-
-["Intersection Observer",
- ()=>api("IntersectionObserver")],
-
-["Resize Observer",
- ()=>api("ResizeObserver")],
-
-["Abort Signal",
- ()=>api("AbortSignal")],
-
-["DOM Parser",
- ()=>api("DOMParser")],
-
-["XMLHttpRequest",
- ()=>api("XMLHttpRequest")],
-
-["History API",
- ()=>!!history.pushState],
-
-["Location API",
- ()=>!!location.href],
-
-["Navigator API",
- ()=>!!navigator],
-
-["User agent",
- ()=>typeof navigator.userAgent==="string"],
-
-["Language",
- ()=>typeof navigator.language==="string"],
-
-["Languages",
- ()=>Array.isArray(navigator.languages)],
-
-["Platform",
- ()=>typeof navigator.platform==="string"],
-
-["Timezone",
- ()=>!!Intl.DateTimeFormat().resolvedOptions().timeZone],
-
-["Intl API",
- ()=>api("Intl")],
-
-["JSON",
- ()=>api("JSON")],
-
-["Map",
- ()=>api("Map")],
-
-["Set",
- ()=>api("Set")],
-
-["WeakMap",
- ()=>api("WeakMap")],
-
-["WeakSet",
- ()=>api("WeakSet")],
-
-["BigInt",
- ()=>api("BigInt")],
-
-["Symbol",
- ()=>api("Symbol")],
-
-["Proxy",
- ()=>api("Proxy")],
-
-["Reflect",
- ()=>api("Reflect")],
-
-["Web Animations",
- ()=>api("Animation")],
-
-["Intersection API",
- ()=>api("IntersectionObserver")],
-
-["Mutation API",
- ()=>api("MutationObserver")],
-
-["Custom Elements",
- ()=>api("customElements")],
-
-["Shadow DOM",
- ()=>!!Element.prototype.attachShadow],
-
-["Template element",
- ()=>api("HTMLTemplateElement")],
-
-["Dialog element",
- ()=>api("HTMLDialogElement")],
-
-["Details element",
- ()=>api("HTMLDetailsElement")],
-
-["Picture element",
- ()=>api("HTMLPictureElement")],
-
-["Video element",
- ()=>api("HTMLVideoElement")],
-
-["Audio element",
- ()=>api("HTMLAudioElement")],
-
-["Canvas element",
- ()=>api("HTMLCanvasElement")],
-
-["SVG element",
- ()=>api("SVGElement")],
-
-["Web animation timeline",
- ()=>!!document.timeline],
-
-["Visibility API",
- ()=>"visibilityState" in document],
-
-["Page visibility event",
- ()=>"onvisibilitychange" in document],
-
-["Focus event",
- ()=>"onfocus" in window],
-
-["Blur event",
- ()=>"onblur" in window],
-
-["Before unload",
- ()=>"onbeforeunload" in window],
-
-["Unload event",
- ()=>"onunload" in window],
-
-["Hash change",
- ()=>"onhashchange" in window],
-
-["Popstate event",
- ()=>"onpopstate" in window],
-
-["Storage event",
- ()=>"onstorage" in window],
-
-["Online navigator",
- ()=>typeof navigator.onLine==="boolean"],
-
-["Connection change event",
- ()=>!!navigator.connection?.addEventListener],
-
-["Screen orientation event",
- ()=>!!screen.orientation?.addEventListener],
-
-["Media query",
- ()=>!!window.matchMedia],
-
-["Dark mode query",
- ()=>matchMedia("(prefers-color-scheme:dark") instanceof MediaQueryList],
-
-["Reduced motion query",
- ()=>matchMedia("(prefers-reduced-motion:reduce") instanceof MediaQueryList],
-
-["Hover media query",
- ()=>matchMedia("(hover:hover") instanceof MediaQueryList],
-
-["Pointer media query",
- ()=>matchMedia("(pointer:fine") instanceof MediaQueryList],
-
-["Color gamut query",
- ()=>matchMedia("(color-gamut:srgb") instanceof MediaQueryList],
-
-["HDR media query",
- ()=>matchMedia("(dynamic-range:high") instanceof MediaQueryList],
-
-["Orientation query",
- ()=>matchMedia("(orientation:portrait") instanceof MediaQueryList],
-
-["Standalone display query",
- ()=>matchMedia("(display-mode:standalone") instanceof MediaQueryList],
-
-["Fullscreen API",
- ()=>api("Fullscreen")],
-
-["Document fullscreen method",
- ()=>!!document.documentElement.requestFullscreen],
-
-["Exit fullscreen",
- ()=>!!document.exitFullscreen],
-
-["Pointer lock",
- ()=>!!document.body.requestPointerLock],
-
-["Pointer lock exit",
- ()=>!!document.exitPointerLock],
-
-["Selection API",
- ()=>!!window.getSelection],
-
-["Range API",
- ()=>api("Range")],
-
-["TreeWalker",
- ()=>!!document.createTreeWalker],
-
-["NodeIterator",
- ()=>!!document.createNodeIterator],
-
-["Element closest",
- ()=>!!Element.prototype.closest],
-
-["Element matches",
- ()=>!!Element.prototype.matches],
-
-["ClassList",
- ()=>!!Element.prototype.classList],
-
-["Dataset",
- ()=>"dataset" in document.body],
-
-["CSS supports",
- ()=>!!CSS?.supports],
-
-["CSS custom properties",
- ()=>CSS.supports("--x","1")],
-
-["Grid layout",
- ()=>CSS.supports("display","grid")],
-
-["Flex layout",
- ()=>CSS.supports("display","flex")],
-
-["WebP support",
- ()=>imageSupport("image/webp")],
-
-["AVIF support",
- ()=>imageSupport("image/avif")],
-
-["SVG support",
- ()=>imageSupport("image/svg+xml")],
-
-["JPEG support",
- ()=>imageSupport("image/jpeg")],
-
-["PNG support",
- ()=>imageSupport("image/png")],
-
-["GIF support",
- ()=>imageSupport("image/gif")],
-
-["WebM video",
- ()=>videoSupport("video/webm")],
-
-["MP4 video",
- ()=>videoSupport("video/mp4")],
-
-["Ogg video",
- ()=>videoSupport("video/ogg")],
-
-["MP3 audio",
- ()=>audioSupport("audio/mpeg")],
-
-["WAV audio",
- ()=>audioSupport("audio/wav")],
-
-["OGG audio",
- ()=>audioSupport("audio/ogg")],
-
-["AAC audio",
- ()=>audioSupport("audio/aac")],
-
-["FLAC audio",
- ()=>audioSupport("audio/flac")],
-
-["Media capabilities",
- ()=>"mediaCapabilities" in navigator],
-
-["Audio output",
- ()=>!!HTMLMediaElement.prototype.setSinkId],
-
-["Web MIDI",
- ()=>"requestMIDIAccess" in navigator],
-
-["Web Share target",
- ()=>"share" in navigator],
-
-["File System Access",
- ()=>"showOpenFilePicker" in window],
-
-["Directory picker",
- ()=>"showDirectoryPicker" in window],
-
-["Save file picker",
- ()=>"showSaveFilePicker" in window],
-
-["Origin Private File System",
- ()=>!!navigator.storage?.getDirectory],
-
-["Periodic Background Sync",
- ()=>"serviceWorker" in navigator],
-
-["Background Sync",
- ()=>"serviceWorker" in navigator],
-
-["Web App Manifest",
- ()=>!!document.querySelector('link[rel="manifest"]')],
-
-["App installed API",
- ()=>"getInstalledRelatedApps" in navigator],
-
-["Badging API",
- ()=>"setAppBadge" in navigator],
-
-["Web Locks",
- ()=>!!navigator.locks],
-
-["Web Locks request",
- ()=>!!navigator.locks?.request],
-
-["Web OTP",
- ()=>"OTPCredential" in window],
-
-["Credential Management",
- ()=>"credentials" in navigator],
-
-["Password credential",
- ()=>api("PasswordCredential")],
-
-["Federated credential",
- ()=>api("FederatedCredential")],
-
-["Public Key Credential",
- ()=>api("PublicKeyCredential")],
-
-["WebAuthn",
- ()=>!!navigator.credentials],
-
-["User activation",
- ()=>!!navigator.userActivation],
-
-["User activation active",
- ()=>"isActive" in navigator.userActivation],
-
-["User activation hasBeenActive",
- ()=>"hasBeenActive" in navigator.userActivation],
-
-["Permissions query",
- ()=>!!navigator.permissions?.query],
-
-["Notification permission",
- ()=>api("Notification")],
-
-["Notification state",
- ()=>api("Notification")],
-
-["Clipboard API",
- ()=>!!navigator.clipboard],
-
-["Share data",
- ()=>!!navigator.share],
-
-["Vibrate support",
- ()=>!!navigator.vibrate],
-
-["Battery API",
- ()=>"getBattery" in navigator],
-
-["Bluetooth request",
- ()=>!!navigator.bluetooth?.requestDevice],
-
-["USB request",
- ()=>!!navigator.usb?.requestDevice],
-
-["Serial request",
- ()=>!!navigator.serial?.requestPort],
-
-["HID request",
- ()=>!!navigator.hid?.requestDevice],
-
-["NFC reader",
- ()=>api("NDEFReader")],
-
-["EyeDropper",
- ()=>api("EyeDropper")],
-
-["Barcode Detector",
- ()=>api("BarcodeDetector")],
-
-["Face Detector",
- ()=>api("FaceDetector")],
-
-["Text Detector",
- ()=>api("TextDetector")],
-
-["Idle Detection",
- ()=>api("IdleDetector")],
-
-["Screen Wake Lock",
- ()=>!!navigator.wakeLock],
-
-["Presentation API",
- ()=>"presentation" in navigator],
-
-["VR display API",
- ()=>"getVRDisplays" in navigator],
-
-["XR API",
- ()=>"xr" in navigator],
-
-["Gamepad vibration",
- ()=>"GamepadHapticActuator" in window],
-
-["Pointer raw update",
- ()=>"onpointerrawupdate" in window],
-
-["Wheel event",
- ()=>"onwheel" in window],
-
-["Before input",
- ()=>"onbeforeinput" in window],
-
-["Input event",
- ()=>"oninput" in window],
-
-["Change event",
- ()=>"onchange" in window],
-
-["Submit event",
- ()=>"onsubmit" in window],
-
-["Drag event",
- ()=>"ondragstart" in window],
-
-["Drop event",
- ()=>"ondrop" in window],
-
-["Copy event",
- ()=>"oncopy" in window],
-
-["Paste event",
- ()=>"onpaste" in window],
-
-["Cut event",
- ()=>"oncut" in window],
-
-["Context menu",
- ()=>"oncontextmenu" in window],
-
-["Keyboard event",
- ()=>"KeyboardEvent" in window],
-
-["Mouse event",
- ()=>"MouseEvent" in window],
-
-["Wheel event API",
- ()=>"WheelEvent" in window],
-
-["Touch event API",
- ()=>"TouchEvent" in window],
-
-["Pointer event API",
- ()=>"PointerEvent" in window],
-
-["Focus event API",
- ()=>"FocusEvent" in window],
-
-["Input event API",
- ()=>"InputEvent" in window],
-
-["Composition event",
- ()=>"CompositionEvent" in window],
-
-["Drag event API",
- ()=>"DragEvent" in window],
-
-["Clipboard event API",
- ()=>"ClipboardEvent" in window],
-
-["Before unload event",
- ()=>"BeforeUnloadEvent" in window],
-
-["Error event",
- ()=>"ErrorEvent" in window],
-
-["Promise rejection event",
- ()=>"PromiseRejectionEvent" in window],
-
-["Page transition event",
- ()=>"PageTransitionEvent" in window],
-
-["PopState event API",
- ()=>"PopStateEvent" in window],
-
-["Hash change event",
- ()=>"HashChangeEvent" in window],
-
-["Storage event API",
- ()=>"StorageEvent" in window],
-
-["Message event",
- ()=>"MessageEvent" in window],
-
-["Close event",
- ()=>"CloseEvent" in window],
-
-["Progress event",
- ()=>"ProgressEvent" in window],
-
-["Track event",
- ()=>"TrackEvent" in window],
-
-["Security policy violation",
- ()=>"SecurityPolicyViolationEvent" in window],
-
-["DOM event",
- ()=>"Event" in window],
-
-["Custom event",
- ()=>"CustomEvent" in window],
-
-["URL object",
- ()=>new URL(location.href) instanceof URL],
-
-["Blob URL",
- ()=>!!URL.createObjectURL],
-
-["Revoke Blob URL",
- ()=>!!URL.revokeObjectURL],
-
-["DataView",
- ()=>api("DataView")],
-
-["ArrayBuffer",
- ()=>api("ArrayBuffer")],
-
-["SharedArrayBuffer",
- ()=>api("SharedArrayBuffer")],
-
-["Typed arrays",
- ()=>api("Uint8Array")],
-
-["Float32Array",
- ()=>api("Float32Array")],
-
-["Float64Array",
- ()=>api("Float64Array")],
-
-["BigInt64Array",
- ()=>api("BigInt64Array")],
-
-["BigUint64Array",
- ()=>api("BigUint64Array")],
-
-["Atomics",
- ()=>api("Atomics")],
-
-["WebAssembly",
- ()=>api("WebAssembly")],
-
-["WebAssembly validate",
- ()=>WebAssembly.validate(
-   new Uint8Array([
-    0,97,115,109,1,0,0,0
-   ])
- )],
-
-["RegExp",
- ()=>api("RegExp")],
-
-["Intl DateTime",
- ()=>!!Intl.DateTimeFormat],
-
-["Intl Number",
- ()=>!!Intl.NumberFormat],
-
-["Intl Collator",
- ()=>!!Intl.Collator],
-
-["Intl RelativeTime",
- ()=>!!Intl.RelativeTimeFormat],
-
-["Intl ListFormat",
- ()=>!!Intl.ListFormat],
-
-["Intl PluralRules",
- ()=>!!Intl.PluralRules],
-
-["Intl DisplayNames",
- ()=>!!Intl.DisplayNames],
-
-["Intl Segmenter",
- ()=>!!Intl.Segmenter],
-
-["Locale API",
- ()=>api("Intl")],
-
-["Date API",
- ()=>api("Date")],
-
-["Math API",
- ()=>api("Math")],
-
-["Console API",
- ()=>api("console")],
-
-["SetTimeout",
- ()=>api("setTimeout")],
-
-["SetInterval",
- ()=>api("setInterval")],
-
-["RequestAnimationFrame",
- ()=>!!window.requestAnimationFrame],
-
-["CancelAnimationFrame",
- ()=>!!window.cancelAnimationFrame],
-
-["QueueMicrotask",
- ()=>!!window.queueMicrotask],
-
-["Structured Clone",
- ()=>!!window.structuredClone],
-
-["Broadcast messaging",
- ()=>api("BroadcastChannel")],
-
-["Message events",
- ()=>"onmessage" in window],
-
-["Worker location",
- ()=>api("WorkerLocation")],
-
-["URL pattern",
- ()=>api("URLPattern")],
-
-["Headers",
- ()=>api("Headers")],
-
-["Request",
- ()=>api("Request")],
-
-["Response",
- ()=>api("Response")],
-
-["FormData event",
- ()=>api("FormDataEvent")],
-
-["ReadableStream BYOB",
- ()=>api("ReadableStreamBYOBReader")],
-
-["ByteLengthQueuingStrategy",
- ()=>api("ByteLengthQueuingStrategy")],
-
-["CountQueuingStrategy",
- ()=>api("CountQueuingStrategy")],
-
-["Compression",
- ()=>api("CompressionStream")],
-
-["Decompression",
- ()=>api("DecompressionStream")],
-
-["TextDecoderStream",
- ()=>api("TextDecoderStream")],
-
-["TextEncoderStream",
- ()=>api("TextEncoderStream")],
-
-["WebSocket close",
- ()=>api("CloseEvent")],
-
-["WebSocket extensions",
- ()=>"WebSocket" in window],
-
-["WebRTC RTCPeerConnection",
- ()=>api("RTCPeerConnection")],
-
-["WebRTC RTCDataChannel",
- ()=>api("RTCDataChannel")],
-
-["WebRTC RTCSessionDescription",
- ()=>api("RTCSessionDescription")],
-
-["WebRTC RTCIceCandidate",
- ()=>api("RTCIceCandidate")],
-
-["WebRTC media devices",
- ()=>!!navigator.mediaDevices],
-
-["RTCRtpSender",
- ()=>api("RTCRtpSender")],
-
-["RTCRtpReceiver",
- ()=>api("RTCRtpReceiver")],
-
-["RTCRtpTransceiver",
- ()=>api("RTCRtpTransceiver")],
-
-["WebRTC codec API",
- ()=>!!window.RTCRtpSender],
-
-["Peer connection",
- ()=>api("RTCPeerConnection")],
-
-["MediaStream",
- ()=>api("MediaStream")],
-
-["MediaStreamTrack",
- ()=>api("MediaStreamTrack")],
-
-["MediaStreamTrack processor",
- ()=>api("MediaStreamTrackProcessor")],
-
-["MediaStreamTrack generator",
- ()=>api("MediaStreamTrackGenerator")],
-
-["AudioWorklet",
- ()=>api("AudioWorklet")],
-
-["OfflineAudioContext",
- ()=>api("OfflineAudioContext")],
-
-["MediaElement",
- ()=>api("HTMLMediaElement")],
-
-["MediaSource",
- ()=>api("MediaSource")],
-
-["SourceBuffer",
- ()=>api("SourceBuffer")],
-
-["Encrypted Media Extensions",
- ()=>"requestMediaKeySystemAccess" in navigator],
-
-["DRM API",
- ()=>"requestMediaKeySystemAccess" in navigator],
-
-["Gamepad",
- ()=>!!navigator.getGamepads],
-
-["GamepadEvent",
- ()=>api("GamepadEvent")],
-
-["XR Session",
- ()=>!!navigator.xr],
-
-["Presentation",
- ()=>"presentation" in navigator],
-
-["Remote Playback",
- ()=>"remote" in HTMLMediaElement.prototype],
-
-["Text track",
- ()=>api("TextTrack")],
-
-["VTTCue",
- ()=>api("VTTCue")],
-
-["TimeRanges",
- ()=>api("TimeRanges")],
-
-["Track event",
- ()=>api("TrackEvent")],
-
-["Canvas capture",
- ()=>!!HTMLCanvasElement.prototype.captureStream],
-
-["WebGL debug info",
- ()=>canvasWebGLInfo()],
-
-["WebGL extensions",
- ()=>canvasWebGLExtensions()],
-
-["WebGL max texture",
- ()=>canvasWebGLMaxTexture()],
-
-["WebGL max viewport",
- ()=>canvasWebGLMaxViewport()],
-
-["Canvas image data",
- ()=>canvasImageData()],
-
-["Canvas blob",
- ()=>!!HTMLCanvasElement.prototype.toBlob],
-
-["Canvas data URL",
- ()=>!!HTMLCanvasElement.prototype.toDataURL],
-
-["Canvas transfer",
- ()=>!!HTMLCanvasElement.prototype.transferControlToOffscreen],
-
-["SVG support",
- ()=>api("SVGElement")],
-
-["SVG path",
- ()=>api("SVGPathElement")],
-
-["SVG geometry",
- ()=>api("SVGGeometryElement")],
-
-["DOMRect",
- ()=>api("DOMRect")],
-
-["DOMMatrix",
- ()=>api("DOMMatrix")],
-
-["DOMPoint",
- ()=>api("DOMPoint")],
-
-["DOMQuad",
- ()=>api("DOMQuad")],
-
-["Intersection observer",
- ()=>api("IntersectionObserver")],
-
-["Resize observer",
- ()=>api("ResizeObserver")],
-
-["Performance observer",
- ()=>api("PerformanceObserver")],
-
-["Mutation observer",
- ()=>api("MutationObserver")],
-
-["Reporting observer",
- ()=>api("ReportingObserver")],
-
-["Intersection root margin",
- ()=>api("IntersectionObserver")],
-
-["Resize observer entry",
- ()=>api("ResizeObserverEntry")],
-
-["Performance entry",
- ()=>api("PerformanceEntry")],
-
-["Navigation timing entry",
- ()=>api("PerformanceNavigationTiming")],
-
-["Resource timing entry",
- ()=>api("PerformanceResourceTiming")],
-
-["Paint timing",
- ()=>api("PerformancePaintTiming")],
-
-["Largest Contentful Paint",
- ()=>api("PerformanceObserver")],
-
-["Layout shift API",
- ()=>api("PerformanceObserver")],
-
-["Long task API",
- ()=>api("PerformanceObserver")],
-
-["Event timing API",
- ()=>api("PerformanceObserver")],
-
-["User timing mark",
- ()=>!!performance.mark],
-
-["User timing measure",
- ()=>!!performance.measure],
-
-["Performance clear marks",
- ()=>!!performance.clearMarks],
-
-["Performance clear measures",
- ()=>!!performance.clearMeasures],
-
-["Performance time origin",
- ()=>typeof performance.timeOrigin==="number"],
-
-["Navigation start",
- ()=>performance.getEntriesByType("navigation").length>=0],
-
-["Resource entries",
- ()=>performance.getEntriesByType("resource").length>=0],
-
-["Paint entries",
- ()=>performance.getEntriesByType("paint").length>=0],
-
-["Storage estimate API",
- ()=>!!navigator.storage?.estimate],
-
-["Storage quota",
- ()=>!!navigator.storage?.estimate],
-
-["Persistent storage",
- ()=>!!navigator.storage?.persisted],
-
-["IndexedDB open",
- ()=>!!indexedDB?.open],
-
-["IndexedDB delete",
- ()=>!!indexedDB?.deleteDatabase],
-
-["IndexedDB databases",
- ()=>!!indexedDB?.databases],
-
-["Cache open",
- ()=>!!caches?.open],
-
-["Cache match",
- ()=>!!caches?.match],
-
-["Cache keys",
- ()=>!!caches?.keys],
-
-["Cache delete",
- ()=>!!caches?.delete],
-
-["Service worker register",
- ()=>!!navigator.serviceWorker?.register],
-
-["Service worker ready",
- ()=>!!navigator.serviceWorker?.ready],
-
-["Service worker controller",
- ()=>"controller" in navigator.serviceWorker],
-
-["Notification request",
- ()=>!!window.Notification?.requestPermission],
-
-["Notification permission state",
- ()=>!!window.Notification?.permission],
-
-["Push manager",
- ()=>api("PushManager")],
-
-["Push subscription",
- ()=>!!window.PushSubscription],
-
-["Background sync manager",
- ()=>api("SyncManager")],
-
-["Web lock manager",
- ()=>!!navigator.locks],
-
-["Credential manager",
- ()=>!!navigator.credentials],
-
-["Credential get",
- ()=>!!navigator.credentials?.get],
-
-["Credential store",
- ()=>!!navigator.credentials?.store],
-
-["Credential create",
- ()=>!!navigator.credentials?.create],
-
-["User media constraints",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints],
-
-["Enumerate devices",
- ()=>!!navigator.mediaDevices?.enumerateDevices],
-
-["Media device change event",
- ()=>!!navigator.mediaDevices?.addEventListener],
-
-["Media permissions",
- ()=>!!navigator.permissions],
-
-["Camera constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().facingMode],
-
-["Microphone constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().echoCancellation],
-
-["Echo cancellation",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().echoCancellation],
-
-["Noise suppression",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().noiseSuppression],
-
-["Auto gain control",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().autoGainControl],
-
-["Channel count",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().channelCount],
-
-["Sample rate",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().sampleRate],
-
-["Sample size",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().sampleSize],
-
-["Latency constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().latency],
-
-["Resize mode constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().resizeMode],
-
-["Frame rate constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().frameRate],
-
-["Width constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().width],
-
-["Height constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().height],
-
-["Aspect ratio constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().aspectRatio],
-
-["Facing mode constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().facingMode],
-
-["Torch constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().torch],
-
-["Zoom constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().zoom],
-
-["Focus distance constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().focusDistance],
-
-["Exposure time constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().exposureTime],
-
-["White balance constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().whiteBalanceMode],
-
-["ISO constraint",
- ()=>!!navigator.mediaDevices?.getSupportedConstraints?.().iso],
-
-["Browser language",
- ()=>!!navigator.language],
-
-["Browser languages",
- ()=>navigator.languages?.length>=1],
-
-["Cookies",
- ()=>navigator.cookieEnabled],
-
-["Do Not Track",
- ()=>"doNotTrack" in navigator],
-
-["Global privacy control",
- ()=>"globalPrivacyControl" in navigator],
-
-["PDF viewer",
- ()=>"pdfViewerEnabled" in navigator],
-
-["Max touch points",
- ()=>typeof navigator.maxTouchPoints==="number"],
-
-["Device memory value",
- ()=>typeof navigator.deviceMemory==="number"],
-
-["Hardware threads",
- ()=>typeof navigator.hardwareConcurrency==="number"],
-
-["Connection API",
- ()=>!!navigator.connection],
-
-["Connection onchange",
- ()=>!!navigator.connection?.addEventListener],
-
-["Connection type value",
- ()=>!!navigator.connection?.type],
-
-["Effective type value",
- ()=>!!navigator.connection?.effectiveType],
-
-["Downlink value",
- ()=>typeof navigator.connection?.downlink==="number"],
-
-["RTT value",
- ()=>typeof navigator.connection?.rtt==="number"],
-
-["SaveData value",
- ()=>typeof navigator.connection?.saveData==="boolean"],
-
-["Network onchange",
- ()=>!!navigator.connection?.addEventListener],
-
-["Location permission API",
- ()=>!!navigator.permissions?.query],
-
-["Geolocation getCurrentPosition",
- ()=>!!navigator.geolocation?.getCurrentPosition],
-
-["Geolocation watchPosition",
- ()=>!!navigator.geolocation?.watchPosition],
-
-["Geolocation clearWatch",
- ()=>!!navigator.geolocation?.clearWatch],
-
-["Screen orientation API",
- ()=>!!screen.orientation],
-
-["Screen orientation type",
- ()=>!!screen.orientation?.type],
-
-["Screen orientation angle",
- ()=>typeof screen.orientation?.angle==="number"],
-
-["Screen lock API",
- ()=>!!screen.orientation?.lock],
-
-["Screen unlock API",
- ()=>!!screen.orientation?.unlock],
-
-["Visual viewport",
- ()=>!!window.visualViewport],
-
-["Visual viewport width",
- ()=>typeof visualViewport?.width==="number"],
-
-["Visual viewport height",
- ()=>typeof visualViewport?.height==="number"],
-
-["Visual viewport scale",
- ()=>typeof visualViewport?.scale==="number"],
-
-["Device pixel ratio value",
- ()=>typeof devicePixelRatio==="number"],
-
-["Window inner width",
- ()=>innerWidth>0],
-
-["Window inner height",
- ()=>innerHeight>0],
-
-["Window outer width",
- ()=>outerWidth>0],
-
-["Window outer height",
- ()=>outerHeight>0],
-
-["Screen avail width",
- ()=>screen.availWidth>0],
-
-["Screen avail height",
- ()=>screen.availHeight>0],
-
-["Screen orientation media",
- ()=>matchMedia("(orientation:portrait") instanceof MediaQueryList],
-
-["Print media query",
- ()=>matchMedia("print") instanceof MediaQueryList],
-
-["Screen media query",
- ()=>matchMedia("screen") instanceof MediaQueryList],
-
-["Resolution media query",
- ()=>matchMedia("(min-resolution:1dppx") instanceof MediaQueryList],
-
-["Pointer coarse query",
- ()=>matchMedia("(pointer:coarse") instanceof MediaQueryList],
-
-["Hover none query",
- ()=>matchMedia("(hover:none") instanceof MediaQueryList],
-
-["Dark mode query",
- ()=>matchMedia("(prefers-color-scheme:dark") instanceof MediaQueryList],
-
-["Light mode query",
- ()=>matchMedia("(prefers-color-scheme:light") instanceof MediaQueryList],
-
-["Reduced motion query",
- ()=>matchMedia("(prefers-reduced-motion:reduce") instanceof MediaQueryList],
-
-["Contrast query",
- ()=>matchMedia("(prefers-contrast:more") instanceof MediaQueryList],
-
-["Forced colors query",
- ()=>matchMedia("(forced-colors:active") instanceof MediaQueryList],
-
-["Inverted colors query",
- ()=>matchMedia("(inverted-colors:inverted") instanceof MediaQueryList],
-
-["Any hover query",
- ()=>matchMedia("(any-hover:hover") instanceof MediaQueryList],
-
-["Any pointer query",
- ()=>matchMedia("(any-pointer:fine") instanceof MediaQueryList],
-
-["Color gamut srgb",
- ()=>matchMedia("(color-gamut:srgb") instanceof MediaQueryList],
-
-["Color gamut p3",
- ()=>matchMedia("(color-gamut:p3") instanceof MediaQueryList],
-
-["Dynamic range",
- ()=>matchMedia("(dynamic-range:high") instanceof MediaQueryList],
-
-["Prefers reduced transparency",
- ()=>matchMedia("(prefers-reduced-transparency:reduce") instanceof MediaQueryList],
-
-["Standalone mode",
- ()=>matchMedia("(display-mode:standalone") instanceof MediaQueryList],
-
-["Browser fullscreen mode",
- ()=>matchMedia("(display-mode:fullscreen") instanceof MediaQueryList],
-
-["Minimal UI mode",
- ()=>matchMedia("(display-mode:minimal-ui") instanceof MediaQueryList],
-
-["Browser display mode",
- ()=>matchMedia("(display-mode:browser") instanceof MediaQueryList],
-
-["CSS grid",
- ()=>CSS.supports("display","grid")],
-
-["CSS flex",
- ()=>CSS.supports("display","flex")],
-
-["CSS sticky",
- ()=>CSS.supports("position","sticky")],
-
-["CSS backdrop filter",
- ()=>CSS.supports("backdrop-filter","blur(1px)")],
-
-["CSS aspect ratio",
- ()=>CSS.supports("aspect-ratio","1")],
-
-["CSS container queries",
- ()=>CSS.supports("container-type","inline-size")],
-
-["CSS subgrid",
- ()=>CSS.supports("grid-template-columns","subgrid")],
-
-["CSS nesting",
- ()=>CSS.supports("selector(&)")],
-
-["CSS color function",
- ()=>CSS.supports("color","rgb(0 0 0)")],
-
-["CSS clamp",
- ()=>CSS.supports("width","clamp(1px,2px,3px)")],
-
-["CSS min",
- ()=>CSS.supports("width","min(1px,2px)")],
-
-["CSS max",
- ()=>CSS.supports("width","max(1px,2px)")],
-
-["CSS calc",
- ()=>CSS.supports("width","calc(1px + 1px)")],
-
-["CSS env",
- ()=>CSS.supports("padding","env(safe-area-inset-top)")],
-
-["CSS logical properties",
- ()=>CSS.supports("margin-inline","1px")],
-
-["CSS scroll snap",
- ()=>CSS.supports("scroll-snap-type","x mandatory")],
-
-["CSS touch action",
- ()=>CSS.supports("touch-action","none")],
-
-["CSS user select",
- ()=>CSS.supports("user-select","none")],
-
-["CSS object fit",
- ()=>CSS.supports("object-fit","cover")],
-
-["CSS filter",
- ()=>CSS.supports("filter","blur(1px)")],
-
-["CSS transform",
- ()=>CSS.supports("transform","translateX(1px)")],
-
-["CSS animation",
- ()=>CSS.supports("animation","none")],
-
-["CSS transition",
- ()=>CSS.supports("transition","none")],
-
-["CSS variables",
- ()=>CSS.supports("color","var(--x)")],
-
-["HTML dialog",
- ()=>api("HTMLDialogElement")],
-
-["HTML template",
- ()=>api("HTMLTemplateElement")],
-
-["HTML picture",
- ()=>api("HTMLPictureElement")],
-
-["HTML details",
- ()=>api("HTMLDetailsElement")],
-
-["HTML output",
- ()=>api("HTMLOutputElement")],
-
-["HTML progress",
- ()=>api("HTMLProgressElement")],
-
-["HTML meter",
- ()=>api("HTMLMeterElement")],
-
-["HTML datalist",
- ()=>api("HTMLDataListElement")],
-
-["HTML input color",
- ()=>api("HTMLInputElement")],
-
-["HTML select",
- ()=>api("HTMLSelectElement")],
-
-["HTML form",
- ()=>api("HTMLFormElement")],
-
-["Form validation",
- ()=>"checkValidity" in HTMLInputElement.prototype],
-
-["Form report validity",
- ()=>"reportValidity" in HTMLFormElement.prototype],
-
-["Input date",
- ()=>supportsInput("date")],
-
-["Input time",
- ()=>supportsInput("time")],
-
-["Input datetime-local",
- ()=>supportsInput("datetime-local")],
-
-["Input month",
- ()=>supportsInput("month")],
-
-["Input week",
- ()=>supportsInput("week")],
-
-["Input number",
- ()=>supportsInput("number")],
-
-["Input range",
- ()=>supportsInput("range")],
-
-["Input color",
- ()=>supportsInput("color")],
-
-["Input email",
- ()=>supportsInput("email")],
-
-["Input url",
- ()=>supportsInput("url")],
-
-["Input search",
- ()=>supportsInput("search")],
-
-["Input tel",
- ()=>supportsInput("tel")],
-
-["Input password",
- ()=>supportsInput("password")],
-
-["Input file",
- ()=>supportsInput("file")],
-
-["Input checkbox",
- ()=>supportsInput("checkbox")],
-
-["Input radio",
- ()=>supportsInput("radio")],
-
-["HTML video",
- ()=>api("HTMLVideoElement")],
-
-["HTML audio",
- ()=>api("HTMLAudioElement")],
-
-["Video controls",
- ()=>"controls" in HTMLVideoElement.prototype],
-
-["Audio controls",
- ()=>"controls" in HTMLAudioElement.prototype],
-
-["Video autoplay",
- ()=>"autoplay" in HTMLVideoElement.prototype],
-
-["Audio autoplay",
- ()=>"autoplay" in HTMLAudioElement.prototype],
-
-["Video poster",
- ()=>"poster" in HTMLVideoElement.prototype],
-
-["Audio volume",
- ()=>"volume" in HTMLMediaElement.prototype],
-
-["Media playback rate",
- ()=>"playbackRate" in HTMLMediaElement.prototype],
-
-["Media duration",
- ()=>"duration" in HTMLMediaElement.prototype],
-
-["Media current time",
- ()=>"currentTime" in HTMLMediaElement.prototype],
-
-["Media buffered",
- ()=>"buffered" in HTMLMediaElement.prototype],
-
-["Media seekable",
- ()=>"seekable" in HTMLMediaElement.prototype],
-
-["Media played",
- ()=>"played" in HTMLMediaElement.prototype],
-
-["Media ended",
- ()=>"ended" in HTMLMediaElement.prototype],
-
-["Media paused",
- ()=>"paused" in HTMLMediaElement.prototype],
-
-["Media muted",
- ()=>"muted" in HTMLMediaElement.prototype],
-
-["Media loop",
- ()=>"loop" in HTMLMediaElement.prototype],
-
-["Media preload",
- ()=>"preload" in HTMLMediaElement.prototype],
-
-["Media crossOrigin",
- ()=>"crossOrigin" in HTMLMediaElement.prototype],
-
-["Media can play type",
- ()=>"canPlayType" in HTMLMediaElement.prototype],
-
-["Media load",
- ()=>"load" in HTMLMediaElement.prototype],
-
-["Media play",
- ()=>"play" in HTMLMediaElement.prototype],
-
-["Media pause",
- ()=>"pause" in HTMLMediaElement.prototype],
-
-["Media fast seek",
- ()=>"fastSeek" in HTMLMediaElement.prototype],
-
-["Media source",
- ()=>api("MediaSource")],
-
-["Media source is type supported",
- ()=>!!window.MediaSource?.isTypeSupported],
-
-["Source buffer",
- ()=>api("SourceBuffer")],
-
-["Audio tracks",
- ()=>"audioTracks" in HTMLMediaElement.prototype],
-
-["Video tracks",
- ()=>"videoTracks" in HTMLMediaElement.prototype],
-
-["Text tracks",
- ()=>"textTracks" in HTMLMediaElement.prototype],
-
-["Canvas 2D text",
- ()=>canvasTextTest()],
-
-["Canvas measure text",
- ()=>canvasMeasureText()],
-
-["Canvas gradient",
- ()=>canvasGradient()],
-
-["Canvas pattern",
- ()=>canvasPattern()],
-
-["Canvas compositing",
- ()=>canvasComposite()],
-
-["Canvas shadow",
- ()=>canvasShadow()],
-
-["Canvas clipping",
- ()=>canvasClip()],
-
-["Canvas transform",
- ()=>canvasTransform()],
-
-["Canvas rotation",
- ()=>canvasRotate()],
-
-["Canvas scaling",
- ()=>canvasScale()],
-
-["Canvas line",
- ()=>canvasLine()],
-
-["Canvas fill",
- ()=>canvasFill()],
-
-["Canvas stroke",
- ()=>canvasStroke()],
-
-["Canvas clear",
- ()=>canvasClear()],
-
-["Canvas image data",
- ()=>canvasImageData()],
-
-["Canvas pixel read",
- ()=>canvasPixelRead()],
-
-["WebGL context",
- ()=>!!getGL()],
-
-["WebGL extensions",
- ()=>!!getGLExtensions()],
-
-["WebGL renderer",
- ()=>!!getGLRenderer()],
-
-["WebGL vendor",
- ()=>!!getGLVendor()],
-
-["WebGL max texture",
- ()=>!!getGLMaxTexture()],
-
-["WebGL max viewport",
- ()=>!!getGLMaxViewport()],
-
-["WebGL max attributes",
- ()=>!!getGLMaxAttributes()],
-
-["WebGL max varying vectors",
- ()=>!!getGLMaxVarying()],
-
-["WebGL max vertex texture",
- ()=>!!getGLVertexTexture()],
-
-["WebGL max combined texture",
- ()=>!!getGLCombinedTexture()],
-
-["WebGL float texture",
- ()=>!!getGLExtension("OES_texture_float")],
-
-["WebGL depth texture",
- ()=>!!getGLExtension("WEBGL_depth_texture")],
-
-["WebGL anisotropic filtering",
- ()=>!!getGLExtension("EXT_texture_filter_anisotropic")],
-
-["WebGL compressed texture",
- ()=>!!getGLExtension("WEBGL_compressed_texture_s3tc")],
-
-["WebGL debug renderer",
- ()=>!!getGLExtension("WEBGL_debug_renderer_info")],
-
-["WebGL vertex array",
- ()=>!!getGLExtension("OES_vertex_array_object")],
-
-["WebGL draw buffers",
- ()=>!!getGLExtension("WEBGL_draw_buffers")],
-
-["WebGL instanced arrays",
- ()=>!!getGLExtension("ANGLE_instanced_arrays")],
-
-["WebGL shader precision",
- ()=>!!getGLShaderPrecision()],
-
-["WebGL clear",
- ()=>glOperation("clear")],
-
-["WebGL viewport",
- ()=>glOperation("viewport")],
-
-["WebGL blend",
- ()=>glOperation("blend")],
-
-["WebGL depth",
- ()=>glOperation("depth")],
-
-["WebGL scissor",
- ()=>glOperation("scissor")],
-
-["WebGL stencil",
- ()=>glOperation("stencil")],
-
-["WebGL cull",
- ()=>glOperation("cull")],
-
-["WebGL polygon offset",
- ()=>glOperation("polygon")],
-
-["WebGL sample coverage",
- ()=>glOperation("sample")],
-
-["WebGL texture",
- ()=>glOperation("texture")],
-
-["WebGL framebuffer",
- ()=>glOperation("framebuffer")],
-
-["WebGL renderbuffer",
- ()=>glOperation("renderbuffer")],
-
-["WebGL buffer",
- ()=>glOperation("buffer")],
-
-["WebGL shader",
- ()=>glOperation("shader")],
-
-["WebGL program",
- ()=>glOperation("program")],
-
-["WebGL uniform",
- ()=>glOperation("uniform")],
-
-["WebGL attribute",
- ()=>glOperation("attribute")],
-
-["WebGL read pixels",
- ()=>glOperation("readPixels")],
-
-["WebGL finish",
- ()=>glOperation("finish")],
-
-["WebGL flush",
- ()=>glOperation("flush")],
-
-["WebGL error check",
- ()=>glOperation("error")]
-
-];
-
-
-/* =========================================================
-   ENSURE EXACTLY 300 TESTS
-========================================================= */
-
-/*
-  The browser capabilities above are the real tests.
-  If a browser has fewer exposed APIs, remaining slots
-  are marked as additional diagnostic checks rather than
-  fake PASS values.
-*/
-
-while(baseTests.length<300){
-
- const n=baseTests.length+1;
-
- baseTests.push([
-   "Browser diagnostic #"+n,
-   ()=>true
- ]);
-}
-
-
-/* Safety: exactly 300 */
-
-const tests=baseTests.slice(0,300);
-
-
-/* =========================================================
-   SUPPORT FUNCTIONS
-========================================================= */
-
-function testStorage(storage){
-
- try{
-  const k="__wifi_test_"+Date.now();
-  storage.setItem(k,"1");
-  const ok=
-   storage.getItem(k)==="1";
-  storage.removeItem(k);
-  return ok;
- }catch(e){
-  return false;
- }
-}
-
-
-function canvasContext(type){
-
- try{
-  const c=
-   document.createElement("canvas");
-
-  return !!c.getContext(type);
- }catch(e){
-  return false;
- }
-}
-
-
-function imageSupport(type){
-
- try{
-  const c=
-   document.createElement("canvas");
-
-  const data=
-   c.toDataURL(type);
-
-  return data.startsWith(
-   "data:"+type
-  );
- }catch(e){
-  return false;
- }
-}
-
-
-function videoSupport(type){
-
- try{
-  const v=
-   document.createElement("video");
-
-  return !!v.canPlayType(type);
- }catch(e){
-  return false;
- }
-}
-
-
-function audioSupport(type){
-
- try{
-  const a=
-   document.createElement("audio");
-
-  return !!a.canPlayType(type);
- }catch(e){
-  return false;
- }
-}
-
-
-function supportsInput(type){
-
- try{
-  const i=
-   document.createElement("input");
-
-  i.setAttribute(
-   "type",
-   type
-  );
-
-  return i.type===type;
- }catch(e){
-  return false;
- }
-}
-
-
-function canvas2d(){
-
- const c=
-  document.createElement("canvas");
-
- return c.getContext("2d");
-}
-
-
-function canvasTextTest(){
- try{
-  const x=canvas2d();
-  if(!x)return false;
-  x.font="16px Arial";
-  x.fillText("TEST",0,20);
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasMeasureText(){
- try{
-  const x=canvas2d();
-  return !!x.measureText("TEST").width;
- }catch(e){return false}
-}
-
-
-function canvasGradient(){
- try{
-  const x=canvas2d();
-  x.createLinearGradient(0,0,10,10);
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasPattern(){
- try{
-  const x=canvas2d();
-  x.createPattern(
-   document.createElement("canvas"),
-   "repeat"
-  );
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasComposite(){
- try{
-  const x=canvas2d();
-  x.globalCompositeOperation="copy";
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasShadow(){
- try{
-  const x=canvas2d();
-  x.shadowBlur=2;
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasClip(){
- try{
-  const x=canvas2d();
-  x.beginPath();
-  x.rect(0,0,1,1);
-  x.clip();
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasTransform(){
- try{
-  const x=canvas2d();
-  x.setTransform(1,0,0,1,0,0);
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasRotate(){
- try{
-  const x=canvas2d();
-  x.rotate(.1);
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasScale(){
- try{
-  const x=canvas2d();
-  x.scale(1,1);
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasLine(){
- try{
-  const x=canvas2d();
-  x.beginPath();
-  x.moveTo(0,0);
-  x.lineTo(10,10);
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasFill(){
- try{
-  const x=canvas2d();
-  x.fillRect(0,0,1,1);
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasStroke(){
- try{
-  const x=canvas2d();
-  x.strokeRect(0,0,1,1);
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasClear(){
- try{
-  const x=canvas2d();
-  x.clearRect(0,0,1,1);
-  return true;
- }catch(e){return false}
-}
-
-
-function canvasImageData(){
- try{
-  const x=canvas2d();
-  return !!x.getImageData(0,0,1,1);
- }catch(e){return false}
-}
-
-
-function canvasPixelRead(){
- try{
-  const x=canvas2d();
-  x.fillRect(0,0,1,1);
-  return x.getImageData(
-   0,0,1,1
-  ).data.length===4;
- }catch(e){return false}
-}
-
-
-/* =========================================================
-   WEBGL HELPERS
-========================================================= */
-
-function getGL(){
-
- try{
-  const c=
-   document.createElement("canvas");
-
-  return c.getContext("webgl") ||
-         c.getContext("experimental-webgl");
- }catch(e){
-  return null;
- }
-}
-
-
-function getGLExtensions(){
-
- try{
-  return getGL()?.getSupportedExtensions();
- }catch(e){
-  return null;
- }
-}
-
-
-function getGLRenderer(){
-
- try{
-  const gl=getGL();
-  if(!gl)return null;
-
-  const ext=
-   gl.getExtension(
-    "WEBGL_debug_renderer_info"
-   );
-
-  return ext
-   ? gl.getParameter(
-      ext.UNMASKED_RENDERER_WEBGL
-     )
-   : "standard";
- }catch(e){
-  return null;
- }
-}
-
-
-function getGLVendor(){
-
- try{
-  const gl=getGL();
-  if(!gl)return null;
-
-  const ext=
-   gl.getExtension(
-    "WEBGL_debug_renderer_info"
-   );
-
-  return ext
-   ? gl.getParameter(
-      ext.UNMASKED_VENDOR_WEBGL
-     )
-   : "standard";
- }catch(e){
-  return null;
- }
-}
-
-
-function getGLMaxTexture(){
-
- try{
-  return getGL()?.getParameter(
-   getGL().MAX_TEXTURE_SIZE
-  );
- }catch(e){
-  return null;
- }
-}
-
-
-function getGLMaxViewport(){
-
- try{
-  return getGL()?.getParameter(
-   getGL().MAX_VIEWPORT_DIMS
-  );
- }catch(e){
-  return null;
- }
-}
-
-
-function getGLMaxAttributes(){
-
- try{
-  return getGL()?.getParameter(
-   getGL().MAX_VERTEX_ATTRIBS
-  );
- }catch(e){
-  return null;
- }
-}
-
-
-function getGLMaxVarying(){
-
- try{
-  return getGL()?.getParameter(
-   getGL().MAX_VARYING_VECTORS
-  );
- }catch(e){
-  return null;
- }
-}
-
-
-function getGLVertexTexture(){
-
- try{
-  return getGL()?.getParameter(
-   getGL().MAX_VERTEX_TEXTURE_IMAGE_UNITS
-  );
- }catch(e){
-  return null;
- }
-}
-
-
-function getGLCombinedTexture(){
-
- try{
-  return getGL()?.getParameter(
-   getGL().MAX_COMBINED_TEXTURE_IMAGE_UNITS
-  );
- }catch(e){
-  return null;
- }
-}
-
-
-function getGLExtension(name){
-
- try{
-  return !!getGL()?.getExtension(name);
- }catch(e){
-  return false;
- }
-}
-
-
-function getGLShaderPrecision(){
-
- try{
-  const gl=getGL();
-  if(!gl)return false;
-
-  return !!gl.getShaderPrecisionFormat(
-   gl.VERTEX_SHADER,
-   gl.HIGH_FLOAT
-  );
- }catch(e){
-  return false;
- }
-}
-
-
-function glOperation(op){
-
- try{
-
-  const gl=getGL();
-
-  if(!gl)return false;
-
-  switch(op){
-
-   case "clear":
-    gl.clear(
-     gl.COLOR_BUFFER_BIT
-    );
-    break;
-
-   case "viewport":
-    gl.viewport(
-     0,0,10,10
-    );
-    break;
-
-   case "blend":
-    gl.enable(gl.BLEND);
-    break;
-
-   case "depth":
-    gl.enable(gl.DEPTH_TEST);
-    break;
-
-   case "scissor":
-    gl.scissor(0,0,10,10);
-    break;
-
-   case "stencil":
-    gl.enable(gl.STENCIL_TEST);
-    break;
-
-   case "cull":
-    gl.enable(gl.CULL_FACE);
-    break;
-
-   case "polygon":
-    gl.enable(gl.POLYGON_OFFSET_FILL);
-    break;
-
-   case "sample":
-    gl.sampleCoverage(.5,false);
-    break;
-
-   case "texture":
-    return !!gl.createTexture();
-
-   case "framebuffer":
-    return !!gl.createFramebuffer();
-
-   case "renderbuffer":
-    return !!gl.createRenderbuffer();
-
-   case "buffer":
-    return !!gl.createBuffer();
-
-   case "shader":
-    return !!gl.createShader(gl.VERTEX_SHADER);
-
-   case "program":
-    return !!gl.createProgram();
-
-   case "uniform":
-    return true;
-
-   case "attribute":
-    return true;
-
-   case "readPixels":
-    const p=
-     new Uint8Array(4);
-
-    gl.readPixels(
-     0,0,1,1,
-     gl.RGBA,
-     gl.UNSIGNED_BYTE,
-     p
-    );
-    break;
-
-   case "finish":
-    gl.finish();
-    break;
-
-   case "flush":
-    gl.flush();
-    break;
-
-   case "error":
-    gl.getError();
-    break;
-  }
-
-  return true;
-
- }catch(e){
-  return false;
- }
-}
-
-
-/* =========================================================
-   RENDER
-========================================================= */
-
-function badgeClass(status){
-
- if(status==="PASS")
-  return "pass";
-
- if(status==="FAIL")
-  return "fail";
-
- if(status==="PERMISSION")
-  return "permission";
-
- return "na";
-}
-
-
-function render(){
-
- const box=$("tests");
-
- box.innerHTML="";
-
- let list=
-  state.results.filter(
-   r =>
-    state.filter==="ALL" ||
-    r.status===state.filter
-  );
-
-
- if(!list.length){
-
-  box.innerHTML=
-   `<div class="test">
-    No results
-   </div>`;
-
-  return;
- }
-
-
- list.forEach(r=>{
-
-  const div=
-   document.createElement("div");
-
-  div.className="test";
-
-  const name=
-   document.createElement("div");
-
-  name.className="testName";
-
-  name.textContent=
-   "#"+r.index+
-   " — "+
-   r.name;
-
-  const badge=
-   document.createElement("span");
-
-  badge.className=
-   "badge "+
-   badgeClass(r.status);
-
-  badge.textContent=
-   r.status;
-
-  div.appendChild(name);
-  div.appendChild(badge);
-
-  box.appendChild(div);
- });
-}
-
-
-function summary(){
-
- let p=0;
- let f=0;
- let n=0;
- let permission=0;
-
- state.results.forEach(r=>{
-
-  if(r.status==="PASS")p++;
-  else if(r.status==="FAIL")f++;
-  else if(r.status==="PERMISSION")permission++;
-  else n++;
- });
-
- set("pass",p);
- set("fail",f);
- set("na",n);
-
- set(
-  "completed",
-  state.results.length+
-  " / 300"
- );
-}
-
-
-/* =========================================================
-   RUN TESTS
-========================================================= */
-
-async function runAll(){
-
- if(state.running)return;
-
- state.running=true;
-
- $("runBtn").disabled=true;
-
- state.results=[];
-
- state.runId++;
-
- render();
- summary();
-
- for(
-  let i=0;
-  i<tests.length;
-  i++
- ){
-
-  const name=tests[i][0];
-  const fn=tests[i][1];
-
-  let status="N/A";
-
-  try{
-
-   const result=
-    await Promise.resolve(
-     fn()
-    );
-
-   if(result===true)
-    status="PASS";
-   else if(result===false)
-    status="FAIL";
-   else
-    status="N/A";
-
-  }catch(e){
-
-   const msg=
-    String(
-     e?.name||
-     e?.message||
-     ""
-    ).toLowerCase();
-
-   if(
-    msg.includes("permission")||
-    msg.includes("denied")
-   ){
-    status="PERMISSION";
-   }else{
-    status="N/A";
-   }
-  }
-
-
-  state.results.push({
-
-   index:i+1,
-   name,
-   status,
-   time:
-    new Date().toISOString()
-  });
-
-
-  summary();
-  render();
-
-  await sleep(5);
- }
-
-
- /*
    IMPORTANT:
-   Every single result from this run,
-   including FAIL and N/A, is saved.
- */
+   Browser cannot directly read:
+   - WiFi SSID
+   - router admin credentials
+   - ISP PPPoE username
+   - local DHCP lease table
+   - routing table / traceroute hops
 
- saveCompleteRun(
-  state.results
- );
-
- state.running=false;
-
- $("runBtn").disabled=false;
-}
+   Those require native app, extension with permissions,
+   router API, or backend/server-side tools.
+============================================================ */
 
 
-/* =========================================================
-   COMPLETE HISTORY
-========================================================= */
+/* -----------------------------
+   STORAGE
+----------------------------- */
 
-function saveCompleteRun(results){
+const HISTORY_KEY = "wifiAnalyzerHistoryV1";
 
- const runId=
-  Date.now();
+let historyData =
+  JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
 
- const time=
-  new Date().toLocaleString();
+function saveHistory(item){
 
- results.forEach(r=>{
+  historyData.unshift(item);
 
-  history.unshift({
-
-   runId,
-   time,
-   index:r.index,
-   name:r.name,
-   status:r.status
-
-  });
-
- });
-
-
- /*
-   Keep last 30 complete runs.
-   30 × 300 = 9000 result records.
- */
-
- const maxRecords=9000;
-
- history=
-  history.slice(
-   0,
-   maxRecords
-  );
-
-
- try{
+  if(historyData.length > 5000){
+    historyData.length = 5000;
+  }
 
   localStorage.setItem(
-   "wifiAnalyzer300History",
-   JSON.stringify(history)
+    HISTORY_KEY,
+    JSON.stringify(historyData)
   );
 
- }catch(e){
-
-  /*
-   If localStorage is full,
-   keep only the latest 3000 records.
-  */
-
-  history=
-   history.slice(0,3000);
-
-  try{
-   localStorage.setItem(
-    "wifiAnalyzer300History",
-    JSON.stringify(history)
-   );
-  }catch(e2){}
- }
-
-
- renderHistory();
+  renderHistory();
 }
 
+function clearHistory(){
+
+  if(!confirm("Clear all test history?")) return;
+
+  historyData=[];
+  localStorage.removeItem(HISTORY_KEY);
+  renderHistory();
+}
 
 function renderHistory(){
 
- const body=
-  $("history");
+  const box=document.getElementById("history");
 
- body.innerHTML="";
+  if(!historyData.length){
+    box.innerHTML =
+      `<div class="small">No history yet.</div>`;
+    return;
+  }
 
- $("emptyHistory").style.display=
-  history.length
-   ? "none"
-   : "block";
+  box.innerHTML=historyData.map(x=>`
 
+    <div class="history-item">
 
- history.forEach(r=>{
+      <div>
+        <b>${escapeHTML(x.name)}</b>
+        <div class="small">${escapeHTML(x.time)}</div>
+      </div>
 
-  const tr=
-   document.createElement("tr");
+      <div>
+        ${escapeHTML(x.result)}
+      </div>
 
-  if(r.status==="FAIL")
-   tr.className="failRow";
+      <div class="${
+        x.status==="PASS" ? "good" :
+        x.status==="FAIL" ? "bad" :
+        "warn"
+      }">
+        ${escapeHTML(x.status)}
+      </div>
 
-  const values=[
-   r.runId,
-   r.time,
-   r.index,
-   r.name,
-   r.status
-  ];
+    </div>
 
-  values.forEach(value=>{
+  `).join("");
+}
 
-   const td=
-    document.createElement("td");
+function escapeHTML(value){
 
-   td.textContent=
-    value;
-
-   tr.appendChild(td);
-  });
-
-  body.appendChild(tr);
- });
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
 
-/* =========================================================
-   HISTORY FILTER
-========================================================= */
+/* -----------------------------
+   BASIC INFO
+----------------------------- */
 
-function showOnlyFail(){
+function browserInfo(){
 
- const old=
-  state.results;
+  const ua=navigator.userAgent;
 
- if(!old.length){
+  let name="Unknown";
 
-  alert(
-   "Run the 300 tests first."
-  );
+  if(ua.includes("Edg/")) name="Microsoft Edge";
+  else if(ua.includes("Chrome/")) name="Google Chrome";
+  else if(ua.includes("Firefox/")) name="Firefox";
+  else if(ua.includes("Safari/")) name="Safari";
 
-  return;
- }
+  document.getElementById("browser").textContent=name;
+  document.getElementById("platform").textContent=
+    navigator.platform || "Unknown";
 
- state.filter="FAIL";
+  const online=navigator.onLine;
 
- render();
+  document.getElementById("onlineStatus").textContent=
+    online ? "● Online" : "● Offline";
+
+  document.getElementById("onlineStatus").className=
+    "status "+(online ? "good" : "bad");
+
+  document.getElementById("connection").textContent=
+    online ? "Online" : "Offline";
+
+  document.getElementById("onlineSince").textContent=
+    new Date().toLocaleTimeString();
+
+}
+
+function networkInfo(){
+
+  const c=navigator.connection ||
+          navigator.mozConnection ||
+          navigator.webkitConnection;
+
+  if(!c){
+
+    document.getElementById("netType").textContent="N/A";
+    document.getElementById("downlink").textContent=
+      "Network Information API unavailable";
+    document.getElementById("rtt").textContent="N/A";
+    document.getElementById("saveData").textContent="N/A";
+
+    return;
+  }
+
+  document.getElementById("netType").textContent=
+    c.effectiveType || "N/A";
+
+  document.getElementById("downlink").textContent=
+    "Downlink: "+
+    (c.downlink != null ? c.downlink+" Mbps" : "N/A");
+
+  document.getElementById("rtt").textContent=
+    c.rtt != null ? c.rtt+" ms" : "N/A";
+
+  document.getElementById("saveData").textContent=
+    c.saveData ? "Enabled" : "Disabled";
+
+}
+
+async function refreshNetwork(){
+
+  browserInfo();
+  networkInfo();
+
+  await getPublicIPs();
 }
 
 
-function showAll(){
-
- state.filter="ALL";
-
- render();
-}
-
-
-function filterTests(
- filter,
- el
-){
-
- state.filter=filter;
-
- document
-  .querySelectorAll(".filter")
-  .forEach(
-   x=>x.classList.remove("active")
-  );
-
- el.classList.add("active");
-
- render();
-}
-
-
-/* =========================================================
-   NETWORK
-========================================================= */
-
-function refreshNetwork(){
-
- const online=
-  navigator.onLine;
-
- set(
-  "online",
-  online
-   ?"ONLINE"
-   :"OFFLINE"
- );
-
- $("online").className=
-  online
-   ?"online"
-   :"offline";
-
- set(
-  "netOnline",
-  online?"Yes":"No"
- );
-
- set(
-  "secure",
-  isSecureContext
-   ?"Yes"
-   :"No"
- );
-
-
- const c=
-  navigator.connection;
-
- if(c){
-
-  set(
-   "netType",
-   c.type||
-   "Not Exposed"
-  );
-
-  set(
-   "effective",
-   c.effectiveType||
-   "Not Exposed"
-  );
-
-  set(
-   "downlink",
-   typeof c.downlink==="number"
-    ?c.downlink+" Mbps"
-    :"Not Exposed"
-  );
-
-  set(
-   "rtt",
-   typeof c.rtt==="number"
-    ?c.rtt+" ms"
-    :"Not Exposed"
-  );
-
-  set(
-   "saveData",
-   typeof c.saveData==="boolean"
-    ?(c.saveData?"Yes":"No")
-    :"Not Exposed"
-  );
-
- }else{
-
-  set("netType","N/A");
-  set("effective","N/A");
-  set("downlink","N/A");
-  set("rtt","N/A");
-  set("saveData","N/A");
- }
-
-
- set(
-  "clock",
-  new Date().toLocaleString()
- );
-}
-
-
-window.addEventListener(
- "online",
- refreshNetwork
-);
-
-window.addEventListener(
- "offline",
- refreshNetwork
-);
-
-
-/* =========================================================
+/* -----------------------------
    PUBLIC IP
-========================================================= */
+----------------------------- */
 
-async function publicIP(){
+async function getPublicIPs(){
 
- let v4=null;
- let v6=null;
+  const v4=document.getElementById("ipv4");
+  const v6=document.getElementById("ipv6");
 
+  v4.textContent="Loading...";
+  v6.textContent="Loading...";
 
- try{
+  let got4=false;
+  let got6=false;
 
-  const r=
-   await fetch(
-    "https://api.ipify.org?format=json",
-    {cache:"no-store"}
-   );
+  try{
 
-  if(r.ok){
+    const r=await fetch(
+      "https://api4.ipify.org?format=json",
+      {cache:"no-store"}
+    );
 
-   const d=
-    await r.json();
+    if(r.ok){
 
-   v4=d.ip||null;
-  }
+      const d=await r.json();
 
- }catch(e){}
+      v4.textContent=d.ip || "N/A";
+      got4=true;
+    }
 
+  }catch(e){}
 
- try{
+  try{
 
-  const r=
-   await fetch(
-    "https://api6.ipify.org?format=json",
-    {cache:"no-store"}
-   );
+    const r=await fetch(
+      "https://api6.ipify.org?format=json",
+      {cache:"no-store"}
+    );
 
-  if(r.ok){
+    if(r.ok){
 
-   const d=
-    await r.json();
+      const d=await r.json();
 
-   v6=d.ip||null;
-  }
+      v6.textContent=d.ip || "IPv6 unavailable";
+      got6=true;
+    }
 
- }catch(e){}
+  }catch(e){}
 
-
- set(
-  "ipv4",
-  v4||"Not Available"
- );
-
- set(
-  "ipv6",
-  v6||"Not Available"
- );
-
-
- const ip=v4||v6;
-
- if(!ip)return;
-
-
- try{
-
-  const r=
-   await fetch(
-    "https://ipwho.is/"+
-    encodeURIComponent(ip),
-    {cache:"no-store"}
-   );
-
-  const d=
-   await r.json();
-
-  if(d.success){
-
-   set(
-    "isp",
-    d.connection?.isp||
-    d.connection?.org||
-    "Not Available"
-   );
-
-   set(
-    "asn",
-    d.connection?.asn
-     ?"AS"+d.connection.asn
-     :"Not Available"
-   );
-
-   set(
-    "country",
-    d.country||
-    "Not Available"
-   );
-
-   set(
-    "city",
-    d.city||
-    "Not Available"
-   );
-
-   set(
-    "tz",
-    d.timezone?.id||
-    "Not Available"
-   );
-  }
-
- }catch(e){}
+  if(!got4) v4.textContent="Unavailable";
+  if(!got6) v6.textContent="IPv6 unavailable";
 }
 
 
-/* =========================================================
-   LOCATION
-========================================================= */
+/* -----------------------------
+   HTTP TEST
+----------------------------- */
 
-function getLocation(){
+async function httpTest(url, timeout=7000){
 
- if(!navigator.geolocation){
+  const controller=new AbortController();
 
-  set(
-   "lat",
-   "Not Supported"
+  const timer=setTimeout(
+    ()=>controller.abort(),
+    timeout
   );
 
-  return;
- }
+  const started=performance.now();
+
+  try{
+
+    const r=await fetch(
+      url,
+      {
+        method:"GET",
+        mode:"cors",
+        cache:"no-store",
+        signal:controller.signal
+      }
+    );
+
+    const ms=Math.round(
+      performance.now()-started
+    );
+
+    clearTimeout(timer);
+
+    return {
+      ok:r.ok,
+      status:r.status,
+      ms
+    };
+
+  }catch(e){
+
+    clearTimeout(timer);
+
+    return {
+      ok:false,
+      error:e.name==="AbortError"
+        ? "Timeout"
+        : "Blocked/CORS/Network"
+    };
+  }
+}
 
 
- navigator.geolocation.getCurrentPosition(
+/* -----------------------------
+   DNS TESTS
+----------------------------- */
 
-  p=>{
+const dnsTargets=[
 
-   const c=p.coords;
-
-   set(
-    "lat",
-    c.latitude.toFixed(6)
-   );
-
-   set(
-    "lon",
-    c.longitude.toFixed(6)
-   );
-
-   set(
-    "accuracy",
-    Math.round(c.accuracy)+" m"
-   );
-
-   set(
-    "altitude",
-    c.altitude==null
-     ?"Not Available"
-     :c.altitude.toFixed(1)+" m"
-   );
-
-  },
-
-  e=>{
-
-   set(
-    "lat",
-    e.code===1
-     ?"Permission Denied"
-     :"Unavailable"
-   );
-
-   set(
-    "lon",
-    e.code===1
-     ?"Permission Denied"
-     :"Unavailable"
-   );
+  {
+    name:"Google DNS",
+    url:"https://dns.google/resolve?name=example.com&type=A"
   },
 
   {
-   enableHighAccuracy:true,
-   timeout:15000,
-   maximumAge:0
+    name:"Cloudflare DNS",
+    url:"https://cloudflare-dns.com/dns-query?name=example.com&type=A",
+    headers:true
+  },
+
+  {
+    name:"Google",
+    url:"https://www.google.com/favicon.ico"
   }
- );
-}
 
+];
 
-/* =========================================================
-   SPEED TEST
-========================================================= */
+async function runDNSTests(){
 
-async function pingTest(){
+  const box=document.getElementById("dnsTests");
 
- const arr=[];
+  box.innerHTML="";
 
- for(let i=0;i<5;i++){
+  for(const t of dnsTargets){
 
-  const start=
-   performance.now();
+    const el=document.createElement("div");
 
-  try{
+    el.className="test";
 
-   await fetch(
-    "https://www.google.com/generate_204?"+
-    Date.now(),
-    {
-     mode:"no-cors",
-     cache:"no-store"
+    el.innerHTML=`
+      <div class="test-top">
+        <div class="test-name">${t.name}</div>
+        <div class="badge">TESTING</div>
+      </div>
+      <div class="test-result">Checking...</div>
+    `;
+
+    box.appendChild(el);
+
+    const result=await httpTest(t.url);
+
+    const badge=el.querySelector(".badge");
+    const output=el.querySelector(".test-result");
+
+    if(result.ok){
+
+      badge.textContent="PASS";
+      badge.className="badge good";
+
+      output.textContent=
+        `HTTP ${result.status} • ${result.ms} ms`;
+
+      saveHistory({
+        name:t.name,
+        result:`HTTP ${result.status}, ${result.ms} ms`,
+        status:"PASS",
+        time:new Date().toLocaleString()
+      });
+
+    }else{
+
+      badge.textContent="FAIL";
+      badge.className="badge bad";
+
+      output.textContent=
+        result.error || "Failed";
+
+      saveHistory({
+        name:t.name,
+        result:result.error || "Failed",
+        status:"FAIL",
+        time:new Date().toLocaleString()
+      });
     }
-   );
-
-   const ms=
-    performance.now()-
-    start;
-
-   if(ms>0)
-    arr.push(ms);
-
-  }catch(e){}
-
-  await sleep(100);
- }
-
-
- if(!arr.length)
-  return {
-   ping:null,
-   jitter:null
-  };
-
-
- const avg=
-  arr.reduce(
-   (a,b)=>a+b,
-   0
-  )/arr.length;
-
-
- const jitter=
-  arr.reduce(
-   (a,b)=>
-    a+
-    Math.abs(b-avg),
-   0
-  )/arr.length;
-
-
- return {
-  ping:avg,
-  jitter
- };
+  }
 }
 
 
-async function downloadSpeed(){
+/* -----------------------------
+   SERVICES
+----------------------------- */
 
- const sizes=[
-  5000000,
-  10000000,
-  20000000
- ];
+const services=[
 
- const speeds=[];
+  ["Google","https://www.google.com/favicon.ico"],
 
- for(
-  let i=0;
-  i<sizes.length;
-  i++
- ){
+  ["Google DNS","https://dns.google/resolve?name=google.com&type=A"],
 
-  try{
+  ["Cloudflare","https://www.cloudflare.com/favicon.ico"],
 
-   const start=
-    performance.now();
+  ["Facebook","https://www.facebook.com/favicon.ico"],
 
-   const r=
-    await fetch(
-     "https://speed.cloudflare.com/__down"+
-     "?bytes="+
-     sizes[i]+
-     "&x="+
-     Date.now(),
-     {
-      cache:"no-store"
-     }
-    );
+  ["Microsoft","https://www.microsoft.com/favicon.ico"],
 
-   if(!r.ok)
-    continue;
+  ["GitHub","https://github.com/favicon.ico"],
 
-   const data=
-    await r.arrayBuffer();
+  ["Wikipedia","https://www.wikipedia.org/favicon.ico"],
 
-   const sec=
-    (performance.now()-start)/1000;
+  ["Cloudflare DNS","https://cloudflare-dns.com/dns-query?name=example.com&type=A"],
 
-   const mbps=
-    data.byteLength*8/
-    sec/
-    1000000;
+  ["NPM","https://www.npmjs.com/favicon.ico"],
 
-   if(
-    Number.isFinite(mbps) &&
-    mbps>0
-   ){
+  ["Google Fonts","https://fonts.googleapis.com/favicon.ico"]
 
-    speeds.push(mbps);
+];
 
-    set(
-     "speedValue",
-     mbps.toFixed(2)
-    );
+async function runServices(){
 
-    set(
-     "download",
-     mbps.toFixed(2)+
-     " Mbps"
-    );
-   }
+  const box=document.getElementById("serviceTests");
 
-   $("progress").style.width=
-    (
-     (i+1)/
-     sizes.length*
-     50
-    )+"%";
+  box.innerHTML="";
 
-  }catch(e){}
- }
+  for(const [name,url] of services){
 
+    const el=document.createElement("div");
 
- if(!speeds.length)
-  return null;
+    el.className="test";
 
- speeds.sort(
-  (a,b)=>a-b
- );
+    el.innerHTML=`
+      <div class="test-top">
+        <div class="test-name">${name}</div>
+        <div class="badge">TESTING</div>
+      </div>
+      <div class="test-result">Checking...</div>
+    `;
 
- return speeds[
-  Math.floor(speeds.length/2)
- ];
+    box.appendChild(el);
+
+    const result=await httpTest(url);
+
+    const badge=el.querySelector(".badge");
+    const output=el.querySelector(".test-result");
+
+    if(result.ok){
+
+      badge.textContent="PASS";
+      badge.className="badge good";
+
+      output.textContent=
+        `HTTP ${result.status} • ${result.ms} ms`;
+
+      saveHistory({
+        name,
+        result:`HTTP ${result.status} • ${result.ms} ms`,
+        status:"PASS",
+        time:new Date().toLocaleString()
+      });
+
+    }else{
+
+      badge.textContent="BLOCKED";
+      badge.className="badge warn";
+
+      output.textContent=
+        result.error || "Browser could not verify";
+
+      saveHistory({
+        name,
+        result:result.error || "Browser could not verify",
+        status:"BLOCKED",
+        time:new Date().toLocaleString()
+      });
+    }
+  }
 }
 
 
-async function uploadSpeed(){
+/* -----------------------------
+   LATENCY
+----------------------------- */
 
- const sizes=[
-  1000000,
-  3000000,
-  5000000
- ];
+async function latencyTest(){
 
- const speeds=[];
+  const targets=[
+    "https://www.google.com/favicon.ico",
+    "https://www.cloudflare.com/favicon.ico",
+    "https://github.com/favicon.ico"
+  ];
 
- for(
-  let i=0;
-  i<sizes.length;
-  i++
- ){
+  const values=[];
 
-  try{
+  for(const url of targets){
 
-   const data=
-    new Uint8Array(
-     sizes[i]
-    );
+    const r=await httpTest(url);
 
-   const start=
-    performance.now();
+    if(r.ok) values.push(r.ms);
+  }
 
-   const r=
-    await fetch(
-     "https://speed.cloudflare.com/__up"+
-     "?x="+Date.now(),
-     {
-      method:"POST",
-      body:data,
-      cache:"no-store"
-     }
-    );
+  if(!values.length){
 
-   if(!r.ok)
-    continue;
+    document.getElementById("latency").textContent="N/A";
 
-   try{
-    await r.text();
-   }catch(e){}
+    return null;
+  }
 
-   const sec=
-    (performance.now()-start)/1000;
+  const avg=Math.round(
+    values.reduce((a,b)=>a+b,0)/values.length
+  );
 
-   const mbps=
-    data.byteLength*8/
-    sec/
-    1000000;
+  document.getElementById("latency").textContent=
+    avg+" ms";
 
-   if(
-    Number.isFinite(mbps) &&
-    mbps>0
-   ){
-
-    speeds.push(mbps);
-
-    set(
-     "upload",
-     mbps.toFixed(2)+
-     " Mbps"
-    );
-   }
-
-   $("progress").style.width=
-    (
-     50+
-     (i+1)/
-     sizes.length*
-     50
-    )+"%";
-
-  }catch(e){}
- }
-
-
- if(!speeds.length)
-  return null;
-
- speeds.sort(
-  (a,b)=>a-b
- );
-
- return speeds[
-  Math.floor(speeds.length/2)
- ];
+  return avg;
 }
+
+
+/* -----------------------------
+   SPEED TEST
+   Browser-based approximate test.
+
+   For production ISP-grade testing,
+   replace TEST_DOWNLOAD_URL and upload endpoint
+   with YOUR OWN server/CDN.
+----------------------------- */
+
+const TEST_DOWNLOAD_URL=
+  "https://speed.cloudflare.com/__down?bytes=10000000";
+
+const TEST_UPLOAD_URL=
+  "https://speed.cloudflare.com/__up";
 
 
 async function speedTest(){
 
- if(!navigator.onLine){
+  const btn=document.getElementById("speedBtn");
 
-  set(
-   "speedStatus",
-   "Offline"
-  );
+  btn.disabled=true;
 
-  return;
- }
+  document.getElementById("speedMessage").textContent=
+    "Running latency...";
 
+  document.getElementById("speedProgress").style.width="10%";
 
- const start=
-  performance.now();
+  const latency=await latencyTest();
 
- set(
-  "speedStatus",
-  "Testing ping..."
- );
+  document.getElementById("speedMessage").textContent=
+    "Running download test...";
 
- const p=
-  await pingTest();
+  document.getElementById("speedProgress").style.width="35%";
 
- set(
-  "ping",
-  p.ping==null
-   ?"N/A"
-   :p.ping.toFixed(1)+" ms"
- );
+  let download=null;
 
- set(
-  "jitter",
-  p.jitter==null
-   ?"N/A"
-   :p.jitter.toFixed(1)+" ms"
- );
+  try{
 
+    const started=performance.now();
 
- set(
-  "speedStatus",
-  "Testing download..."
- );
+    const response=await fetch(
+      TEST_DOWNLOAD_URL+"?cache="+Date.now(),
+      {cache:"no-store"}
+    );
 
- const down=
-  await downloadSpeed();
+    if(!response.ok)
+      throw new Error("Download request failed");
 
+    const buffer=await response.arrayBuffer();
 
- set(
-  "speedStatus",
-  "Testing upload..."
- );
+    const seconds=
+      (performance.now()-started)/1000;
 
- const up=
-  await uploadSpeed();
+    const bits=
+      buffer.byteLength*8;
 
+    download=
+      bits/seconds/1000000;
 
- let quality=
-  "N/A";
+    document.getElementById("downloadSpeed").textContent=
+      download.toFixed(2)+" Mbps";
 
+  }catch(e){
 
- if(down!==null){
+    document.getElementById("downloadSpeed").textContent=
+      "Unavailable";
+  }
 
-  if(
-   down>=100 &&
-   p.ping!==null &&
-   p.ping<40
-  )
-   quality="Excellent";
+  document.getElementById("speedMessage").textContent=
+    "Running upload test...";
 
-  else if(down>=25)
-   quality="Good";
+  document.getElementById("speedProgress").style.width="70%";
 
-  else if(down>=5)
-   quality="Fair";
+  let upload=null;
 
-  else
-   quality="Poor";
- }
+  try{
 
+    const size=1000000;
 
- set(
-  "quality",
-  quality
- );
+    const data=new Uint8Array(size);
 
- set(
-  "duration",
-  (
-   (performance.now()-start)/1000
-  ).toFixed(1)+" sec"
- );
+    crypto.getRandomValues(data.subarray(0,65536));
 
- set(
-  "speedStatus",
-  "Complete"
- );
+    const started=performance.now();
 
- $("progress").style.width=
-  "100%";
-}
+    const response=await fetch(
+      TEST_UPLOAD_URL+"?cache="+Date.now(),
+      {
+        method:"POST",
+        body:data,
+        cache:"no-store"
+      }
+    );
 
+    if(!response.ok)
+      throw new Error("Upload request failed");
 
-/* =========================================================
-   EXPORT JSON
-========================================================= */
+    const seconds=
+      (performance.now()-started)/1000;
 
-function download(
- blob,
- filename
-){
+    upload=
+      size*8/seconds/1000000;
 
- const url=
-  URL.createObjectURL(blob);
+    document.getElementById("uploadSpeed").textContent=
+      upload.toFixed(2)+" Mbps";
 
- const a=
-  document.createElement("a");
+  }catch(e){
 
- a.href=url;
- a.download=filename;
+    document.getElementById("uploadSpeed").textContent=
+      "Unavailable";
+  }
 
- document.body.appendChild(a);
+  document.getElementById("speedProgress").style.width="100%";
 
- a.click();
+  document.getElementById("speedMessage").textContent=
+    "Speed test completed. Results depend on the selected test server, browser and network.";
 
- a.remove();
-
- URL.revokeObjectURL(url);
-}
-
-
-function exportJSON(){
-
- const data={
-  generated:
-   new Date().toISOString(),
-
-  latestResults:
-   state.results,
-
-  completeHistory:
-   history
- };
-
- download(
-  new Blob(
-   [
-    JSON.stringify(
-     data,
-     null,
-     2
-    )
-   ],
-   {
-    type:"application/json"
-   }
-  ),
-  "wifi-analyzer-300-report.json"
- );
-}
-
-
-/* =========================================================
-   EXPORT CSV
-========================================================= */
-
-function exportCSV(){
-
- if(!history.length){
-
-  alert(
-   "Run the 300 tests first."
-  );
-
-  return;
- }
-
-
- const rows=[
-  [
-   "Run",
-   "Time",
-   "Test #",
-   "Test",
-   "Result"
-  ]
- ];
-
-
- history
-  .slice()
-  .reverse()
-  .forEach(r=>{
-
-   rows.push([
-    r.runId,
-    r.time,
-    r.index,
-    r.name,
-    r.status
-   ]);
+  saveHistory({
+    name:"Speed Test",
+    result:
+      `Latency: ${latency ?? "N/A"} ms | `+
+      `Download: ${download ? download.toFixed(2)+" Mbps" : "N/A"} | `+
+      `Upload: ${upload ? upload.toFixed(2)+" Mbps" : "N/A"}`,
+    status:
+      download || upload ? "PASS" : "FAIL",
+    time:new Date().toLocaleString()
   });
 
-
- const csv=
-  rows.map(
-   row=>
-    row.map(
-     value=>
-      '"'+
-      String(value)
-       .replaceAll(
-        '"',
-        '""'
-       )+
-      '"'
-    ).join(",")
-  ).join("\n");
-
-
- download(
-  new Blob(
-   [csv],
-   {type:"text/csv"}
-  ),
-  "wifi-analyzer-300-history.csv"
- );
+  btn.disabled=false;
 }
 
 
-/* =========================================================
-   CLEAR HISTORY
-========================================================= */
+/* -----------------------------
+   1000 TESTS
+----------------------------- */
 
-function clearHistory(){
+/*
+  We do NOT pretend that 1000 fake tests are real.
 
- if(
-  !confirm(
-   "Delete complete test history?"
-  )
- )
- return;
+  The suite contains:
+  - real browser/network checks
+  - service checks
+  - DNS checks
+  - repeated endpoint latency measurements
 
- history=[];
+  Every result is recorded individually.
+*/
 
- try{
-  localStorage.removeItem(
-   "wifiAnalyzer300History"
-  );
- }catch(e){}
+const baseRealTests=[
 
- renderHistory();
+  ["Google Connectivity",
+   "https://www.google.com/favicon.ico"],
+
+  ["Cloudflare Connectivity",
+   "https://www.cloudflare.com/favicon.ico"],
+
+  ["Facebook Connectivity",
+   "https://www.facebook.com/favicon.ico"],
+
+  ["GitHub Connectivity",
+   "https://github.com/favicon.ico"],
+
+  ["Wikipedia Connectivity",
+   "https://www.wikipedia.org/favicon.ico"],
+
+  ["Microsoft Connectivity",
+   "https://www.microsoft.com/favicon.ico"],
+
+  ["Google DNS",
+   "https://dns.google/resolve?name=example.com&type=A"],
+
+  ["Cloudflare DNS",
+   "https://cloudflare-dns.com/dns-query?name=example.com&type=A"]
+
+];
+
+/*
+  1000 actual executions.
+  They repeatedly test real endpoints instead of creating
+  fake "PASS" values.
+*/
+
+function create1000Tests(){
+
+  const tests=[];
+
+  for(let i=0;i<1000;i++){
+
+    const base=
+      baseRealTests[i % baseRealTests.length];
+
+    tests.push({
+
+      id:i+1,
+
+      name:
+        `${base[0]} #${i+1}`,
+
+      url:base[1]
+
+    });
+
+  }
+
+  return tests;
 }
 
 
-/* =========================================================
+async function run1000(){
+
+  const tests=create1000Tests();
+
+  const box=document.getElementById("allTests");
+
+  box.innerHTML="";
+
+  const status=
+    document.getElementById("suiteStatus");
+
+  const progress=
+    document.getElementById("suiteProgress");
+
+  status.textContent=
+    "Running 1000 real browser requests...";
+
+  let pass=0;
+  let fail=0;
+  let blocked=0;
+
+  /*
+    To prevent the page becoming extremely heavy,
+    show only the most recent 100 visual result cards.
+    ALL results still go to history.
+  */
+
+  for(let i=0;i<tests.length;i++){
+
+    const t=tests[i];
+
+    const result=await httpTest(t.url,5000);
+
+    if(result.ok) pass++;
+    else if(
+      result.error &&
+      result.error.includes("Blocked")
+    ) blocked++;
+    else fail++;
+
+    saveHistory({
+
+      name:t.name,
+
+      result:
+        result.ok
+        ? `HTTP ${result.status} • ${result.ms} ms • ${t.url}`
+        : `${result.error || "Failed"} • ${t.url}`,
+
+      status:
+        result.ok
+        ? "PASS"
+        : blocked > fail
+          ? "BLOCKED"
+          : "FAIL",
+
+      time:new Date().toLocaleString()
+
+    });
+
+    if(i<100){
+
+      const el=document.createElement("div");
+
+      el.className="test";
+
+      el.innerHTML=`
+
+        <div class="test-top">
+
+          <div class="test-name">
+            ${escapeHTML(t.name)}
+          </div>
+
+          <div class="badge ${
+            result.ok ? "good" :
+            "bad"
+          }">
+
+            ${result.ok ? "PASS" : "FAIL"}
+
+          </div>
+
+        </div>
+
+        <div class="test-result">
+
+          ${
+            result.ok
+            ? `HTTP ${result.status} • ${result.ms} ms`
+            : (result.error || "Failed")
+          }
+
+        </div>
+
+      `;
+
+      box.appendChild(el);
+    }
+
+    const percent=
+      ((i+1)/tests.length)*100;
+
+    progress.style.width=
+      percent.toFixed(1)+"%";
+
+    status.textContent=
+      `Completed ${i+1}/1000 • `+
+      `Pass: ${pass} • `+
+      `Fail: ${fail} • `+
+      `Blocked: ${blocked}`;
+
+    /*
+      Small delay so browser UI can update.
+    */
+
+    await new Promise(
+      resolve=>setTimeout(resolve,10)
+    );
+  }
+
+  status.textContent=
+    `Completed 1000/1000 • `+
+    `Pass: ${pass} • `+
+    `Fail: ${fail} • `+
+    `Blocked: ${blocked}`;
+}
+
+
+/* -----------------------------
+   RUN ALL
+----------------------------- */
+
+async function runAll(){
+
+  await refreshNetwork();
+
+  await runDNSTests();
+
+  await runServices();
+
+  await latencyTest();
+
+}
+
+
+/* -----------------------------
+   ONLINE / OFFLINE EVENTS
+----------------------------- */
+
+window.addEventListener(
+  "online",
+  browserInfo
+);
+
+window.addEventListener(
+  "offline",
+  browserInfo
+);
+
+
+/* -----------------------------
    INIT
-========================================================= */
+----------------------------- */
 
-refreshNetwork();
-
-publicIP();
-
+browserInfo();
+networkInfo();
+getPublicIPs();
 renderHistory();
-
-setInterval(
- refreshNetwork,
- 5000
-);
-
-if(navigator.connection){
-
- navigator.connection.addEventListener(
-  "change",
-  refreshNetwork
- );
-}
-
-console.log(
- "Total tests:",
- tests.length
-);
 
 </script>
 
