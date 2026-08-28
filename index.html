@@ -2,1276 +2,918 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WiFi Analyzer Pro</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Chrome Internet Test</title>
 
 <style>
-:root{
-  --bg:#07111f;
-  --card:#0d1b2d;
-  --card2:#10243b;
-  --text:#eef6ff;
-  --muted:#91a7bd;
-  --blue:#28a9ff;
-  --green:#20d68b;
-  --red:#ff5570;
-  --yellow:#ffc857;
-  --border:#1b3550;
-}
-
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Inter,Arial,sans-serif;
-  background:linear-gradient(135deg,#050c16,#09182a 55%,#06111e);
-  color:var(--text);
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#07111f;
+    color:#fff;
+    min-height:100vh;
+    padding:20px;
 }
 
-header{
-  padding:24px;
-  border-bottom:1px solid var(--border);
-  background:rgba(5,14,25,.85);
-  position:sticky;
-  top:0;
-  z-index:5;
-  backdrop-filter:blur(15px);
-}
-
-.header{
-  max-width:1400px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-}
-
-.logo{
-  font-size:25px;
-  font-weight:800;
-}
-
-.logo span{color:var(--blue)}
-
-.status{
-  padding:8px 14px;
-  border-radius:20px;
-  background:#11283e;
-  color:#7bd0ff;
-  font-size:13px;
-}
-
-main{
-  max-width:1400px;
-  margin:auto;
-  padding:22px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
+.container{
+    max-width:900px;
+    margin:auto;
 }
 
 .card{
-  background:linear-gradient(145deg,var(--card),#0a1727);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:18px;
-  box-shadow:0 10px 30px rgba(0,0,0,.18);
+    background:#0d1b2a;
+    border:1px solid #1e344b;
+    border-radius:22px;
+    padding:24px;
+    box-shadow:0 20px 60px #0008;
 }
 
-.card h3{
-  margin:0 0 10px;
-  font-size:14px;
-  color:var(--muted);
+h1{
+    text-align:center;
+    margin:0;
+    font-size:30px;
 }
 
-.value{
-  font-size:23px;
-  font-weight:750;
-  word-break:break-word;
+.subtitle{
+    text-align:center;
+    color:#91a7bc;
+    margin:8px 0 25px;
 }
 
-.sub{
-  margin-top:7px;
-  color:var(--muted);
-  font-size:12px;
+.circle{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    margin:0 auto 25px;
+    background:conic-gradient(#00e676 0deg,#00e676 0deg,#172b40 0deg);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
 }
 
-.section{
-  margin-top:20px;
+.circle::after{
+    content:"";
+    position:absolute;
+    inset:11px;
+    border-radius:50%;
+    background:#0d1b2a;
 }
 
-.section-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
+.score{
+    position:relative;
+    z-index:2;
+    text-align:center;
 }
 
-.section-title h2{
-  margin:0;
-  font-size:19px;
+.score strong{
+    display:block;
+    font-size:48px;
+}
+
+.score span{
+    color:#91a7bc;
+    font-size:12px;
 }
 
 button{
-  border:0;
-  padding:11px 15px;
-  border-radius:10px;
-  color:white;
-  background:#117ac0;
-  cursor:pointer;
-  font-weight:650;
+    width:100%;
+    border:0;
+    border-radius:12px;
+    padding:16px;
+    background:#00c853;
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-bottom:20px;
 }
 
-button:hover{filter:brightness(1.12)}
-button:disabled{opacity:.45;cursor:not-allowed}
-
-.buttons{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
+button:hover{
+    background:#00e676;
 }
 
-.good{color:var(--green)}
-.bad{color:var(--red)}
-.warn{color:var(--yellow)}
-
-.progress{
-  width:100%;
-  height:9px;
-  background:#07111d;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:12px;
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
 }
 
-.progress div{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#168cff,#24e0a0);
-  transition:.2s;
-}
-
-.test-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
 }
 
 .test{
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:12px;
-  background:#091727;
+    background:#101f30;
+    border:1px solid #20364d;
+    border-radius:14px;
+    padding:15px;
 }
 
-.test-top{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
+.name{
+    color:#8fa6ba;
+    font-size:12px;
+    margin-bottom:8px;
 }
 
-.test-name{
-  font-weight:650;
+.value{
+    font-size:20px;
+    font-weight:bold;
 }
 
-.badge{
-  font-size:11px;
-  padding:3px 7px;
-  border-radius:10px;
-  background:#13283c;
-  color:#a8bfd5;
+.status{
+    color:#00e676;
+    font-size:11px;
+    margin-top:5px;
 }
 
-.test-result{
-  margin-top:8px;
-  font-size:13px;
-  color:var(--muted);
+.log{
+    margin-top:20px;
+    padding:14px;
+    height:120px;
+    overflow:auto;
+    background:#050d16;
+    border-radius:12px;
+    color:#91a7bc;
+    font:12px monospace;
 }
 
-.history{
-  max-height:480px;
-  overflow:auto;
+@media(max-width:700px){
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
 }
 
-.history-item{
-  display:grid;
-  grid-template-columns:170px 1fr 120px;
-  gap:10px;
-  padding:11px;
-  border-bottom:1px solid #142b40;
-  font-size:13px;
-}
-
-.small{font-size:12px;color:var(--muted)}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-td,th{
-  padding:10px;
-  border-bottom:1px solid var(--border);
-  text-align:left;
-  font-size:13px;
-}
-
-th{color:var(--muted)}
-
-@media(max-width:1050px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-  .test-grid{grid-template-columns:repeat(2,1fr)}
-}
-
-@media(max-width:650px){
-  main{padding:12px}
-  .grid,.test-grid{grid-template-columns:1fr}
-  .header{align-items:flex-start;flex-direction:column}
-  .history-item{grid-template-columns:1fr}
+@media(max-width:430px){
+    .grid{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="header">
-    <div class="logo">WiFi <span>Analyzer</span> Pro</div>
-    <div id="onlineStatus" class="status">Checking...</div>
-  </div>
-</header>
+<div class="container">
+<div class="card">
 
-<main>
+<h1>🌐 Internet Test</h1>
+<div class="subtitle">Chrome Browser Network Test</div>
 
-  <!-- BASIC NETWORK INFORMATION -->
-  <section class="grid">
-
-    <div class="card">
-      <h3>Connection</h3>
-      <div id="connection" class="value">N/A</div>
-      <div id="connectionDetails" class="sub">Waiting...</div>
+<div class="circle" id="circle">
+    <div class="score">
+        <strong id="score">--</strong>
+        <span>INDEX / 100</span>
     </div>
+</div>
 
-    <div class="card">
-      <h3>Public IPv4</h3>
-      <div id="ipv4" class="value">Loading...</div>
-      <div class="sub">Detected from external service</div>
-    </div>
+<button id="start" onclick="runTests()">
+    START INTERNET TEST
+</button>
 
-    <div class="card">
-      <h3>Public IPv6</h3>
-      <div id="ipv6" class="value">Loading...</div>
-      <div class="sub">Detected when available</div>
-    </div>
+<div class="grid">
 
-    <div class="card">
-      <h3>Browser</h3>
-      <div id="browser" class="value">Loading...</div>
-      <div class="sub" id="platform"></div>
-    </div>
+<div class="test">
+    <div class="name">01 • Internet</div>
+    <div class="value" id="internet">--</div>
+    <div class="status" id="st1">Waiting</div>
+</div>
 
-  </section>
+<div class="test">
+    <div class="name">02 • Latency</div>
+    <div class="value" id="latency">--</div>
+    <div class="status" id="st2">Waiting</div>
+</div>
 
-  <!-- NETWORK DETAILS -->
-  <section class="section">
-    <div class="section-title">
-      <h2>Network Information</h2>
-      <div class="buttons">
-        <button onclick="refreshNetwork()">Refresh</button>
-        <button onclick="runAll()">Run All Tests</button>
-        <button onclick="clearHistory()">Clear History</button>
-      </div>
-    </div>
+<div class="test">
+    <div class="name">03 • Jitter</div>
+    <div class="value" id="jitter">--</div>
+    <div class="status" id="st3">Waiting</div>
+</div>
 
-    <div class="grid">
+<div class="test">
+    <div class="name">04 • DNS</div>
+    <div class="value" id="dns">--</div>
+    <div class="status" id="st4">Waiting</div>
+</div>
 
-      <div class="card">
-        <h3>Effective Connection Type</h3>
-        <div id="netType" class="value">N/A</div>
-        <div id="downlink" class="sub">Downlink: N/A</div>
-      </div>
+<div class="test">
+    <div class="name">05 • HTTPS</div>
+    <div class="value" id="https">--</div>
+    <div class="status" id="st5">Waiting</div>
+</div>
 
-      <div class="card">
-        <h3>Estimated RTT</h3>
-        <div id="rtt" class="value">N/A</div>
-        <div class="sub">Browser Network Information API</div>
-      </div>
+<div class="test">
+    <div class="name">06 • Google</div>
+    <div class="value" id="google">--</div>
+    <div class="status" id="st6">Waiting</div>
+</div>
 
-      <div class="card">
-        <h3>Online Since</h3>
-        <div id="onlineSince" class="value">—</div>
-        <div class="sub">Page session</div>
-      </div>
+<div class="test">
+    <div class="name">07 • Cloudflare</div>
+    <div class="value" id="cloudflare">--</div>
+    <div class="status" id="st7">Waiting</div>
+</div>
 
-      <div class="card">
-        <h3>Data Saver</h3>
-        <div id="saveData" class="value">N/A</div>
-        <div class="sub">Browser-reported preference</div>
-      </div>
+<div class="test">
+    <div class="name">08 • API</div>
+    <div class="value" id="api">--</div>
+    <div class="status" id="st8">Waiting</div>
+</div>
 
-    </div>
-  </section>
+<div class="test">
+    <div class="name">09 • 100 KB</div>
+    <div class="value" id="d100">--</div>
+    <div class="status" id="st9">Waiting</div>
+</div>
 
-  <!-- SPEED -->
-  <section class="section">
-    <div class="section-title">
-      <h2>Speed Test</h2>
-      <button id="speedBtn" onclick="speedTest()">Start Speed Test</button>
-    </div>
+<div class="test">
+    <div class="name">10 • 500 KB</div>
+    <div class="value" id="d500">--</div>
+    <div class="status" id="st10">Waiting</div>
+</div>
 
-    <div class="grid">
+<div class="test">
+    <div class="name">11 • 1 MB</div>
+    <div class="value" id="d1m">--</div>
+    <div class="status" id="st11">Waiting</div>
+</div>
 
-      <div class="card">
-        <h3>Latency</h3>
-        <div id="latency" class="value">—</div>
-        <div class="sub">HTTP request latency</div>
-      </div>
+<div class="test">
+    <div class="name">12 • 5 MB</div>
+    <div class="value" id="d5m">--</div>
+    <div class="status" id="st12">Waiting</div>
+</div>
 
-      <div class="card">
-        <h3>Download</h3>
-        <div id="downloadSpeed" class="value">—</div>
-        <div class="sub">Measured using test endpoint</div>
-      </div>
+<div class="test">
+    <div class="name">13 • Network Type</div>
+    <div class="value" id="network">--</div>
+    <div class="status" id="st13">Waiting</div>
+</div>
 
-      <div class="card">
-        <h3>Upload</h3>
-        <div id="uploadSpeed" class="value">—</div>
-        <div class="sub">Measured using test endpoint</div>
-      </div>
+<div class="test">
+    <div class="name">14 • Downlink</div>
+    <div class="value" id="downlink">--</div>
+    <div class="status" id="st14">Waiting</div>
+</div>
 
-    </div>
+<div class="test">
+    <div class="name">15 • Final Index</div>
+    <div class="value" id="final">--</div>
+    <div class="status" id="st15">Waiting</div>
+</div>
 
-    <div class="card" style="margin-top:15px">
-      <div class="small" id="speedMessage">No speed test has been performed.</div>
-      <div class="progress"><div id="speedProgress"></div></div>
-    </div>
-  </section>
+</div>
 
-  <!-- DNS -->
-  <section class="section">
-    <div class="section-title">
-      <h2>DNS / Internet Tests</h2>
-    </div>
+<div class="log" id="log">
+Ready...
+</div>
 
-    <div class="test-grid" id="dnsTests"></div>
-  </section>
-
-  <!-- WEBSITE CONNECTIVITY -->
-  <section class="section">
-    <div class="section-title">
-      <h2>Service Connectivity</h2>
-      <span class="small">
-        Blocked/CORS means the browser cannot directly verify the service.
-      </span>
-    </div>
-
-    <div class="test-grid" id="serviceTests"></div>
-  </section>
-
-  <!-- 1000 TEST ENGINE -->
-  <section class="section">
-    <div class="section-title">
-      <h2>Extended Test Suite — 1000 Tests</h2>
-      <button onclick="run1000()">Run 1000 Tests</button>
-    </div>
-
-    <div class="card">
-      <div id="suiteStatus">Ready.</div>
-      <div class="progress"><div id="suiteProgress"></div></div>
-    </div>
-
-    <div class="test-grid" id="allTests"></div>
-  </section>
-
-  <!-- HISTORY -->
-  <section class="section">
-    <div class="section-title">
-      <h2>Test History</h2>
-      <span class="small">Pass, Fail, Timeout, Blocked এবং actual result রাখা হবে</span>
-    </div>
-
-    <div class="card history" id="history"></div>
-  </section>
-
-</main>
+</div>
+</div>
 
 <script>
 
-/* ============================================================
-   WiFi Analyzer Pro
-   Browser-only version
+const $ = id => document.getElementById(id);
 
-   IMPORTANT:
-   Browser cannot directly read:
-   - WiFi SSID
-   - router admin credentials
-   - ISP PPPoE username
-   - local DHCP lease table
-   - routing table / traceroute hops
-
-   Those require native app, extension with permissions,
-   router API, or backend/server-side tools.
-============================================================ */
-
-
-/* -----------------------------
-   STORAGE
------------------------------ */
-
-const HISTORY_KEY = "wifiAnalyzerHistoryV1";
-
-let historyData =
-  JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
-
-function saveHistory(item){
-
-  historyData.unshift(item);
-
-  if(historyData.length > 5000){
-    historyData.length = 5000;
-  }
-
-  localStorage.setItem(
-    HISTORY_KEY,
-    JSON.stringify(historyData)
-  );
-
-  renderHistory();
+function log(text){
+    $("log").innerHTML += "<br>• " + text;
+    $("log").scrollTop = $("log").scrollHeight;
 }
 
-function clearHistory(){
-
-  if(!confirm("Clear all test history?")) return;
-
-  historyData=[];
-  localStorage.removeItem(HISTORY_KEY);
-  renderHistory();
+function done(n){
+    $("st"+n).textContent = "Done";
 }
 
-function renderHistory(){
-
-  const box=document.getElementById("history");
-
-  if(!historyData.length){
-    box.innerHTML =
-      `<div class="small">No history yet.</div>`;
-    return;
-  }
-
-  box.innerHTML=historyData.map(x=>`
-
-    <div class="history-item">
-
-      <div>
-        <b>${escapeHTML(x.name)}</b>
-        <div class="small">${escapeHTML(x.time)}</div>
-      </div>
-
-      <div>
-        ${escapeHTML(x.result)}
-      </div>
-
-      <div class="${
-        x.status==="PASS" ? "good" :
-        x.status==="FAIL" ? "bad" :
-        "warn"
-      }">
-        ${escapeHTML(x.status)}
-      </div>
-
-    </div>
-
-  `).join("");
-}
-
-function escapeHTML(value){
-
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+function wait(ms){
+    return new Promise(resolve => setTimeout(resolve,ms));
 }
 
 
-/* -----------------------------
-   BASIC INFO
------------------------------ */
+/* 01 - INTERNET */
 
-function browserInfo(){
+async function testInternet(){
 
-  const ua=navigator.userAgent;
+    try{
 
-  let name="Unknown";
+        const start = performance.now();
 
-  if(ua.includes("Edg/")) name="Microsoft Edge";
-  else if(ua.includes("Chrome/")) name="Google Chrome";
-  else if(ua.includes("Firefox/")) name="Firefox";
-  else if(ua.includes("Safari/")) name="Safari";
+        await fetch(
+            "https://www.cloudflare.com/cdn-cgi/trace?t="+Math.random(),
+            {
+                cache:"no-store",
+                mode:"cors"
+            }
+        );
 
-  document.getElementById("browser").textContent=name;
-  document.getElementById("platform").textContent=
-    navigator.platform || "Unknown";
+        const time = performance.now()-start;
 
-  const online=navigator.onLine;
+        $("internet").textContent = "ONLINE";
+        done(1);
 
-  document.getElementById("onlineStatus").textContent=
-    online ? "● Online" : "● Offline";
+        return time;
 
-  document.getElementById("onlineStatus").className=
-    "status "+(online ? "good" : "bad");
+    }catch(e){
 
-  document.getElementById("connection").textContent=
-    online ? "Online" : "Offline";
+        $("internet").textContent = "OFFLINE";
+        $("st1").textContent = "Failed";
 
-  document.getElementById("onlineSince").textContent=
-    new Date().toLocaleTimeString();
-
-}
-
-function networkInfo(){
-
-  const c=navigator.connection ||
-          navigator.mozConnection ||
-          navigator.webkitConnection;
-
-  if(!c){
-
-    document.getElementById("netType").textContent="N/A";
-    document.getElementById("downlink").textContent=
-      "Network Information API unavailable";
-    document.getElementById("rtt").textContent="N/A";
-    document.getElementById("saveData").textContent="N/A";
-
-    return;
-  }
-
-  document.getElementById("netType").textContent=
-    c.effectiveType || "N/A";
-
-  document.getElementById("downlink").textContent=
-    "Downlink: "+
-    (c.downlink != null ? c.downlink+" Mbps" : "N/A");
-
-  document.getElementById("rtt").textContent=
-    c.rtt != null ? c.rtt+" ms" : "N/A";
-
-  document.getElementById("saveData").textContent=
-    c.saveData ? "Enabled" : "Disabled";
-
-}
-
-async function refreshNetwork(){
-
-  browserInfo();
-  networkInfo();
-
-  await getPublicIPs();
+        return null;
+    }
 }
 
 
-/* -----------------------------
-   PUBLIC IP
------------------------------ */
+/* 02 - LATENCY */
 
-async function getPublicIPs(){
+async function testLatency(){
 
-  const v4=document.getElementById("ipv4");
-  const v6=document.getElementById("ipv6");
+    let results=[];
 
-  v4.textContent="Loading...";
-  v6.textContent="Loading...";
+    for(let i=0;i<5;i++){
 
-  let got4=false;
-  let got6=false;
+        const start=performance.now();
 
-  try{
+        try{
 
-    const r=await fetch(
-      "https://api4.ipify.org?format=json",
-      {cache:"no-store"}
-    );
+            await fetch(
+                "https://www.cloudflare.com/cdn-cgi/trace?t="+Math.random(),
+                {
+                    cache:"no-store",
+                    mode:"cors"
+                }
+            );
 
-    if(r.ok){
+            results.push(performance.now()-start);
 
-      const d=await r.json();
+        }catch(e){}
 
-      v4.textContent=d.ip || "N/A";
-      got4=true;
+        await wait(100);
     }
 
-  }catch(e){}
+    if(!results.length) return null;
 
-  try{
+    const avg =
+        results.reduce((a,b)=>a+b,0)/results.length;
 
-    const r=await fetch(
-      "https://api6.ipify.org?format=json",
-      {cache:"no-store"}
-    );
+    $("latency").textContent =
+        Math.round(avg)+" ms";
 
-    if(r.ok){
+    done(2);
 
-      const d=await r.json();
-
-      v6.textContent=d.ip || "IPv6 unavailable";
-      got6=true;
-    }
-
-  }catch(e){}
-
-  if(!got4) v4.textContent="Unavailable";
-  if(!got6) v6.textContent="IPv6 unavailable";
+    return avg;
 }
 
 
-/* -----------------------------
-   HTTP TEST
------------------------------ */
+/* 03 - JITTER */
 
-async function httpTest(url, timeout=7000){
+async function testJitter(){
 
-  const controller=new AbortController();
+    let values=[];
 
-  const timer=setTimeout(
-    ()=>controller.abort(),
-    timeout
-  );
+    for(let i=0;i<6;i++){
 
-  const started=performance.now();
+        const start=performance.now();
 
-  try{
+        try{
 
-    const r=await fetch(
-      url,
-      {
-        method:"GET",
-        mode:"cors",
-        cache:"no-store",
-        signal:controller.signal
-      }
+            await fetch(
+                "https://www.cloudflare.com/cdn-cgi/trace?t="+Math.random(),
+                {
+                    cache:"no-store",
+                    mode:"cors"
+                }
+            );
+
+            values.push(performance.now()-start);
+
+        }catch(e){}
+
+        await wait(100);
+    }
+
+    if(values.length<2) return null;
+
+    let difference=[];
+
+    for(let i=1;i<values.length;i++){
+        difference.push(
+            Math.abs(values[i]-values[i-1])
+        );
+    }
+
+    const avg =
+        difference.reduce((a,b)=>a+b,0)
+        /difference.length;
+
+    $("jitter").textContent =
+        Math.round(avg)+" ms";
+
+    done(3);
+
+    return avg;
+}
+
+
+/* 04 - DNS */
+
+async function testDNS(){
+
+    const start=performance.now();
+
+    try{
+
+        await fetch(
+            "https://cloudflare-dns.com/dns-query?name=example.com&type=A",
+            {
+                cache:"no-store",
+                headers:{
+                    "accept":"application/dns-json"
+                }
+            }
+        );
+
+        const time=performance.now()-start;
+
+        $("dns").textContent =
+            Math.round(time)+" ms";
+
+        done(4);
+
+        return time;
+
+    }catch(e){
+
+        $("dns").textContent="Failed";
+        return null;
+    }
+}
+
+
+/* 05 - HTTPS */
+
+async function testHTTPS(){
+
+    const start=performance.now();
+
+    try{
+
+        await fetch(
+            "https://example.com/?t="+Math.random(),
+            {
+                cache:"no-store",
+                mode:"cors"
+            }
+        );
+
+        const time=performance.now()-start;
+
+        $("https").textContent =
+            Math.round(time)+" ms";
+
+        done(5);
+
+        return time;
+
+    }catch(e){
+
+        $("https").textContent="Failed";
+        return null;
+    }
+}
+
+
+/* 06 - GOOGLE */
+
+async function testGoogle(){
+
+    const start=performance.now();
+
+    try{
+
+        await fetch(
+            "https://www.google.com/generate_204?t="+Math.random(),
+            {
+                cache:"no-store",
+                mode:"no-cors"
+            }
+        );
+
+        const time=performance.now()-start;
+
+        $("google").textContent =
+            Math.round(time)+" ms";
+
+        done(6);
+
+        return time;
+
+    }catch(e){
+
+        $("google").textContent="Failed";
+        return null;
+    }
+}
+
+
+/* 07 - CLOUDFLARE */
+
+async function testCloudflare(){
+
+    const start=performance.now();
+
+    try{
+
+        await fetch(
+            "https://1.1.1.1/cdn-cgi/trace?t="+Math.random(),
+            {
+                cache:"no-store",
+                mode:"cors"
+            }
+        );
+
+        const time=performance.now()-start;
+
+        $("cloudflare").textContent =
+            Math.round(time)+" ms";
+
+        done(7);
+
+        return time;
+
+    }catch(e){
+
+        $("cloudflare").textContent="Failed";
+        return null;
+    }
+}
+
+
+/* 08 - API */
+
+async function testAPI(){
+
+    const start=performance.now();
+
+    try{
+
+        await fetch(
+            "https://api.github.com/",
+            {
+                cache:"no-store"
+            }
+        );
+
+        const time=performance.now()-start;
+
+        $("api").textContent =
+            Math.round(time)+" ms";
+
+        done(8);
+
+        return time;
+
+    }catch(e){
+
+        $("api").textContent="Failed";
+        return null;
+    }
+}
+
+
+/* DOWNLOAD */
+
+async function downloadTest(bytes){
+
+    const start=performance.now();
+
+    try{
+
+        const response=await fetch(
+            "https://speed.cloudflare.com/__down?bytes="+
+            bytes+
+            "&t="+Math.random(),
+            {
+                cache:"no-store"
+            }
+        );
+
+        const reader=response.body.getReader();
+
+        let total=0;
+
+        while(true){
+
+            const result=await reader.read();
+
+            if(result.done) break;
+
+            total+=result.value.length;
+        }
+
+        const seconds =
+            (performance.now()-start)/1000;
+
+        if(!total || !seconds) return null;
+
+        return (total*8/seconds)/1000000;
+
+    }catch(e){
+
+        return null;
+    }
+}
+
+
+/* 09 */
+
+async function test100KB(){
+
+    const speed=await downloadTest(100*1024);
+
+    if(speed===null){
+        $("d100").textContent="Failed";
+        return null;
+    }
+
+    $("d100").textContent =
+        speed.toFixed(2)+" Mbps";
+
+    done(9);
+
+    return speed;
+}
+
+
+/* 10 */
+
+async function test500KB(){
+
+    const speed=await downloadTest(500*1024);
+
+    if(speed===null){
+        $("d500").textContent="Failed";
+        return null;
+    }
+
+    $("d500").textContent =
+        speed.toFixed(2)+" Mbps";
+
+    done(10);
+
+    return speed;
+}
+
+
+/* 11 */
+
+async function test1MB(){
+
+    const speed=await downloadTest(1024*1024);
+
+    if(speed===null){
+        $("d1m").textContent="Failed";
+        return null;
+    }
+
+    $("d1m").textContent =
+        speed.toFixed(2)+" Mbps";
+
+    done(11);
+
+    return speed;
+}
+
+
+/* 12 */
+
+async function test5MB(){
+
+    const speed=await downloadTest(5*1024*1024);
+
+    if(speed===null){
+        $("d5m").textContent="Failed";
+        return null;
+    }
+
+    $("d5m").textContent =
+        speed.toFixed(2)+" Mbps";
+
+    done(12);
+
+    return speed;
+}
+
+
+/* 13 - NETWORK TYPE */
+
+function testNetwork(){
+
+    const connection =
+        navigator.connection ||
+        navigator.mozConnection ||
+        navigator.webkitConnection;
+
+    if(!connection){
+
+        $("network").textContent="Unavailable";
+        $("st13").textContent="Chrome API unavailable";
+
+        return null;
+    }
+
+    const type =
+        connection.effectiveType ||
+        connection.type ||
+        "Unknown";
+
+    $("network").textContent =
+        type.toUpperCase();
+
+    done(13);
+
+    return connection;
+}
+
+
+/* 14 - DOWNLINK */
+
+function testDownlink(){
+
+    const connection =
+        navigator.connection ||
+        navigator.mozConnection ||
+        navigator.webkitConnection;
+
+    if(!connection ||
+       typeof connection.downlink!=="number"){
+
+        $("downlink").textContent="Unavailable";
+        $("st14").textContent="Chrome API unavailable";
+
+        return null;
+    }
+
+    const speed=connection.downlink;
+
+    $("downlink").textContent =
+        speed.toFixed(2)+" Mbps";
+
+    done(14);
+
+    return speed;
+}
+
+
+/* FINAL SCORE */
+
+function calculateScore(data){
+
+    let points=[];
+    let p;
+
+    /* latency */
+
+    if(data.latency!==null){
+
+        p=100-Math.min(data.latency,300)/3;
+        points.push(Math.max(0,p));
+    }
+
+    /* jitter */
+
+    if(data.jitter!==null){
+
+        p=100-Math.min(data.jitter,100);
+        points.push(Math.max(0,p));
+    }
+
+    /* download */
+
+    if(data.download!==null){
+
+        p=Math.min(100,
+            data.download/500*100
+        );
+
+        points.push(p);
+    }
+
+    /* API/connection */
+
+    if(data.https!==null){
+
+        p=100-Math.min(data.https,500)/5;
+        points.push(Math.max(0,p));
+    }
+
+    /* downlink */
+
+    if(data.downlink!==null){
+
+        p=Math.min(100,
+            data.downlink/500*100
+        );
+
+        points.push(p);
+    }
+
+    if(!points.length) return 0;
+
+    return Math.round(
+        points.reduce((a,b)=>a+b,0)
+        /points.length
     );
+}
 
-    const ms=Math.round(
-      performance.now()-started
-    );
 
-    clearTimeout(timer);
+/* RUN ALL */
 
-    return {
-      ok:r.ok,
-      status:r.status,
-      ms
+async function runTests(){
+
+    const btn=$("start");
+
+    btn.disabled=true;
+    btn.textContent="TESTING...";
+
+    $("log").innerHTML="Starting test...";
+
+    log("Checking internet...");
+
+    const data={
+        latency:null,
+        jitter:null,
+        dns:null,
+        https:null,
+        download:null,
+        downlink:null
     };
 
-  }catch(e){
+    await testInternet();
 
-    clearTimeout(timer);
+    log("Testing latency...");
+    data.latency=await testLatency();
 
-    return {
-      ok:false,
-      error:e.name==="AbortError"
-        ? "Timeout"
-        : "Blocked/CORS/Network"
-    };
-  }
+    log("Testing jitter...");
+    data.jitter=await testJitter();
+
+    log("Testing DNS...");
+    data.dns=await testDNS();
+
+    log("Testing HTTPS...");
+    data.https=await testHTTPS();
+
+    log("Testing Google...");
+    await testGoogle();
+
+    log("Testing Cloudflare...");
+    await testCloudflare();
+
+    log("Testing API...");
+    await testAPI();
+
+    log("Testing 100 KB download...");
+    await test100KB();
+
+    log("Testing 500 KB download...");
+    await test500KB();
+
+    log("Testing 1 MB download...");
+    await test1MB();
+
+    log("Testing 5 MB download...");
+    data.download=await test5MB();
+
+    log("Checking network type...");
+    testNetwork();
+
+    log("Checking Chrome downlink...");
+    data.downlink=testDownlink();
+
+    log("Calculating final index...");
+
+    const score=calculateScore(data);
+
+    $("score").textContent=score;
+    $("final").textContent=score+"/100";
+    done(15);
+
+    const degree=score*3.6;
+
+    $("circle").style.background=
+        `conic-gradient(
+            #00e676 0deg,
+            #00e676 ${degree}deg,
+            #172b40 ${degree}deg
+        )`;
+
+    log("Internet test completed.");
+
+    btn.disabled=false;
+    btn.textContent="RUN TEST AGAIN";
 }
-
-
-/* -----------------------------
-   DNS TESTS
------------------------------ */
-
-const dnsTargets=[
-
-  {
-    name:"Google DNS",
-    url:"https://dns.google/resolve?name=example.com&type=A"
-  },
-
-  {
-    name:"Cloudflare DNS",
-    url:"https://cloudflare-dns.com/dns-query?name=example.com&type=A",
-    headers:true
-  },
-
-  {
-    name:"Google",
-    url:"https://www.google.com/favicon.ico"
-  }
-
-];
-
-async function runDNSTests(){
-
-  const box=document.getElementById("dnsTests");
-
-  box.innerHTML="";
-
-  for(const t of dnsTargets){
-
-    const el=document.createElement("div");
-
-    el.className="test";
-
-    el.innerHTML=`
-      <div class="test-top">
-        <div class="test-name">${t.name}</div>
-        <div class="badge">TESTING</div>
-      </div>
-      <div class="test-result">Checking...</div>
-    `;
-
-    box.appendChild(el);
-
-    const result=await httpTest(t.url);
-
-    const badge=el.querySelector(".badge");
-    const output=el.querySelector(".test-result");
-
-    if(result.ok){
-
-      badge.textContent="PASS";
-      badge.className="badge good";
-
-      output.textContent=
-        `HTTP ${result.status} • ${result.ms} ms`;
-
-      saveHistory({
-        name:t.name,
-        result:`HTTP ${result.status}, ${result.ms} ms`,
-        status:"PASS",
-        time:new Date().toLocaleString()
-      });
-
-    }else{
-
-      badge.textContent="FAIL";
-      badge.className="badge bad";
-
-      output.textContent=
-        result.error || "Failed";
-
-      saveHistory({
-        name:t.name,
-        result:result.error || "Failed",
-        status:"FAIL",
-        time:new Date().toLocaleString()
-      });
-    }
-  }
-}
-
-
-/* -----------------------------
-   SERVICES
------------------------------ */
-
-const services=[
-
-  ["Google","https://www.google.com/favicon.ico"],
-
-  ["Google DNS","https://dns.google/resolve?name=google.com&type=A"],
-
-  ["Cloudflare","https://www.cloudflare.com/favicon.ico"],
-
-  ["Facebook","https://www.facebook.com/favicon.ico"],
-
-  ["Microsoft","https://www.microsoft.com/favicon.ico"],
-
-  ["GitHub","https://github.com/favicon.ico"],
-
-  ["Wikipedia","https://www.wikipedia.org/favicon.ico"],
-
-  ["Cloudflare DNS","https://cloudflare-dns.com/dns-query?name=example.com&type=A"],
-
-  ["NPM","https://www.npmjs.com/favicon.ico"],
-
-  ["Google Fonts","https://fonts.googleapis.com/favicon.ico"]
-
-];
-
-async function runServices(){
-
-  const box=document.getElementById("serviceTests");
-
-  box.innerHTML="";
-
-  for(const [name,url] of services){
-
-    const el=document.createElement("div");
-
-    el.className="test";
-
-    el.innerHTML=`
-      <div class="test-top">
-        <div class="test-name">${name}</div>
-        <div class="badge">TESTING</div>
-      </div>
-      <div class="test-result">Checking...</div>
-    `;
-
-    box.appendChild(el);
-
-    const result=await httpTest(url);
-
-    const badge=el.querySelector(".badge");
-    const output=el.querySelector(".test-result");
-
-    if(result.ok){
-
-      badge.textContent="PASS";
-      badge.className="badge good";
-
-      output.textContent=
-        `HTTP ${result.status} • ${result.ms} ms`;
-
-      saveHistory({
-        name,
-        result:`HTTP ${result.status} • ${result.ms} ms`,
-        status:"PASS",
-        time:new Date().toLocaleString()
-      });
-
-    }else{
-
-      badge.textContent="BLOCKED";
-      badge.className="badge warn";
-
-      output.textContent=
-        result.error || "Browser could not verify";
-
-      saveHistory({
-        name,
-        result:result.error || "Browser could not verify",
-        status:"BLOCKED",
-        time:new Date().toLocaleString()
-      });
-    }
-  }
-}
-
-
-/* -----------------------------
-   LATENCY
------------------------------ */
-
-async function latencyTest(){
-
-  const targets=[
-    "https://www.google.com/favicon.ico",
-    "https://www.cloudflare.com/favicon.ico",
-    "https://github.com/favicon.ico"
-  ];
-
-  const values=[];
-
-  for(const url of targets){
-
-    const r=await httpTest(url);
-
-    if(r.ok) values.push(r.ms);
-  }
-
-  if(!values.length){
-
-    document.getElementById("latency").textContent="N/A";
-
-    return null;
-  }
-
-  const avg=Math.round(
-    values.reduce((a,b)=>a+b,0)/values.length
-  );
-
-  document.getElementById("latency").textContent=
-    avg+" ms";
-
-  return avg;
-}
-
-
-/* -----------------------------
-   SPEED TEST
-   Browser-based approximate test.
-
-   For production ISP-grade testing,
-   replace TEST_DOWNLOAD_URL and upload endpoint
-   with YOUR OWN server/CDN.
------------------------------ */
-
-const TEST_DOWNLOAD_URL=
-  "https://speed.cloudflare.com/__down?bytes=10000000";
-
-const TEST_UPLOAD_URL=
-  "https://speed.cloudflare.com/__up";
-
-
-async function speedTest(){
-
-  const btn=document.getElementById("speedBtn");
-
-  btn.disabled=true;
-
-  document.getElementById("speedMessage").textContent=
-    "Running latency...";
-
-  document.getElementById("speedProgress").style.width="10%";
-
-  const latency=await latencyTest();
-
-  document.getElementById("speedMessage").textContent=
-    "Running download test...";
-
-  document.getElementById("speedProgress").style.width="35%";
-
-  let download=null;
-
-  try{
-
-    const started=performance.now();
-
-    const response=await fetch(
-      TEST_DOWNLOAD_URL+"?cache="+Date.now(),
-      {cache:"no-store"}
-    );
-
-    if(!response.ok)
-      throw new Error("Download request failed");
-
-    const buffer=await response.arrayBuffer();
-
-    const seconds=
-      (performance.now()-started)/1000;
-
-    const bits=
-      buffer.byteLength*8;
-
-    download=
-      bits/seconds/1000000;
-
-    document.getElementById("downloadSpeed").textContent=
-      download.toFixed(2)+" Mbps";
-
-  }catch(e){
-
-    document.getElementById("downloadSpeed").textContent=
-      "Unavailable";
-  }
-
-  document.getElementById("speedMessage").textContent=
-    "Running upload test...";
-
-  document.getElementById("speedProgress").style.width="70%";
-
-  let upload=null;
-
-  try{
-
-    const size=1000000;
-
-    const data=new Uint8Array(size);
-
-    crypto.getRandomValues(data.subarray(0,65536));
-
-    const started=performance.now();
-
-    const response=await fetch(
-      TEST_UPLOAD_URL+"?cache="+Date.now(),
-      {
-        method:"POST",
-        body:data,
-        cache:"no-store"
-      }
-    );
-
-    if(!response.ok)
-      throw new Error("Upload request failed");
-
-    const seconds=
-      (performance.now()-started)/1000;
-
-    upload=
-      size*8/seconds/1000000;
-
-    document.getElementById("uploadSpeed").textContent=
-      upload.toFixed(2)+" Mbps";
-
-  }catch(e){
-
-    document.getElementById("uploadSpeed").textContent=
-      "Unavailable";
-  }
-
-  document.getElementById("speedProgress").style.width="100%";
-
-  document.getElementById("speedMessage").textContent=
-    "Speed test completed. Results depend on the selected test server, browser and network.";
-
-  saveHistory({
-    name:"Speed Test",
-    result:
-      `Latency: ${latency ?? "N/A"} ms | `+
-      `Download: ${download ? download.toFixed(2)+" Mbps" : "N/A"} | `+
-      `Upload: ${upload ? upload.toFixed(2)+" Mbps" : "N/A"}`,
-    status:
-      download || upload ? "PASS" : "FAIL",
-    time:new Date().toLocaleString()
-  });
-
-  btn.disabled=false;
-}
-
-
-/* -----------------------------
-   1000 TESTS
------------------------------ */
-
-/*
-  We do NOT pretend that 1000 fake tests are real.
-
-  The suite contains:
-  - real browser/network checks
-  - service checks
-  - DNS checks
-  - repeated endpoint latency measurements
-
-  Every result is recorded individually.
-*/
-
-const baseRealTests=[
-
-  ["Google Connectivity",
-   "https://www.google.com/favicon.ico"],
-
-  ["Cloudflare Connectivity",
-   "https://www.cloudflare.com/favicon.ico"],
-
-  ["Facebook Connectivity",
-   "https://www.facebook.com/favicon.ico"],
-
-  ["GitHub Connectivity",
-   "https://github.com/favicon.ico"],
-
-  ["Wikipedia Connectivity",
-   "https://www.wikipedia.org/favicon.ico"],
-
-  ["Microsoft Connectivity",
-   "https://www.microsoft.com/favicon.ico"],
-
-  ["Google DNS",
-   "https://dns.google/resolve?name=example.com&type=A"],
-
-  ["Cloudflare DNS",
-   "https://cloudflare-dns.com/dns-query?name=example.com&type=A"]
-
-];
-
-/*
-  1000 actual executions.
-  They repeatedly test real endpoints instead of creating
-  fake "PASS" values.
-*/
-
-function create1000Tests(){
-
-  const tests=[];
-
-  for(let i=0;i<1000;i++){
-
-    const base=
-      baseRealTests[i % baseRealTests.length];
-
-    tests.push({
-
-      id:i+1,
-
-      name:
-        `${base[0]} #${i+1}`,
-
-      url:base[1]
-
-    });
-
-  }
-
-  return tests;
-}
-
-
-async function run1000(){
-
-  const tests=create1000Tests();
-
-  const box=document.getElementById("allTests");
-
-  box.innerHTML="";
-
-  const status=
-    document.getElementById("suiteStatus");
-
-  const progress=
-    document.getElementById("suiteProgress");
-
-  status.textContent=
-    "Running 1000 real browser requests...";
-
-  let pass=0;
-  let fail=0;
-  let blocked=0;
-
-  /*
-    To prevent the page becoming extremely heavy,
-    show only the most recent 100 visual result cards.
-    ALL results still go to history.
-  */
-
-  for(let i=0;i<tests.length;i++){
-
-    const t=tests[i];
-
-    const result=await httpTest(t.url,5000);
-
-    if(result.ok) pass++;
-    else if(
-      result.error &&
-      result.error.includes("Blocked")
-    ) blocked++;
-    else fail++;
-
-    saveHistory({
-
-      name:t.name,
-
-      result:
-        result.ok
-        ? `HTTP ${result.status} • ${result.ms} ms • ${t.url}`
-        : `${result.error || "Failed"} • ${t.url}`,
-
-      status:
-        result.ok
-        ? "PASS"
-        : blocked > fail
-          ? "BLOCKED"
-          : "FAIL",
-
-      time:new Date().toLocaleString()
-
-    });
-
-    if(i<100){
-
-      const el=document.createElement("div");
-
-      el.className="test";
-
-      el.innerHTML=`
-
-        <div class="test-top">
-
-          <div class="test-name">
-            ${escapeHTML(t.name)}
-          </div>
-
-          <div class="badge ${
-            result.ok ? "good" :
-            "bad"
-          }">
-
-            ${result.ok ? "PASS" : "FAIL"}
-
-          </div>
-
-        </div>
-
-        <div class="test-result">
-
-          ${
-            result.ok
-            ? `HTTP ${result.status} • ${result.ms} ms`
-            : (result.error || "Failed")
-          }
-
-        </div>
-
-      `;
-
-      box.appendChild(el);
-    }
-
-    const percent=
-      ((i+1)/tests.length)*100;
-
-    progress.style.width=
-      percent.toFixed(1)+"%";
-
-    status.textContent=
-      `Completed ${i+1}/1000 • `+
-      `Pass: ${pass} • `+
-      `Fail: ${fail} • `+
-      `Blocked: ${blocked}`;
-
-    /*
-      Small delay so browser UI can update.
-    */
-
-    await new Promise(
-      resolve=>setTimeout(resolve,10)
-    );
-  }
-
-  status.textContent=
-    `Completed 1000/1000 • `+
-    `Pass: ${pass} • `+
-    `Fail: ${fail} • `+
-    `Blocked: ${blocked}`;
-}
-
-
-/* -----------------------------
-   RUN ALL
------------------------------ */
-
-async function runAll(){
-
-  await refreshNetwork();
-
-  await runDNSTests();
-
-  await runServices();
-
-  await latencyTest();
-
-}
-
-
-/* -----------------------------
-   ONLINE / OFFLINE EVENTS
------------------------------ */
-
-window.addEventListener(
-  "online",
-  browserInfo
-);
-
-window.addEventListener(
-  "offline",
-  browserInfo
-);
-
-
-/* -----------------------------
-   INIT
------------------------------ */
-
-browserInfo();
-networkInfo();
-getPublicIPs();
-renderHistory();
 
 </script>
 
