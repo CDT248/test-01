@@ -1,610 +1,662 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#07111f">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
 
-  <title>WiFi Analyzer</title>
+<title>WiFi Analyzer</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+:root{
+  --bg:#050912;
+  --card:#0d1726;
+  --card2:#111e30;
+  --border:#20334d;
+  --text:#fff;
+  --muted:#8ea3bb;
+  --blue:#1683ff;
+  --green:#00df8a;
+  --red:#ff5263;
+  --yellow:#ffd54a;
+}
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #050b14;
-      color: #ffffff;
-      min-height: 100vh;
-    }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    .header {
-      background: linear-gradient(135deg, #006eff, #6818ff);
-      padding: 30px 20px;
-      text-align: center;
-    }
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%,#10376b 0,transparent 28%),
+    radial-gradient(circle at 90% 0%,#35106b 0,transparent 25%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
 
-    .header h1 {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
+body.light{
+  --bg:#eef4fa;
+  --card:#fff;
+  --card2:#f4f8fc;
+  --border:#d8e2ee;
+  --text:#111827;
+  --muted:#64748b;
+}
 
-    .header p {
-      color: #dce9ff;
-      font-size: 14px;
-    }
+header{
+  padding:30px 18px;
+  text-align:center;
+  background:linear-gradient(135deg,#086cff,#7a24ff);
+}
 
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
-    }
+header h1{
+  font-size:34px;
+  margin-bottom:7px;
+}
 
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
+header p{
+  opacity:.88;
+}
 
-    button {
-      border: none;
-      border-radius: 10px;
-      padding: 12px 18px;
-      background: #0d6efd;
-      color: #ffffff;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.container{
+  max-width:1250px;
+  margin:auto;
+  padding:20px;
+}
 
-    button:hover {
-      opacity: 0.85;
-    }
+.toolbar{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
 
-    button.secondary {
-      background: #26364d;
-    }
+button{
+  border:0;
+  border-radius:11px;
+  padding:12px 16px;
+  color:#fff;
+  background:var(--blue);
+  font-weight:700;
+  cursor:pointer;
+}
 
-    .status {
-      background: #0e1928;
-      border: 1px solid #20344f;
-      border-radius: 14px;
-      padding: 15px;
-      margin-bottom: 25px;
-    }
+button:hover{
+  filter:brightness(1.1);
+}
 
-    .status span {
-      color: #00e676;
-      font-weight: bold;
-    }
+button.dark{
+  background:#25364d;
+}
 
-    .section-title {
-      color: #7db5ff;
-      font-size: 20px;
-      margin: 28px 0 14px;
-    }
+button.danger{
+  background:#b4233c;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(
-        auto-fit,
-        minmax(220px, 1fr)
-      );
-      gap: 15px;
-    }
+.statusbar{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:25px;
+}
 
-    .card {
-      background: #0e1928;
-      border: 1px solid #20344f;
-      border-radius: 16px;
-      padding: 18px;
-      min-height: 120px;
-      transition: 0.2s;
-    }
+.live{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 
-    .card:hover {
-      transform: translateY(-3px);
-      border-color: #0d6efd;
-    }
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+}
 
-    .icon {
-      font-size: 25px;
-      margin-bottom: 10px;
-    }
+.offline .dot{
+  background:var(--red);
+  box-shadow:0 0 12px var(--red);
+}
 
-    .label {
-      color: #8fa5bd;
-      font-size: 13px;
-    }
+.section{
+  margin-top:27px;
+}
 
-    .value {
-      margin-top: 7px;
-      font-size: 17px;
-      font-weight: bold;
-      word-break: break-word;
-    }
+.section h2{
+  color:#72b0ff;
+  font-size:20px;
+  margin-bottom:13px;
+}
 
-    .green {
-      color: #00e676;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:14px;
+}
 
-    .red {
-      color: #ff5252;
-    }
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:17px;
+  min-height:118px;
+  box-shadow:0 10px 35px #0002;
+}
 
-    .yellow {
-      color: #ffd740;
-    }
+.card:hover{
+  border-color:#247cff;
+}
 
-    .map-btn {
-      display: none;
-      margin-top: 8px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      background: #087f5b;
-      color: #fff;
-      text-decoration: none;
-      font-size: 12px;
-    }
+.icon{
+  font-size:25px;
+  margin-bottom:8px;
+}
 
-    .history-box {
-      margin-top: 25px;
-      background: #0e1928;
-      border: 1px solid #20344f;
-      border-radius: 16px;
-      padding: 18px;
-      overflow-x: auto;
-    }
+.label{
+  color:var(--muted);
+  font-size:13px;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
+.value{
+  font-size:17px;
+  font-weight:800;
+  margin-top:7px;
+  word-break:break-word;
+}
 
-    th,
-    td {
-      padding: 11px;
-      border-bottom: 1px solid #26364d;
-      text-align: left;
-      white-space: nowrap;
-    }
+.green{color:var(--green)}
+.red{color:var(--red)}
+.yellow{color:var(--yellow)}
 
-    th {
-      color: #7db5ff;
-    }
+.speed{
+  text-align:center;
+  padding:25px;
+}
 
-    .empty {
-      color: #71869f;
-      text-align: center;
-      padding: 25px;
-    }
+.speedValue{
+  font-size:48px;
+  font-weight:900;
+  color:#62adff;
+  margin:10px 0;
+}
 
-    .footer {
-      text-align: center;
-      color: #71869f;
-      padding: 30px;
-      font-size: 13px;
-    }
+.speedUnit{
+  color:var(--muted);
+}
 
-    @media (max-width: 600px) {
-      .header h1 {
-        font-size: 25px;
-      }
+.progress{
+  height:9px;
+  background:#1a2a40;
+  border-radius:20px;
+  overflow:hidden;
+  margin:18px 0;
+}
 
-      .container {
-        padding: 12px;
-      }
+.progressBar{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#1683ff,#00df8a);
+  transition:.2s;
+}
 
-      button {
-        width: 100%;
-      }
-    }
-  </style>
+.testBox{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:17px;
+}
+
+.testRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:12px 4px;
+  border-bottom:1px solid var(--border);
+}
+
+.testRow:last-child{
+  border-bottom:0;
+}
+
+.badge{
+  min-width:125px;
+  text-align:center;
+  padding:7px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:800;
+  background:#26364d;
+}
+
+.pass{
+  background:#063e2c;
+  color:#00df8a;
+}
+
+.fail{
+  background:#4b1720;
+  color:#ff7180;
+}
+
+.unsupported{
+  background:#493c0b;
+  color:#ffe071;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:11px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+  white-space:nowrap;
+}
+
+th{
+  color:#72b0ff;
+}
+
+.tableWrap{
+  overflow:auto;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:15px;
+}
+
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:20px;
+}
+
+.map{
+  display:none;
+  margin-top:8px;
+  color:#fff;
+  background:#087f5b;
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:8px;
+  font-size:12px;
+}
+
+footer{
+  text-align:center;
+  color:var(--muted);
+  padding:30px;
+  font-size:13px;
+}
+
+@media(max-width:600px){
+  header h1{font-size:27px}
+  .container{padding:12px}
+  button{width:100%}
+  .speedValue{font-size:38px}
+}
+</style>
 </head>
 
 <body>
 
-  <header class="header">
-    <h1>📶 WiFi Analyzer</h1>
-    <p>Network • IP • ISP • Router • Location</p>
-  </header>
+<header>
+  <h1>📶 WiFi Analyzer</h1>
+  <p>Real Network Diagnostics • No Fake Data</p>
+</header>
 
+<main class="container">
 
-  <main class="container">
+  <div class="toolbar">
+    <button onclick="runAllTests()">🧪 Test All</button>
+    <button onclick="analyze()">🔄 Analyze</button>
+    <button onclick="startLocation()">📍 Start Location</button>
+    <button onclick="stopLocation()">⛔ Stop Location</button>
+    <button onclick="startSpeedTest()">⚡ Speed Test</button>
+    <button class="dark" onclick="getIPInfo()">🌐 Refresh IP</button>
+    <button class="dark" onclick="toggleTheme()">🌓 Theme</button>
+    <button class="dark" onclick="exportJSON()">⬇ JSON</button>
+    <button class="dark" onclick="exportCSV()">⬇ CSV</button>
+    <button class="danger" onclick="clearHistory()">🗑 Clear</button>
+  </div>
 
-    <!-- BUTTONS -->
-
-    <div class="controls">
-
-      <button onclick="analyze()">
-        🔄 Analyze
-      </button>
-
-      <button
-        class="secondary"
-        onclick="getLocation()">
-        📍 Get Location
-      </button>
-
-      <button
-        class="secondary"
-        onclick="getIPInformation()">
-        🌐 Check IP
-      </button>
-
-      <button
-        class="secondary"
-        onclick="exportHistory()">
-        ⬇ Export
-      </button>
-
-      <button
-        class="secondary"
-        onclick="clearHistory()">
-        🗑 Clear History
-      </button>
-
+  <div class="statusbar" id="statusBar">
+    <div class="live">
+      <span class="dot"></span>
+      <b id="internetStatus">Checking...</b>
     </div>
+    <div id="lastUpdate">Last update: --</div>
+  </div>
 
 
-    <!-- STATUS -->
+  <!-- NETWORK -->
 
-    <div class="status">
-      System Status:
-      <span id="systemStatus">Ready</span>
-    </div>
+  <section class="section">
+    <h2>📡 Network Information</h2>
 
-
-    <!-- NETWORK -->
-
-    <div class="section-title">
-      📡 Network Information
-    </div>
-
-    <section class="grid">
+    <div class="grid">
 
       <div class="card">
         <div class="icon">📡</div>
         <div class="label">SSID</div>
-        <div
-          class="value"
-          id="ssid">
-          Not Available
-        </div>
+        <div class="value" id="ssid">Not Supported</div>
       </div>
-
 
       <div class="card">
         <div class="icon">📶</div>
         <div class="label">Signal Strength</div>
-        <div
-          class="value"
-          id="signal">
-          Not Available
-        </div>
+        <div class="value" id="signal">Not Supported</div>
       </div>
-
 
       <div class="card">
         <div class="icon">📻</div>
         <div class="label">Wi-Fi Channel</div>
-        <div
-          class="value"
-          id="channel">
-          Not Available
-        </div>
+        <div class="value" id="channel">Not Supported</div>
       </div>
-
 
       <div class="card">
         <div class="icon">〰️</div>
         <div class="label">Frequency / Band</div>
-        <div
-          class="value"
-          id="frequency">
-          Not Available
-        </div>
+        <div class="value" id="frequency">Not Supported</div>
       </div>
-
 
       <div class="card">
         <div class="icon">🔐</div>
         <div class="label">Security</div>
-        <div
-          class="value"
-          id="security">
-          Not Available
-        </div>
+        <div class="value" id="security">Not Supported</div>
       </div>
-
 
       <div class="card">
         <div class="icon">📡</div>
         <div class="label">Network Type</div>
-        <div
-          class="value"
-          id="networkType">
-          Not Available
-        </div>
+        <div class="value" id="networkType">Not Available</div>
       </div>
-
 
       <div class="card">
         <div class="icon">🚀</div>
         <div class="label">Estimated Downlink</div>
-        <div
-          class="value"
-          id="downlink">
-          Not Available
-        </div>
+        <div class="value" id="downlink">Not Available</div>
       </div>
-
 
       <div class="card">
-        <div class="icon">📊</div>
-        <div class="label">Latency</div>
-        <div
-          class="value"
-          id="latency">
-          Not Available
-        </div>
+        <div class="icon">⏱️</div>
+        <div class="label">RTT</div>
+        <div class="value" id="rtt">Not Available</div>
       </div>
 
-    </section>
-
-
-    <!-- IP -->
-
-    <div class="section-title">
-      🌐 IP & ISP Information
     </div>
+  </section>
 
-    <section class="grid">
 
-      <div class="card">
-        <div class="icon">🌐</div>
-        <div class="label">Public IPv4</div>
+  <!-- SPEED -->
+
+  <section class="section">
+    <h2>⚡ Internet Speed Test</h2>
+
+    <div class="card speed">
+
+      <div class="label" id="speedStatus">
+        Ready
+      </div>
+
+      <div class="speedValue" id="speedValue">
+        --
+      </div>
+
+      <div class="speedUnit" id="speedUnit">
+        Mbps
+      </div>
+
+      <div class="progress">
         <div
-          class="value"
-          id="ipv4">
-          Checking...
+          class="progressBar"
+          id="speedProgress">
         </div>
       </div>
 
+      <div class="grid">
 
-      <div class="card">
-        <div class="icon">🌐</div>
-        <div class="label">Public IPv6</div>
-        <div
-          class="value"
-          id="ipv6">
-          Checking...
+        <div>
+          <div class="label">Download</div>
+          <div class="value" id="downloadSpeed">
+            Not Tested
+          </div>
         </div>
+
+        <div>
+          <div class="label">Upload</div>
+          <div class="value" id="uploadSpeed">
+            Not Tested
+          </div>
+        </div>
+
+        <div>
+          <div class="label">Latency</div>
+          <div class="value" id="speedLatency">
+            Not Tested
+          </div>
+        </div>
+
       </div>
 
+    </div>
+  </section>
+
+
+  <!-- IP -->
+
+  <section class="section">
+    <h2>🌐 Public Internet Information</h2>
+
+    <div class="grid">
 
       <div class="card">
-        <div class="icon">🛜</div>
-        <div class="label">Router / Gateway IP</div>
-        <div
-          class="value"
-          id="routerIP">
-          Not Available
-        </div>
+        <div class="icon">4️⃣</div>
+        <div class="label">IPv4</div>
+        <div class="value" id="ipv4">Checking...</div>
       </div>
 
+      <div class="card">
+        <div class="icon">6️⃣</div>
+        <div class="label">IPv6</div>
+        <div class="value" id="ipv6">Checking...</div>
+      </div>
 
       <div class="card">
         <div class="icon">🏢</div>
         <div class="label">ISP</div>
-        <div
-          class="value"
-          id="isp">
-          Checking...
-        </div>
+        <div class="value" id="isp">Checking...</div>
       </div>
-
-
-      <div class="card">
-        <div class="icon">🆔</div>
-        <div class="label">Local IP</div>
-        <div
-          class="value"
-          id="localIP">
-          Not Available
-        </div>
-      </div>
-
-
-      <div class="card">
-        <div class="icon">🆔</div>
-        <div class="label">MAC Address</div>
-        <div
-          class="value"
-          id="mac">
-          Not Available
-        </div>
-      </div>
-
-    </section>
-
-
-    <!-- DEVICE -->
-
-    <div class="section-title">
-      📱 Device Information
-    </div>
-
-    <section class="grid">
-
-      <div class="card">
-        <div class="icon">📱</div>
-        <div class="label">Device</div>
-        <div
-          class="value"
-          id="device">
-          Detecting...
-        </div>
-      </div>
-
 
       <div class="card">
         <div class="icon">🌍</div>
-        <div class="label">Browser</div>
-        <div
-          class="value"
-          id="browser">
-          Detecting...
-        </div>
+        <div class="label">IP Country</div>
+        <div class="value" id="ipCountry">Not Available</div>
       </div>
-
 
       <div class="card">
-        <div class="icon">⏰</div>
-        <div class="label">Analyze Time</div>
-        <div
-          class="value"
-          id="analyzeTime">
-          --
-        </div>
+        <div class="icon">🏙️</div>
+        <div class="label">IP City</div>
+        <div class="value" id="ipCity">Not Available</div>
       </div>
-
 
       <div class="card">
-        <div class="icon">🟢</div>
-        <div class="label">Internet Status</div>
-        <div
-          class="value"
-          id="connection">
-          Checking...
+        <div class="icon">🛜</div>
+        <div class="label">Router / Gateway</div>
+        <div class="value" id="routerIP">
+          Not Supported
         </div>
       </div>
 
-    </section>
-
-
-    <!-- LOCATION -->
-
-    <div class="section-title">
-      📍 Location Information
     </div>
+  </section>
 
-    <section class="grid">
+
+  <!-- LOCATION -->
+
+  <section class="section">
+    <h2>📍 Live Location</h2>
+
+    <div class="grid">
 
       <div class="card">
-        <div class="icon">📍</div>
+        <div class="icon">↕️</div>
         <div class="label">Latitude</div>
-        <div
-          class="value"
-          id="latitude">
+        <div class="value" id="latitude">
           Not Requested
         </div>
       </div>
-
 
       <div class="card">
-        <div class="icon">📍</div>
+        <div class="icon">↔️</div>
         <div class="label">Longitude</div>
-        <div
-          class="value"
-          id="longitude">
+        <div class="value" id="longitude">
           Not Requested
         </div>
       </div>
-
 
       <div class="card">
         <div class="icon">🎯</div>
         <div class="label">Accuracy</div>
-        <div
-          class="value"
-          id="accuracy">
+        <div class="value" id="accuracy">
           Not Requested
         </div>
       </div>
 
-
       <div class="card">
-        <div class="icon">🗺️</div>
-        <div class="label">Map</div>
-
-        <a
-          id="mapLink"
-          class="map-btn"
-          target="_blank"
-          rel="noopener noreferrer">
-          Open Google Maps
-        </a>
+        <div class="icon">🕒</div>
+        <div class="label">Location Updated</div>
+        <div class="value" id="locationTime">
+          --
+        </div>
       </div>
 
-    </section>
-
-
-    <!-- ROUTER -->
-
-    <div class="section-title">
-      🛜 Router Information
     </div>
 
-    <section class="grid">
+    <a
+      id="mapLink"
+      class="map"
+      target="_blank"
+      rel="noopener noreferrer">
+      🗺️ Open Current Location
+    </a>
+
+  </section>
+
+
+  <!-- DEVICE -->
+
+  <section class="section">
+    <h2>📱 Device Information</h2>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="icon">📱</div>
+        <div class="label">Device</div>
+        <div class="value" id="device">
+          Detecting...
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🌐</div>
+        <div class="label">Browser</div>
+        <div class="value" id="browser">
+          Detecting...
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🖥️</div>
+        <div class="label">Screen</div>
+        <div class="value" id="screen">
+          Detecting...
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="icon">🌍</div>
+        <div class="label">Timezone</div>
+        <div class="value" id="timezone">
+          Detecting...
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ROUTER -->
+
+  <section class="section">
+    <h2>🛜 Router Information</h2>
+
+    <div class="grid">
 
       <div class="card">
         <div class="icon">🟢</div>
         <div class="label">Router Status</div>
-        <div
-          class="value"
-          id="routerStatus">
-          Not Available
+        <div class="value" id="routerStatus">
+          Not Supported
         </div>
       </div>
-
 
       <div class="card">
         <div class="icon">⏱️</div>
         <div class="label">Router Uptime</div>
-        <div
-          class="value"
-          id="routerUptime">
-          Not Available
+        <div class="value" id="routerUptime">
+          Not Supported
         </div>
       </div>
-
 
       <div class="card">
         <div class="icon">💻</div>
         <div class="label">Connected Devices</div>
-        <div
-          class="value"
-          id="connectedDevices">
-          Not Available
+        <div class="value" id="connectedDevices">
+          Not Supported
         </div>
       </div>
-
 
       <div class="card">
         <div class="icon">🔧</div>
         <div class="label">Router Model</div>
-        <div
-          class="value"
-          id="routerModel">
-          Not Available
+        <div class="value" id="routerModel">
+          Not Supported
         </div>
       </div>
 
-    </section>
-
-
-    <!-- HISTORY -->
-
-    <div class="section-title">
-      📜 Connection History
     </div>
+  </section>
 
-    <section class="history-box">
+
+  <!-- TESTS -->
+
+  <section class="section">
+    <h2>🧪 25+ Real Feature Tests</h2>
+
+    <div class="testBox" id="testResults"></div>
+  </section>
+
+
+  <!-- HISTORY -->
+
+  <section class="section">
+    <h2>📜 Local History</h2>
+
+    <div class="tableWrap">
 
       <table>
 
@@ -614,7 +666,8 @@
             <th>IPv4</th>
             <th>IPv6</th>
             <th>ISP</th>
-            <th>Router IP</th>
+            <th>Download</th>
+            <th>Upload</th>
             <th>Location</th>
             <th>Status</th>
           </tr>
@@ -630,178 +683,208 @@
         No history yet
       </div>
 
-    </section>
+    </div>
+  </section>
 
-  </main>
+</main>
 
-
-  <footer class="footer">
-    WiFi Analyzer • GitHub Pages
-  </footer>
+<footer>
+  WiFi Analyzer • Real browser-detected information only
+</footer>
 
 
 <script>
 
-/* =========================================
-   STORAGE
-========================================= */
+/* =====================================================
+   GLOBALS
+===================================================== */
 
+let locationWatch = null;
 let historyData = [];
 
-try {
-  historyData = JSON.parse(
-    localStorage.getItem(
-      "wifiAnalyzerHistory"
-    ) || "[]"
-  );
+try{
+  historyData =
+    JSON.parse(
+      localStorage.getItem(
+        "wifiAnalyzerHistory"
+      ) || "[]"
+    );
 
-  if (!Array.isArray(historyData)) {
+  if(!Array.isArray(historyData)){
     historyData = [];
   }
 
-} catch (error) {
+}catch(e){
   historyData = [];
 }
 
 
-/* =========================================
+/* =====================================================
+   HELPER
+===================================================== */
+
+function $(id){
+  return document.getElementById(id);
+}
+
+
+function setText(id,value){
+  $(id).textContent =
+    value == null ||
+    value === ""
+      ? "Not Available"
+      : value;
+}
+
+
+/* =====================================================
    DEVICE
-========================================= */
+===================================================== */
 
-function getDeviceName() {
+function getDevice(){
 
-  const ua = navigator.userAgent;
+  const ua =
+    navigator.userAgent;
 
-  if (/iPhone/i.test(ua))
+  if(/iPhone/i.test(ua))
     return "iPhone";
 
-  if (/iPad/i.test(ua))
+  if(/iPad/i.test(ua))
     return "iPad";
 
-  if (/Android/i.test(ua))
+  if(/Android/i.test(ua))
     return "Android";
 
-  if (/Windows/i.test(ua))
-    return "Windows PC";
+  if(/Windows/i.test(ua))
+    return "Windows";
 
-  if (/Macintosh/i.test(ua))
+  if(/Macintosh/i.test(ua))
     return "Mac";
 
-  if (/Linux/i.test(ua))
+  if(/Linux/i.test(ua))
     return "Linux";
 
   return "Unknown";
 }
 
 
-/* =========================================
+/* =====================================================
    BROWSER
-========================================= */
+===================================================== */
 
-function getBrowserName() {
+function getBrowser(){
 
-  const ua = navigator.userAgent;
+  const ua =
+    navigator.userAgent;
 
-  if (/Edg\//i.test(ua))
+  if(/Edg\//i.test(ua))
     return "Microsoft Edge";
 
-  if (/OPR\//i.test(ua))
+  if(/OPR\//i.test(ua))
     return "Opera";
 
-  if (/Chrome\//i.test(ua))
+  if(/Chrome\//i.test(ua))
     return "Google Chrome";
 
-  if (/Firefox\//i.test(ua))
+  if(/Firefox\//i.test(ua))
     return "Firefox";
 
-  if (/Safari\//i.test(ua))
+  if(/Safari\//i.test(ua))
     return "Safari";
 
   return "Unknown";
 }
 
 
-/* =========================================
+/* =====================================================
    NETWORK API
-========================================= */
+===================================================== */
 
-function getNetworkInfo() {
+function readNetworkAPI(){
 
-  const connection =
+  const c =
     navigator.connection ||
     navigator.mozConnection ||
     navigator.webkitConnection;
 
-  if (!connection) {
+  if(!c){
 
-    document.getElementById(
-      "networkType"
-    ).textContent =
-      "Not Available";
+    setText(
+      "networkType",
+      "Not Supported"
+    );
 
-    document.getElementById(
-      "downlink"
-    ).textContent =
-      "Not Available";
+    setText(
+      "downlink",
+      "Not Supported"
+    );
+
+    setText(
+      "rtt",
+      "Not Supported"
+    );
 
     return;
   }
 
 
-  document.getElementById(
-    "networkType"
-  ).textContent =
-    connection.effectiveType ||
-    connection.type ||
-    "Not Available";
+  setText(
+    "networkType",
+    c.effectiveType ||
+    c.type ||
+    "Available"
+  );
 
 
-  if (
-    typeof connection.downlink ===
+  if(
+    typeof c.downlink ===
     "number"
-  ) {
+  ){
 
-    document.getElementById(
-      "downlink"
-    ).textContent =
-      connection.downlink +
-      " Mbps";
+    setText(
+      "downlink",
+      c.downlink +
+      " Mbps"
+    );
 
-  } else {
+  }else{
 
-    document.getElementById(
-      "downlink"
-    ).textContent =
-      "Not Available";
+    setText(
+      "downlink",
+      "Not Available"
+    );
+  }
+
+
+  if(
+    typeof c.rtt ===
+    "number"
+  ){
+
+    setText(
+      "rtt",
+      c.rtt + " ms"
+    );
+
+  }else{
+
+    setText(
+      "rtt",
+      "Not Available"
+    );
   }
 }
 
 
-/* =========================================
+/* =====================================================
    PUBLIC IP
-========================================= */
+===================================================== */
 
-async function getIPInformation() {
+async function getIPInfo(){
 
-  const ipv4Element =
-    document.getElementById("ipv4");
-
-  const ipv6Element =
-    document.getElementById("ipv6");
-
-  const ispElement =
-    document.getElementById("isp");
-
-
-  ipv4Element.textContent =
-    "Checking...";
-
-  ipv6Element.textContent =
-    "Checking...";
-
-  ispElement.textContent =
-    "Checking...";
-
+  setText("ipv4","Checking...");
+  setText("ipv6","Checking...");
+  setText("isp","Checking...");
 
   let ipv4 = null;
   let ipv6 = null;
@@ -809,458 +892,1040 @@ async function getIPInformation() {
 
   /* IPv4 */
 
-  try {
+  try{
 
-    const response =
+    const r =
       await fetch(
         "https://api.ipify.org?format=json",
         {
-          cache: "no-store"
+          cache:"no-store"
         }
       );
 
+    if(r.ok){
 
-    if (response.ok) {
+      const d =
+        await r.json();
 
-      const data =
-        await response.json();
-
-      ipv4 =
-        typeof data.ip === "string"
-          ? data.ip
-          : null;
+      if(typeof d.ip === "string"){
+        ipv4 = d.ip;
+      }
     }
 
-  } catch (error) {
-
-    ipv4 = null;
-  }
+  }catch(e){}
 
 
   /* IPv6 */
 
-  try {
+  try{
 
-    const response =
+    const r =
       await fetch(
         "https://api6.ipify.org?format=json",
         {
-          cache: "no-store"
+          cache:"no-store"
         }
       );
 
+    if(r.ok){
 
-    if (response.ok) {
+      const d =
+        await r.json();
 
-      const data =
-        await response.json();
-
-      ipv6 =
-        typeof data.ip === "string"
-          ? data.ip
-          : null;
+      if(typeof d.ip === "string"){
+        ipv6 = d.ip;
+      }
     }
 
-  } catch (error) {
-
-    ipv6 = null;
-  }
+  }catch(e){}
 
 
-  ipv4Element.textContent =
-    ipv4 || "Not Available";
+  setText(
+    "ipv4",
+    ipv4 || "Not Available"
+  );
 
-  ipv6Element.textContent =
-    ipv6 || "Not Available";
+  setText(
+    "ipv6",
+    ipv6 || "Not Available"
+  );
 
 
-  /* ISP */
+  /* IP information */
 
-  const lookupIP =
+  const ip =
     ipv4 || ipv6;
 
+  if(!ip){
 
-  if (!lookupIP) {
-
-    ispElement.textContent =
-      "Not Available";
+    setText(
+      "isp",
+      "Not Available"
+    );
 
     return;
   }
 
 
-  try {
+  try{
 
-    const response =
+    const r =
       await fetch(
         "https://ipwho.is/" +
-        encodeURIComponent(
-          lookupIP
-        ),
+        encodeURIComponent(ip),
         {
-          cache: "no-store"
+          cache:"no-store"
         }
       );
 
+    if(!r.ok)
+      throw new Error();
 
-    if (!response.ok) {
-      throw new Error(
-        "ISP request failed"
+
+    const d =
+      await r.json();
+
+
+    if(d && d.success){
+
+      setText(
+        "isp",
+        d.connection?.isp ||
+        d.connection?.org
+      );
+
+      setText(
+        "ipCountry",
+        d.country
+      );
+
+      setText(
+        "ipCity",
+        d.city
+      );
+
+    }else{
+
+      setText(
+        "isp",
+        "Not Available"
       );
     }
 
+  }catch(e){
 
-    const data =
-      await response.json();
-
-
-    if (
-      data &&
-      data.success
-    ) {
-
-      ispElement.textContent =
-        data.connection?.isp ||
-        data.connection?.org ||
-        "Not Available";
-
-    } else {
-
-      ispElement.textContent =
-        "Not Available";
-    }
-
-  } catch (error) {
-
-    ispElement.textContent =
-      "Not Available";
+    setText(
+      "isp",
+      "Not Available"
+    );
   }
 }
 
 
-/* =========================================
+/* =====================================================
    LATENCY
-========================================= */
+===================================================== */
 
-async function getLatency() {
-
-  const element =
-    document.getElementById(
-      "latency"
-    );
-
+async function latencyTest(){
 
   const start =
     performance.now();
 
-
-  try {
+  try{
 
     await fetch(
       "https://www.google.com/generate_204",
       {
-        mode: "no-cors",
-        cache: "no-store"
+        mode:"no-cors",
+        cache:"no-store"
       }
     );
 
-
-    const end =
-      performance.now();
-
-
-    element.textContent =
+    const result =
       Math.round(
-        end - start
-      ) + " ms";
+        performance.now() -
+        start
+      );
 
-  } catch (error) {
+    setText(
+      "speedLatency",
+      result + " ms"
+    );
 
-    element.textContent =
-      "Not Available";
+    return result;
+
+  }catch(e){
+
+    setText(
+      "speedLatency",
+      "Not Available"
+    );
+
+    return null;
   }
 }
 
 
-/* =========================================
+/* =====================================================
+   DOWNLOAD SPEED
+   Real transfer measurement.
+===================================================== */
+
+async function downloadSpeedTest(){
+
+  const sizes = [
+    1000000,
+    5000000,
+    10000000
+  ];
+
+  let best = null;
+
+
+  for(
+    const bytes of sizes
+  ){
+
+    try{
+
+      const url =
+        "https://speed.cloudflare.com/__down?bytes=" +
+        bytes +
+        "&cacheBust=" +
+        Date.now();
+
+
+      const start =
+        performance.now();
+
+
+      const response =
+        await fetch(
+          url,
+          {
+            cache:"no-store"
+          }
+        );
+
+
+      if(!response.ok)
+        continue;
+
+
+      const buffer =
+        await response.arrayBuffer();
+
+
+      const seconds =
+        (
+          performance.now() -
+          start
+        ) / 1000;
+
+
+      if(seconds <= 0)
+        continue;
+
+
+      const bits =
+        buffer.byteLength * 8;
+
+
+      const mbps =
+        bits /
+        seconds /
+        1000000;
+
+
+      if(
+        Number.isFinite(mbps) &&
+        mbps > 0
+      ){
+
+        best = mbps;
+      }
+
+    }catch(e){}
+  }
+
+
+  return best;
+}
+
+
+/* =====================================================
+   UPLOAD SPEED
+===================================================== */
+
+async function uploadSpeedTest(){
+
+  /*
+    Cloudflare upload endpoint.
+    If browser/CORS/server does not allow
+    the request, the result remains unavailable.
+  */
+
+  const bytes =
+    1000000;
+
+
+  const data =
+    new Uint8Array(bytes);
+
+
+  try{
+
+    const start =
+      performance.now();
+
+
+    const response =
+      await fetch(
+        "https://speed.cloudflare.com/__up",
+        {
+          method:"POST",
+          body:data,
+          cache:"no-store"
+        }
+      );
+
+
+    if(!response.ok)
+      return null;
+
+
+    const seconds =
+      (
+        performance.now() -
+        start
+      ) / 1000;
+
+
+    if(seconds <= 0)
+      return null;
+
+
+    const mbps =
+      bytes * 8 /
+      seconds /
+      1000000;
+
+
+    return Number.isFinite(mbps)
+      ? mbps
+      : null;
+
+  }catch(e){
+
+    return null;
+  }
+}
+
+
+/* =====================================================
+   SPEED TEST
+===================================================== */
+
+async function startSpeedTest(){
+
+  $("speedStatus")
+    .textContent =
+    "Testing download...";
+
+  $("speedProgress")
+    .style.width =
+    "20%";
+
+  $("speedValue")
+    .textContent =
+    "--";
+
+
+  const download =
+    await downloadSpeedTest();
+
+
+  if(download !== null){
+
+    $("downloadSpeed")
+      .textContent =
+      download.toFixed(2) +
+      " Mbps";
+
+    $("speedValue")
+      .textContent =
+      download.toFixed(2);
+
+  }else{
+
+    $("downloadSpeed")
+      .textContent =
+      "Not Available";
+  }
+
+
+  $("speedProgress")
+    .style.width =
+    "55%";
+
+
+  $("speedStatus")
+    .textContent =
+    "Testing upload...";
+
+
+  const upload =
+    await uploadSpeedTest();
+
+
+  if(upload !== null){
+
+    $("uploadSpeed")
+      .textContent =
+      upload.toFixed(2) +
+      " Mbps";
+
+  }else{
+
+    $("uploadSpeed")
+      .textContent =
+      "Not Available";
+  }
+
+
+  $("speedProgress")
+    .style.width =
+    "85%";
+
+
+  $("speedStatus")
+    .textContent =
+    "Testing latency...";
+
+
+  await latencyTest();
+
+
+  $("speedProgress")
+    .style.width =
+    "100%";
+
+
+  $("speedStatus")
+    .textContent =
+    "Speed test complete";
+
+
+  addHistory(
+    download,
+    upload
+  );
+}
+
+
+/* =====================================================
    LOCATION
-========================================= */
+===================================================== */
 
-function getLocation() {
+function updateLocation(position){
 
-  if (!navigator.geolocation) {
+  const lat =
+    position.coords.latitude;
 
-    document.getElementById(
-      "latitude"
-    ).textContent =
-      "Not Supported";
+  const lon =
+    position.coords.longitude;
 
-    document.getElementById(
-      "longitude"
-    ).textContent =
-      "Not Supported";
+  const accuracy =
+    position.coords.accuracy;
+
+
+  setText(
+    "latitude",
+    lat.toFixed(6)
+  );
+
+  setText(
+    "longitude",
+    lon.toFixed(6)
+  );
+
+  setText(
+    "accuracy",
+    Math.round(
+      accuracy
+    ) + " m"
+  );
+
+
+  setText(
+    "locationTime",
+    new Date().toLocaleTimeString()
+  );
+
+
+  const map =
+    $("mapLink");
+
+
+  map.href =
+    "https://www.google.com/maps?q=" +
+    encodeURIComponent(
+      lat + "," + lon
+    );
+
+
+  map.style.display =
+    "inline-block";
+}
+
+
+/* =====================================================
+   LOCATION ERROR
+===================================================== */
+
+function locationError(error){
+
+  let message =
+    "Location unavailable";
+
+
+  if(error.code === 1)
+    message =
+      "Permission Denied";
+
+
+  if(error.code === 2)
+    message =
+      "Position Unavailable";
+
+
+  if(error.code === 3)
+    message =
+      "Location Timeout";
+
+
+  setText(
+    "latitude",
+    message
+  );
+
+  setText(
+    "longitude",
+    message
+  );
+}
+
+
+/* =====================================================
+   START LOCATION
+===================================================== */
+
+function startLocation(){
+
+  if(!navigator.geolocation){
+
+    alert(
+      "Geolocation is not supported."
+    );
 
     return;
   }
 
 
-  document.getElementById(
-    "latitude"
-  ).textContent =
-    "Requesting...";
-
-  document.getElementById(
-    "longitude"
-  ).textContent =
-    "Requesting...";
+  stopLocation();
 
 
-  navigator.geolocation.getCurrentPosition(
+  /*
+    Browser permission is required.
+    Position is refreshed approximately
+    every 5 seconds.
+  */
 
-    function(position) {
-
-      const latitude =
-        position.coords.latitude;
-
-      const longitude =
-        position.coords.longitude;
-
-      const accuracy =
-        position.coords.accuracy;
-
-
-      document.getElementById(
-        "latitude"
-      ).textContent =
-        latitude.toFixed(6);
+  locationWatch =
+    navigator.geolocation.watchPosition(
+      updateLocation,
+      locationError,
+      {
+        enableHighAccuracy:true,
+        maximumAge:0,
+        timeout:15000
+      }
+    );
 
 
-      document.getElementById(
-        "longitude"
-      ).textContent =
-        longitude.toFixed(6);
-
-
-      document.getElementById(
-        "accuracy"
-      ).textContent =
-        Math.round(
-          accuracy
-        ) + " m";
-
-
-      const mapLink =
-        document.getElementById(
-          "mapLink"
-        );
-
-
-      mapLink.href =
-        "https://www.google.com/maps?q=" +
-        encodeURIComponent(
-          latitude +
-          "," +
-          longitude
-        );
-
-
-      mapLink.style.display =
-        "inline-block";
-    },
-
-
-    function(error) {
-
-      document.getElementById(
-        "latitude"
-      ).textContent =
-        "Permission Denied";
-
-      document.getElementById(
-        "longitude"
-      ).textContent =
-        "Permission Denied";
-
-      document.getElementById(
-        "accuracy"
-      ).textContent =
-        "Not Available";
-    },
-
-
-    {
-      enableHighAccuracy: true,
-      timeout: 15000,
-      maximumAge: 0
-    }
+  setText(
+    "locationTime",
+    "Waiting for GPS..."
   );
 }
 
 
-/* =========================================
-   ONLINE STATUS
-========================================= */
+/* =====================================================
+   STOP LOCATION
+===================================================== */
 
-function updateConnectionStatus() {
+function stopLocation(){
 
-  const element =
-    document.getElementById(
-      "connection"
+  if(
+    locationWatch !== null
+  ){
+
+    navigator.geolocation.clearWatch(
+      locationWatch
     );
 
-
-  if (navigator.onLine) {
-
-    element.textContent =
-      "Online";
-
-    element.className =
-      "value green";
-
-  } else {
-
-    element.textContent =
-      "Offline";
-
-    element.className =
-      "value red";
+    locationWatch = null;
   }
 }
 
 
-/* =========================================
-   ROUTER INFORMATION
-========================================= */
+/* =====================================================
+   INTERNET STATUS
+===================================================== */
 
-function resetRouterInformation() {
+function updateOnlineStatus(){
+
+  const status =
+    $("internetStatus");
+
+  const bar =
+    $("statusBar");
+
+
+  if(navigator.onLine){
+
+    status.textContent =
+      "Internet Online";
+
+    status.className =
+      "green";
+
+    bar.classList.remove(
+      "offline"
+    );
+
+  }else{
+
+    status.textContent =
+      "Internet Offline";
+
+    status.className =
+      "red";
+
+    bar.classList.add(
+      "offline"
+    );
+  }
+
+
+  setText(
+    "lastUpdate",
+    "Last update: " +
+    new Date().toLocaleTimeString()
+  );
+}
+
+
+window.addEventListener(
+  "online",
+  updateOnlineStatus
+);
+
+window.addEventListener(
+  "offline",
+  updateOnlineStatus
+);
+
+
+/* =====================================================
+   ROUTER
+===================================================== */
+
+function routerInfo(){
 
   /*
-    A normal GitHub Pages website cannot
-    reliably access private router information.
+    A normal public webpage cannot directly
+    read router credentials, uptime,
+    connected clients or private gateway
+    reliably.
 
-    We intentionally do not guess:
-    192.168.0.1
-    192.168.1.1
-    10.0.0.1
-    etc.
+    No fake IP is inserted.
   */
 
-  document.getElementById(
-    "routerIP"
-  ).textContent =
-    "Not Available";
+  setText(
+    "routerIP",
+    "Not Supported"
+  );
 
+  setText(
+    "routerStatus",
+    "Not Supported"
+  );
 
-  document.getElementById(
-    "routerStatus"
-  ).textContent =
-    "Not Available";
+  setText(
+    "routerUptime",
+    "Not Supported"
+  );
 
+  setText(
+    "connectedDevices",
+    "Not Supported"
+  );
 
-  document.getElementById(
-    "routerUptime"
-  ).textContent =
-    "Not Available";
-
-
-  document.getElementById(
-    "connectedDevices"
-  ).textContent =
-    "Not Available";
-
-
-  document.getElementById(
-    "routerModel"
-  ).textContent =
-    "Not Available";
+  setText(
+    "routerModel",
+    "Not Supported"
 }
 
 
-/* =========================================
+/* =====================================================
+   DEVICE INFO
+===================================================== */
+
+function deviceInfo(){
+
+  setText(
+    "device",
+    getDevice()
+  );
+
+  setText(
+    "browser",
+    getBrowser()
+  );
+
+  setText(
+    "screen",
+    screen.width +
+    " × " +
+    screen.height
+  );
+
+  setText(
+    "timezone",
+    Intl.DateTimeFormat()
+      .resolvedOptions()
+      .timeZone
+  );
+}
+
+
+/* =====================================================
    ANALYZE
-========================================= */
+===================================================== */
 
-async function analyze() {
+async function analyze(){
 
-  document.getElementById(
-    "systemStatus"
-  ).textContent =
-    "Analyzing...";
+  deviceInfo();
 
+  readNetworkAPI();
 
-  document.getElementById(
-    "device"
-  ).textContent =
-    getDeviceName();
+  routerInfo();
 
+  updateOnlineStatus();
 
-  document.getElementById(
-    "browser"
-  ).textContent =
-    getBrowserName();
+  await getIPInfo();
 
+  await latencyTest();
 
-  document.getElementById(
-    "analyzeTime"
-  ).textContent =
-    new Date().toLocaleString();
-
-
-  updateConnectionStatus();
-
-  getNetworkInfo();
-
-  resetRouterInformation();
-
-  await getIPInformation();
-
-  await getLatency();
-
-
-  addHistory();
-
-
-  document.getElementById(
-    "systemStatus"
-  ).textContent =
-    "Analysis Complete";
+  setText(
+    "lastUpdate",
+    "Last update: " +
+    new Date().toLocaleTimeString()
+  );
 }
 
 
-/* =========================================
-   HISTORY
-========================================= */
+/* =====================================================
+   TEST SYSTEM
+===================================================== */
 
-function getLocationText() {
+const tests = [
+
+  ["ssid","SSID Detection",false],
+  ["signal","Wi-Fi Signal",false],
+  ["channel","Wi-Fi Channel",false],
+  ["frequency","Wi-Fi Frequency",false],
+  ["security","Wi-Fi Security",false],
+
+  ["networkType","Network Type",true],
+  ["downlink","Downlink Information",true],
+  ["rtt","RTT Information",true],
+
+  ["ipv4","IPv4",true],
+  ["ipv6","IPv6",true],
+  ["isp","ISP",true],
+  ["ipCountry","IP Country",true],
+  ["ipCity","IP City",true],
+
+  ["routerIP","Router IP",false],
+  ["routerStatus","Router Status",false],
+  ["routerUptime","Router Uptime",false],
+  ["connectedDevices","Connected Devices",false],
+  ["routerModel","Router Model",false],
+
+  ["device","Device Detection",true],
+  ["browser","Browser Detection",true],
+  ["screen","Screen Detection",true],
+  ["timezone","Timezone Detection",true],
+
+  ["latitude","GPS Latitude",false],
+  ["longitude","GPS Longitude",false],
+  ["accuracy","GPS Accuracy",false],
+
+  ["internet","Internet Connectivity",true],
+  ["storage","Local Storage",true],
+  ["geolocation","Geolocation API",true],
+  ["networkapi","Network Information API",true],
+  ["speed","Speed Test",true]
+];
+
+
+function testBadge(
+  name,
+  supported,
+  value
+){
+
+  if(!supported){
+
+    return `
+      <div class="testRow">
+        <span>${name}</span>
+        <span class="badge unsupported">
+          NOT SUPPORTED
+        </span>
+      </div>
+    `;
+  }
+
+
+  if(value){
+
+    return `
+      <div class="testRow">
+        <span>${name}</span>
+        <span class="badge pass">
+          PASS
+        </span>
+      </div>
+    `;
+  }
+
+
+  return `
+    <div class="testRow">
+      <span>${name}</span>
+      <span class="badge fail">
+        FAIL
+      </span>
+    </div>
+  `;
+}
+
+
+function runTests(){
+
+  let html = "";
+
+
+  for(
+    const item of tests
+  ){
+
+    const key =
+      item[0];
+
+    const name =
+      item[1];
+
+    let supported =
+      item[2];
+
+    let value =
+      false;
+
+
+    if(key === "internet"){
+
+      supported =
+        true;
+
+      value =
+        navigator.onLine;
+    }
+
+
+    else if(
+      key === "storage"
+    ){
+
+      try{
+
+        const testKey =
+          "__wifi_test__";
+
+        localStorage.setItem(
+          testKey,
+          "1"
+        );
+
+        localStorage.removeItem(
+          testKey
+        );
+
+        supported = true;
+        value = true;
+
+      }catch(e){
+
+        supported = true;
+        value = false;
+      }
+    }
+
+
+    else if(
+      key === "geolocation"
+    ){
+
+      supported =
+        "geolocation"
+        in navigator;
+
+      value =
+        supported;
+    }
+
+
+    else if(
+      key === "networkapi"
+    ){
+
+      supported =
+        !!(
+          navigator.connection ||
+          navigator.mozConnection ||
+          navigator.webkitConnection
+        );
+
+      value =
+        supported;
+    }
+
+
+    else if(
+      key === "speed"
+    ){
+
+      supported =
+        true;
+
+      value =
+        $("downloadSpeed")
+          .textContent !==
+        "Not Tested";
+    }
+
+
+    else{
+
+      const element =
+        $(key);
+
+
+      if(element){
+
+        const text =
+          element.textContent.trim();
+
+
+        value =
+          text !==
+          "Not Available" &&
+          text !==
+          "Not Supported" &&
+          text !==
+          "Not Requested" &&
+          text !==
+          "Checking..." &&
+          text !==
+          "Detecting..." &&
+          text !==
+          "Waiting for GPS...";
+      }
+    }
+
+
+    html +=
+      testBadge(
+        name,
+        supported,
+        value
+      );
+  }
+
+
+  $("testResults")
+    .innerHTML =
+    html;
+}
+
+
+/* =====================================================
+   TEST ALL
+===================================================== */
+
+async function runAllTests(){
+
+  $("testResults")
+    .innerHTML =
+    `<div class="empty">
+      Running real tests...
+    </div>`;
+
+
+  await analyze();
+
+  runTests();
+}
+
+
+/* =====================================================
+   HISTORY
+===================================================== */
+
+function getLocationText(){
 
   const lat =
-    document.getElementById(
-      "latitude"
-    ).textContent;
+    $("latitude").textContent;
 
   const lon =
-    document.getElementById(
-      "longitude"
-    ).textContent;
+    $("longitude").textContent;
 
 
-  if (
-    !lat ||
-    !lon ||
+  if(
     lat === "Not Requested" ||
-    lat === "Requesting..." ||
-    lat === "Permission Denied"
-  ) {
+    lat === "Not Available" ||
+    lat === "Permission Denied" ||
+    lon === "Not Requested" ||
+    lon === "Not Available"
+  ){
 
     return "Not Available";
   }
 
 
-  return lat + ", " + lon;
+  return lat +
+    ", " +
+    lon;
 }
 
 
-function addHistory() {
+function addHistory(
+  download = null,
+  upload = null
+){
 
   const record = {
 
@@ -1268,24 +1933,25 @@ function addHistory() {
       new Date().toLocaleString(),
 
     ipv4:
-      document.getElementById(
-        "ipv4"
-      ).textContent,
+      $("ipv4").textContent,
 
     ipv6:
-      document.getElementById(
-        "ipv6"
-      ).textContent,
+      $("ipv6").textContent,
 
     isp:
-      document.getElementById(
-        "isp"
-      ).textContent,
+      $("isp").textContent,
 
-    router:
-      document.getElementById(
-        "routerIP"
-      ).textContent,
+    download:
+      download === null
+        ? $("downloadSpeed").textContent
+        : download.toFixed(2) +
+          " Mbps",
+
+    upload:
+      upload === null
+        ? $("uploadSpeed").textContent
+        : upload.toFixed(2) +
+          " Mbps",
 
     location:
       getLocationText(),
@@ -1297,17 +1963,24 @@ function addHistory() {
   };
 
 
-  historyData.unshift(record);
+  historyData.unshift(
+    record
+  );
 
 
-  if (historyData.length > 100) {
+  if(
+    historyData.length > 100
+  ){
 
     historyData =
-      historyData.slice(0, 100);
+      historyData.slice(
+        0,
+        100
+      );
   }
 
 
-  try {
+  try{
 
     localStorage.setItem(
       "wifiAnalyzerHistory",
@@ -1316,41 +1989,32 @@ function addHistory() {
       )
     );
 
-  } catch (error) {
-    console.warn(
-      "History could not be saved."
-    );
-  }
+  }catch(e){}
 
 
   renderHistory();
 }
 
 
-/* =========================================
-   RENDER HISTORY
-========================================= */
+/* =====================================================
+   HISTORY RENDER
+===================================================== */
 
-function renderHistory() {
+function renderHistory(){
 
   const table =
-    document.getElementById(
-      "historyTable"
-    );
+    $("historyTable");
 
   const empty =
-    document.getElementById(
-      "emptyHistory"
-    );
+    $("emptyHistory");
 
 
   table.innerHTML = "";
 
 
-  if (
-    !historyData ||
+  if(
     historyData.length === 0
-  ) {
+  ){
 
     empty.style.display =
       "block";
@@ -1364,7 +2028,7 @@ function renderHistory() {
 
 
   historyData.forEach(
-    function(item) {
+    item => {
 
       const row =
         document.createElement(
@@ -1372,29 +2036,29 @@ function renderHistory() {
         );
 
 
-      const values = [
+      [
         item.time,
         item.ipv4,
         item.ipv6,
         item.isp,
-        item.router,
+        item.download,
+        item.upload,
         item.location,
         item.status
-      ];
 
+      ].forEach(
+        value => {
 
-      values.forEach(
-        function(value) {
-
-          const cell =
+          const td =
             document.createElement(
               "td"
             );
 
-          cell.textContent =
-            value || "Not Available";
+          td.textContent =
+            value ||
+            "Not Available";
 
-          row.appendChild(cell);
+          row.appendChild(td);
         }
       );
 
@@ -1405,13 +2069,13 @@ function renderHistory() {
 }
 
 
-/* =========================================
-   EXPORT HISTORY
-========================================= */
+/* =====================================================
+   JSON EXPORT
+===================================================== */
 
-function exportHistory() {
+function exportJSON(){
 
-  if (historyData.length === 0) {
+  if(!historyData.length){
 
     alert(
       "No history available."
@@ -1421,21 +2085,106 @@ function exportHistory() {
   }
 
 
-  const data =
+  downloadFile(
     JSON.stringify(
       historyData,
       null,
       2
+    ),
+    "wifi-analyzer-history.json",
+    "application/json"
+  );
+}
+
+
+/* =====================================================
+   CSV EXPORT
+===================================================== */
+
+function exportCSV(){
+
+  if(!historyData.length){
+
+    alert(
+      "No history available."
+    );
+
+    return;
+  }
+
+
+  const headers = [
+    "Time",
+    "IPv4",
+    "IPv6",
+    "ISP",
+    "Download",
+    "Upload",
+    "Location",
+    "Status"
+  ];
+
+
+  const rows =
+    historyData.map(
+      item =>
+        [
+          item.time,
+          item.ipv4,
+          item.ipv6,
+          item.isp,
+          item.download,
+          item.upload,
+          item.location,
+          item.status
+        ]
+        .map(csvEscape)
+        .join(",")
     );
 
 
+  const csv =
+    [
+      headers.join(","),
+      ...rows
+    ].join("\n");
+
+
+  downloadFile(
+    csv,
+    "wifi-analyzer-history.csv",
+    "text/csv"
+  );
+}
+
+
+function csvEscape(value){
+
+  const text =
+    String(
+      value ?? ""
+    );
+
+
+  return '"' +
+    text.replaceAll(
+      '"',
+      '""'
+    ) +
+    '"';
+}
+
+
+function downloadFile(
+  content,
+  filename,
+  type
+){
+
   const blob =
     new Blob(
-      [data],
-      {
-        type:
-          "application/json"
-      }
+      [content],
+      {type}
     );
 
 
@@ -1445,78 +2194,151 @@ function exportHistory() {
     );
 
 
-  const link =
+  const a =
     document.createElement(
       "a"
     );
 
 
-  link.href = url;
+  a.href = url;
+  a.download = filename;
 
-  link.download =
-    "wifi-analyzer-history.json";
+  document.body.appendChild(a);
 
+  a.click();
 
-  document.body.appendChild(
-    link
-  );
+  a.remove();
 
-  link.click();
-
-  link.remove();
-
-
-  URL.revokeObjectURL(
-    url
-  );
+  URL.revokeObjectURL(url);
 }
 
 
-/* =========================================
-   CLEAR HISTORY
-========================================= */
+/* =====================================================
+   CLEAR
+===================================================== */
 
-function clearHistory() {
+function clearHistory(){
+
+  if(
+    !confirm(
+      "Clear all local history?"
+    )
+  ){
+
+    return;
+  }
+
 
   historyData = [];
 
 
-  try {
+  try{
 
     localStorage.removeItem(
       "wifiAnalyzerHistory"
     );
 
-  } catch (error) {}
+  }catch(e){}
 
 
   renderHistory();
 }
 
 
-/* =========================================
-   ONLINE / OFFLINE EVENTS
-========================================= */
+/* =====================================================
+   THEME
+===================================================== */
 
-window.addEventListener(
-  "online",
-  updateConnectionStatus
-);
+function toggleTheme(){
 
-
-window.addEventListener(
-  "offline",
-  updateConnectionStatus
-);
+  document.body.classList.toggle(
+    "light"
+  );
 
 
-/* =========================================
-   START
-========================================= */
+  localStorage.setItem(
+    "wifiTheme",
+    document.body.classList.contains(
+      "light"
+    )
+      ? "light"
+      : "dark"
+  );
+}
+
+
+if(
+  localStorage.getItem(
+    "wifiTheme"
+  ) === "light"
+){
+
+  document.body.classList.add(
+    "light"
+  );
+}
+
+
+/* =====================================================
+   NETWORK CHANGE
+===================================================== */
+
+const connection =
+  navigator.connection ||
+  navigator.mozConnection ||
+  navigator.webkitConnection;
+
+
+if(connection){
+
+  connection.addEventListener(
+    "change",
+    function(){
+
+      readNetworkAPI();
+      updateOnlineStatus();
+    }
+  );
+}
+
+
+/* =====================================================
+   INIT
+===================================================== */
 
 renderHistory();
 
-analyze();
+deviceInfo();
+
+readNetworkAPI();
+
+routerInfo();
+
+updateOnlineStatus();
+
+runTests();
+
+getIPInfo();
+
+
+/*
+  Automatically refreshes browser-readable
+  information every 5 seconds.
+
+  Location itself only updates after the
+  user presses "Start Location" and grants
+  browser permission.
+*/
+
+setInterval(
+  function(){
+
+    readNetworkAPI();
+    updateOnlineStatus();
+
+  },
+  5000
+);
 
 </script>
 
